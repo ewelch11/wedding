@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kyle &amp; Elizabeth — Design Workspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --citrus-cursor: url('art/cursor-citrus.svg') 6 18, auto;
+    --pointer-cursor: url('art/cursor-pointer.svg') 4 4, pointer;
+  }
+  body {
+    margin: 0; min-height: 100vh; background: #f2ebdd; color: #1c1a17;
+    font-family: 'DM Mono', monospace;
+    display: flex; align-items: center; justify-content: center;
+    cursor: var(--citrus-cursor);
+  }
+  a, button, .clickable { cursor: var(--pointer-cursor) !important; }
+  .wrap { max-width: 640px; padding: 2.5rem; }
+  h1 {
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: #ff4d00; margin: 0 0 2.5rem;
+  }
+  a {
+    display: block; padding: 1.1rem 0;
+    border-bottom: 1px solid rgba(28,26,23,.15);
+    color: #2f4fe8; text-decoration: none; font-size: 1rem;
+  }
+  a:hover { color: #ff4d00; }
+  span {
+    display: block; font-size: 12px; line-height: 1.6;
+    color: #3a3630; margin-top: .35rem; letter-spacing: 0;
+    text-transform: none;
+  }
+  .note {
+    margin-top: 3rem; font-size: 12px; line-height: 1.8;
+    color: #8d8676; max-width: 48ch;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Kyle &amp; Elizabeth · Wedding v1</h1>
+  <a href="Kyle%20+%20Elizabeth%20-%20Site%20v2.dc.html">
+    Site v2 — full prototype
+    <span>Home, weekend registers, stay, Q+A, RSVP. Combines all four opening directions.</span>
+  </a>
+  <a href="Kyle%20+%20Elizabeth%20-%20Visual%20Directions.dc.html">
+    Visual Directions — four opening experiences
+    <span>1A Misregistration · 1B Still life · 1C Registers · 1D Ikebana</span>
+  </a>
+  <a href="Script%20candidates.dc.html">
+    Script candidates — handwriting fonts
+    <span>Six Google Font options compared against the Save the Date hand.</span>
+  </a>
+  <p class="note">Creative constitution lives in <strong>DESIGN.md</strong>. Open any prototype above — move your cursor inside them; they're live.</p>
+</div>
+</body>
+</html>

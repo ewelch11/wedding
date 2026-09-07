@@ -10,23 +10,168 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Mono:ital,wght@0,300;0,400;0,500&family=Cedarville+Cursive&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=DM+Mono:ital,wght@0,300;0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Staatliches&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=gambetta@400,500,700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --citrus-cursor: url('art/cursor-citrus.svg') 6 18, auto;
-    --pointer-cursor: url('art/cursor-pointer.svg') 4 4, pointer;
+    --cursor: url('art/cursor-orange.svg') 6 18, auto;
+    --cursor-pointer: url('art/cursor-pointer.svg') 4 4, pointer;
+
+    --font-display: "Gambetta", serif;
+    --font-poster: "Staatliches", sans-serif;
+    --font-body: "DM Sans", sans-serif;
+    --font-label: "DM Mono", monospace;
+    --font-hand: "Cedarville Cursive", cursive;
+
+    --text-label: 0.875rem;
+    --text-nav: 0.875rem;
+    --text-body: 1.0625rem;
+    --text-h3: 1.5rem;
+    --text-poster: clamp(1.75rem, 1.2vw + 1.4rem, 2.25rem);
+    --text-poster-sm: clamp(1.375rem, 0.9vw + 1.05rem, 1.75rem);
+    --text-h2: clamp(1.75rem, 1.2vw + 1.4rem, 2rem);
+    --text-h1: clamp(2rem, 1.6vw + 1.5rem, 2.5rem);
+    --text-hand-sm: 2rem;
+    --text-hand: clamp(3rem, 5vw, 4.5rem);
+
+    --leading-body: 1.65;
+    --leading-display: 0.96;
+    --tracking-label: 0.12em;
+    --tracking-poster: 0.04em;
+
+    --orange-700: #FF5D00;
+    --orange-500: #FF872B;
+    --orange-300: #FFB269;
+    --blue-700: #536DFE;
+    --blue-500: #95BCF4;
+    --blue-300: #D1E5FF;
+    --beige-300: #F0E5D2;
+    --black-700: #1C1A17;
+    --black-500: #3A3630;
+    --chocolate: #4A2306;
+    --white: #FAF6F0;
+
+    /* Spacing is by job, not by number. Pick the role that matches the relationship. */
+    --space-hair: 0.25rem;       /* underline / optical clearance */
+    --space-tight: 0.5rem;       /* items that belong as one unit */
+    --space-inset-sm: 0.75rem;   /* compact inset: fields, tucked captions */
+    --space-stack-sm: 1rem;      /* body → caption, items in a list */
+    --space-inset: 1.25rem;      /* default inset; gaps in a tight grid */
+    --space-stack: 1.5rem;       /* heading → body; default vertical rhythm */
+    --space-stack-lg: 2rem;      /* after a finished block; nav gaps; cell pad */
+    --space-cluster: 3rem;       /* related clusters inside a section */
+    --space-block: 4rem;         /* intro → the content that follows */
+    --space-gutter: clamp(1.5rem, 6vw, 5rem); /* page sides */
+    --space-section-sm: 5rem;    /* reduced section padding */
+    --space-panel: 8rem;         /* large panel min-height / generous region pad */
+    --space-section: 9rem;       /* full page / section padding */
+
+    --measure-sm: 40ch;          /* short asides, RSVP copy */
+    --measure-md: 44ch;          /* notes beside a photo */
+    --measure: 48ch;             /* default body column */
+    --measure-lg: 52ch;          /* home blurbs, hero wrap */
+    --measure-wide: 56ch;        /* FAQ answers */
+    --measure-panel: 52rem;      /* FAQ list / wide content column */
   }
-  html, body { margin: 0; background: #f2ebdd; cursor: var(--citrus-cursor); }
-  a { color: #2f4fe8; text-decoration: none; }
-  a:hover { color: #ff4d00; }
-  ::selection { background: #ff8a3d; color: #f4ecdc; }
-  a, button, .clickable { cursor: var(--pointer-cursor) !important; }
+  html, body { margin: 0; background: var(--beige-300); cursor: var(--cursor); }
+  .t-hand { font-family: var(--font-hand); font-size: var(--text-hand); font-weight: 400; line-height: 1; }
+  .t-hand-sm { font-family: var(--font-hand); font-size: var(--text-hand-sm); font-weight: 400; line-height: 1; }
+  .t-h1 { font-family: var(--font-display); font-size: var(--text-h1); font-weight: 400; line-height: var(--leading-display); letter-spacing: -0.02em; }
+  .t-h2 { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; }
+  .t-h3 { font-family: var(--font-display); font-size: var(--text-h3); font-weight: 400; line-height: 1.15; }
+  .t-poster { font-family: var(--font-poster); font-size: var(--text-poster); font-weight: 400; line-height: 0.95; letter-spacing: var(--tracking-poster); text-transform: uppercase; }
+  .t-poster-sm { font-family: var(--font-poster); font-size: var(--text-poster-sm); font-weight: 400; line-height: 0.95; letter-spacing: var(--tracking-poster); text-transform: uppercase; }
+  .t-body { font-family: var(--font-body); font-size: var(--text-body); font-weight: 400; line-height: var(--leading-body); }
+  .t-label { font-family: var(--font-label); font-size: var(--text-label); font-weight: 400; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .t-nav { font-family: var(--font-label); font-size: var(--text-nav); font-weight: 400; letter-spacing: var(--tracking-label); text-transform: uppercase; line-height: 1; }
+  a { color: var(--blue-700); text-decoration: none; }
+  a:hover { color: var(--orange-700); }
+  ::selection { background: var(--orange-500); color: var(--white); }
+  a, button, .clickable { cursor: var(--cursor-pointer) !important; }
+  .page { padding: var(--space-section) var(--space-gutter); }
+  .gutter { padding-left: var(--space-gutter); padding-right: var(--space-gutter); }
+  .lede { margin-top: var(--space-stack); max-width: var(--measure); }
+  .lede-sm { max-width: var(--measure-sm); }
+  .lede-md { max-width: var(--measure-md); }
+  .lede-lg { max-width: var(--measure-lg); }
+  .caption { margin-top: var(--space-cluster); }
+  .faq-list { margin-top: var(--space-block); max-width: var(--measure-panel); }
+  .faq-item { border-top: 1px solid color-mix(in srgb, var(--blue-700) 35%, transparent); padding: var(--space-stack) 0; }
+  .faq-q { display: flex; justify-content: space-between; gap: var(--space-stack-lg); align-items: baseline; }
+  .faq-a { padding-top: var(--space-stack-sm); max-width: var(--measure-wide); }
+  .gallery-grid { margin-top: var(--space-block); display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-inset); align-items: end; }
+  .site-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-inset); padding-top: var(--space-stack-lg); padding-bottom: var(--space-stack-lg); }
+  .rsvp-grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-block); }
+  .form-stack { display: flex; flex-direction: column; gap: var(--space-stack); }
+  .form-field { border-bottom: 1px solid color-mix(in srgb, var(--white) 35%, transparent); padding-bottom: var(--space-inset-sm); }
+  .form-submit { margin-top: var(--space-inset); align-self: flex-start; padding: var(--space-stack-sm) var(--space-stack-lg); }
+  .site-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-stack-sm) var(--space-gutter);
+  }
+  .site-bar-links { display: flex; gap: var(--space-stack); align-items: center; }
+  .site-bar-mark {
+    font-family: var(--font-hand);
+    font-size: 1.375rem;
+    font-weight: 400;
+    line-height: 1;
+    padding-top: 0.12em;
+    opacity: 0;
+    transition: opacity .45s ease;
+  }
+  .site-bar-mark.is-on {
+    opacity: 1;
+    transition-delay: .3s;
+  }
+  .nav-link { padding-bottom: var(--space-hair); border-bottom: 2px solid; }
   .hero {
     position: relative;
     min-height: 100svh;
     overflow: hidden;
-    background: #f2ebdd;
+    background: var(--beige-300);
   }
+  .kicker { margin-bottom: var(--space-stack); }
+  .home-strip {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-stack);
+    padding: var(--space-section-sm) var(--space-gutter) var(--space-section);
+    align-items: end;
+    background: var(--beige-300);
+  }
+  .home-strip-photo { overflow: hidden; }
+  .home-strip-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .home-nav { padding-bottom: var(--space-section); }
+  .home-nav-panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-cluster);
+    align-items: end;
+    padding: var(--space-stack-lg) 0 var(--space-tight);
+    min-height: var(--space-panel);
+  }
+  .switcher-items {
+    margin-top: var(--space-stack-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-stack-sm);
+    max-width: var(--measure);
+  }
+  .switcher-item { padding-left: var(--space-inset); }
+  .grid-label { padding: var(--space-stack-lg) 0 var(--space-stack-sm); }
+  .cell-note { margin-top: var(--space-stack-sm); max-width: var(--measure-md); }
+  .cell-meta { margin-top: var(--space-inset); }
+  .weekend-grid { padding-top: var(--space-section-sm); padding-bottom: var(--space-panel); }
   .hero-art {
     position: absolute;
     right: 0;
@@ -86,39 +231,54 @@
     bottom: 0;
     width: 52%;
     z-index: 2;
-    background: linear-gradient(to right, #f2ebdd 0%, rgba(242,235,221,.94) 22%, rgba(242,235,221,.55) 48%, transparent 100%);
+    background: linear-gradient(to right, var(--beige-300) 0%, color-mix(in srgb, var(--beige-300) 94%, transparent) 22%, color-mix(in srgb, var(--beige-300) 55%, transparent) 48%, transparent 100%);
     pointer-events: none;
   }
   .hero-text {
     position: absolute;
-    left: 6vw;
+    left: var(--space-gutter);
     top: 50%;
     transform: translateY(-50%);
     z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
-    max-width: min(52ch, 46vw);
-    text-shadow: 0 1px 16px rgba(242,235,221,.9), 0 0 32px rgba(242,235,221,.65);
+    gap: var(--space-tight);
+    max-width: min(var(--measure-lg), 46vw);
+    text-shadow: 0 1px 16px color-mix(in srgb, var(--beige-300) 90%, transparent), 0 0 32px color-mix(in srgb, var(--beige-300) 65%, transparent);
   }
-  .grid-group { border: 1px solid rgba(255,77,0,.28); margin-top: 10px; }
-  .grid-row { display: grid; border-top: 1px solid rgba(255,77,0,.28); }
+  .hero-lockup {
+    position: relative;
+  }
+  .hero-name {
+    position: relative;
+    z-index: 2;
+    line-height: 1.12;
+    font-size: clamp(4rem, 7.5vw, 6.5rem);
+    margin-bottom: var(--space-inset-sm);
+  }
+  .hero-date {
+    position: relative;
+    z-index: 1;
+    width: max-content;
+  }
+  .hero-place {
+    font-size: var(--text-body);
+  }
+  .grid-group { border: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); margin-top: var(--space-inset-sm); }
+  .grid-row { display: grid; border-top: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); }
   .grid-row:first-child { border-top: none; }
-  .grid-cell { padding: clamp(32px,4vw,56px) clamp(28px,3vw,40px); min-height: 168px; border-right: 1px solid rgba(255,77,0,.28); }
+  .grid-cell { padding: var(--space-stack-lg); min-height: var(--space-panel); border-right: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); }
   .grid-cell:last-child { border-right: none; }
   .home-nav-tabs {
     display: flex;
-    border-top: 1px solid rgba(28,26,23,.15);
+    border-top: 1px solid color-mix(in srgb, var(--black-700) 15%, transparent);
   }
   .home-nav-tab {
     flex: 1;
-    padding: 20px 6px 24px;
+    padding: var(--space-stack) var(--space-tight) var(--space-stack);
     margin-top: -2px;
     border-top: 3px solid transparent;
-    font-size: 11px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
     text-align: center;
     transition: color .3s ease, border-color .3s ease;
   }
@@ -138,7 +298,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100svh;
-    padding: 100px 6vw 0;
+    padding: var(--space-section-sm) var(--space-gutter) 0;
     box-sizing: border-box;
     z-index: 3;
   }
@@ -150,35 +310,33 @@
     position: relative;
     z-index: 3;
   }
-  .switcher-detail { margin-top: 20px; }
+  .switcher-detail { margin-top: var(--space-stack); }
   .switcher-tabs {
     display: flex;
     flex-shrink: 0;
-    margin: 0 -6vw;
-    padding: 0 6vw;
+    flex-wrap: wrap;
+    margin: 0 calc(var(--space-gutter) * -1);
+    padding: 0 var(--space-gutter);
     margin-top: auto;
   }
   .switcher-tab {
     flex: 1;
-    padding: 22px 6px 30px;
+    padding: var(--space-stack) var(--space-inset-sm) var(--space-stack);
     margin-top: -2px;
     border-top: 3px solid transparent;
-    font-size: clamp(12px, 1.1vw, 15px);
-    letter-spacing: .12em;
-    text-transform: uppercase;
     text-align: center;
     transition: color .3s ease, border-color .3s ease;
   }
   .switcher-photo {
     position: absolute;
-    right: 6vw;
+    right: var(--space-gutter);
     top: 50%;
     transform: translateY(-44%);
     width: min(34vw, 400px);
     aspect-ratio: 3/4;
     z-index: 2;
     overflow: hidden;
-    box-shadow: 0 24px 80px rgba(74,35,6,.22);
+    box-shadow: 0 24px 80px color-mix(in srgb, var(--chocolate) 22%, transparent);
     pointer-events: none;
   }
   .switcher-photo img {
@@ -191,20 +349,30 @@
     object-fit: contain;
     padding: 8%;
   }
+  .switcher-photo--lineart {
+    box-shadow: none;
+    background: transparent;
+    aspect-ratio: 1;
+  }
+  .switcher-photo--lineart img {
+    object-fit: contain;
+    padding: 0;
+    mix-blend-mode: normal;
+  }
   @media (max-width: 768px) {
-    .switcher-photo { width: 56vw; right: 6vw; top: auto; bottom: 140px; transform: none; }
-    .switcher-tab { font-size: 11px; padding: 18px 4px 24px; letter-spacing: .1em; }
+    .switcher-photo { width: 56vw; right: var(--space-gutter); top: auto; bottom: var(--space-section); transform: none; }
+    .switcher-tab { padding: var(--space-stack) var(--space-hair) var(--space-stack); }
   }
 </style>
 </helmet>
 
-<div style="font-family:'DM Mono', monospace; color:#1c1a17; background:#f2ebdd; min-height:100vh;">
+<div class="t-body" style="color:var(--black-700); background:var(--beige-300); min-height:100vh;">
 
-  <div style="position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:18px 6vw; background:{{ barBg }}; border-bottom:1px solid {{ barBorder }}; backdrop-filter:{{ barBlur }}; transform:{{ barT }}; opacity:{{ barO }}; pointer-events:{{ barPE }}; transition:background .6s ease, border-color .6s ease, color .5s ease;">
-    <div onClick="{{ goHome }}" class="clickable" style="font-family:'Cedarville Cursive', cursive; font-size:34px; line-height:1; color:{{ barInk }}; padding-top:6px; opacity:{{ markO }}; transition:opacity .5s ease;">Kyle &amp; Elizabeth</div>
-    <div style="display:flex; gap:30px; align-items:center;">
+  <div class="site-bar" style="background:{{ barBg }}; border-bottom:1px solid {{ barBorder }}; backdrop-filter:{{ barBlur }}; -webkit-backdrop-filter:{{ barBlur }}; transform:{{ barT }}; opacity:{{ barO }}; pointer-events:{{ barPE }}; transition:background .6s ease, border-color .6s ease, color .5s ease, backdrop-filter .6s ease;">
+    <div onClick="{{ goHome }}" class="clickable site-bar-mark {{ markClass }}" style="color:{{ barInk }};">Kyle &amp; Elizabeth</div>
+    <div class="site-bar-links">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="9">
-        <div onClick="{{ n.go }}" class="clickable" style="font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:{{ n.color }}; padding-bottom:3px; border-bottom:2px solid {{ n.mark }};">{{ n.label }}</div>
+        <div onClick="{{ n.go }}" class="clickable t-nav nav-link" style="color:{{ n.color }}; border-bottom-color:{{ n.mark }};">{{ n.label }}</div>
       </sc-for>
     </div>
   </div>
@@ -212,7 +380,7 @@
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <div>
       <div class="hero">
-        <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, rgba(242,235,221,.45) 1px, transparent 0); background-size:6px 6px;"></div>
+        <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--beige-300) 45%, transparent) 1px, transparent 0); background-size:6px 6px;"></div>
 
         <div class="hero-art">
           <img src="art/save-the-date.png" alt="">
@@ -223,41 +391,43 @@
         </div>
 
         <div class="hero-text">
-          <div style="font-family:'Cedarville Cursive', cursive; font-size:clamp(66px,7.6vw,148px); line-height:1.0; color:#ff4d00; text-align:left;">Kyle &amp;<br>Elizabeth</div>
-          <div style="font-family:'Bricolage Grotesque', sans-serif; font-weight:600; font-size:clamp(24px,2.4vw,40px); letter-spacing:.01em; color:#ff4d00;">05.01.2027</div>
-          <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#c4581f; text-align:left;">Healdsburg, California</div>
+          <div class="hero-lockup">
+            <div class="t-hand hero-name" style="color:var(--orange-700); text-align:left;">Kyle &amp;<br>Elizabeth</div>
+            <div class="t-poster-sm hero-date" style="color:var(--blue-500);">05.01.2027</div>
+          </div>
+          <div class="t-label hero-place" style="color:var(--chocolate); text-align:left;">Healdsburg, California</div>
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(12,1fr); gap:24px; padding:80px 6vw 144px; background:#f2ebdd; align-items:end;">
-        <div style="grid-column:1 / span 5; aspect-ratio:3/2; overflow:hidden;">
-          <img src="art/photo-1.jpg" alt="" style="width:100%; height:100%; object-fit:cover; object-position:60% 50%;">
+      <div class="home-strip">
+        <div class="home-strip-photo" style="grid-column:1 / span 5; aspect-ratio:3/2;">
+          <img src="art/home-hill.jpg" alt="" style="object-position:center 42%;">
         </div>
-        <div style="grid-column:7 / span 3; aspect-ratio:2/3; overflow:hidden; margin-bottom:70px;">
-          <img src="art/p-twirl.jpg" alt="" style="width:100%; height:100%; object-fit:cover;">
+        <div class="home-strip-photo" style="grid-column:7 / span 3; aspect-ratio:2/3; margin-bottom:var(--space-block);">
+          <img src="art/home-embrace.jpg" alt="" style="object-position:center 38%;">
         </div>
-        <div style="grid-column:10 / span 2; aspect-ratio:2/3; overflow:hidden;">
-          <img src="art/p-hands.jpg" alt="" style="width:100%; height:100%; object-fit:cover;">
+        <div class="home-strip-photo" style="grid-column:10 / span 2; aspect-ratio:2/3;">
+          <img src="art/home-hands.jpg" alt="" style="object-position:center 42%;">
         </div>
-        <div style="grid-column:12 / span 1; font-family:'Cedarville Cursive', cursive; font-size:34px; line-height:1.1; color:#ff4d00; padding-bottom:30px;">est.<br>2027</div>
+        <div class="t-hand-sm" style="grid-column:12 / span 1; color:var(--blue-700); padding-bottom:var(--space-stack-lg);">est.<br>2020</div>
       </div>
 
-      <div style="padding:0 6vw 144px; background:#f2ebdd;" onMouseLeave="{{ homeNavLeave }}">
+      <div class="gutter home-nav" style="background:var(--beige-300);" onMouseLeave="{{ homeNavLeave }}">
         <div class="home-nav-tabs">
           <sc-for list="{{ homeNavTabs }}" as="tab" hint-placeholder-count="8">
-            <div onMouseEnter="{{ tab.enter }}" onClick="{{ tab.go }}" class="clickable home-nav-tab" style="border-top-color:{{ tab.mark }}; color:{{ tab.color }};">{{ tab.label }}</div>
+            <div onMouseEnter="{{ tab.enter }}" onClick="{{ tab.go }}" class="clickable home-nav-tab t-nav" style="border-top-color:{{ tab.mark }}; color:{{ tab.color }};">{{ tab.label }}</div>
           </sc-for>
         </div>
         <div class="home-nav-expand" style="max-height:{{ homeNavPanel.h }}; opacity:{{ homeNavPanel.o }};">
-          <div style="display:grid; grid-template-columns:1fr auto; gap:48px; align-items:end; padding:36px 0 8px; min-height:140px;">
+          <div class="home-nav-panel">
             <div>
-              <div style="font-family:{{ homeNavPanel.font }}; font-weight:{{ homeNavPanel.weight }}; font-style:{{ homeNavPanel.italic }}; font-size:{{ homeNavPanel.titleSize }}; line-height:1.05; color:{{ homeNavPanel.ink }};">{{ homeNavPanel.headline }}</div>
-              <div style="margin-top:18px; max-width:52ch; font-size:14px; line-height:1.85; color:{{ homeNavPanel.ink }}; opacity:.82;">{{ homeNavPanel.blurb }}</div>
+              <div class="{{ homeNavPanel.titleClass }}" style="color:{{ homeNavPanel.ink }};">{{ homeNavPanel.headline }}</div>
+              <div class="t-body lede lede-lg" style="color:{{ homeNavPanel.ink }}; opacity:.82;">{{ homeNavPanel.blurb }}</div>
             </div>
-            <div onClick="{{ homeNavPanel.go }}" class="clickable" style="font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:{{ homeNavPanel.accent }}; padding-bottom:4px; border-bottom:2px solid {{ homeNavPanel.accent }}; white-space:nowrap;">Learn more →</div>
+            <div onClick="{{ homeNavPanel.go }}" class="clickable t-nav nav-link" style="color:{{ homeNavPanel.accent }}; border-bottom-color:{{ homeNavPanel.accent }}; white-space:nowrap;">Learn more →</div>
           </div>
         </div>
-        <div style="border-top:1px solid rgba(28,26,23,.15);"></div>
+        <div style="border-top:1px solid color-mix(in srgb, var(--black-700) 15%, transparent);"></div>
       </div>
     </div>
   </sc-if>
@@ -273,39 +443,39 @@
         </sc-if>
         <div class="switcher-inner">
           <div class="switcher-panel">
-            <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:{{ sw.accent }}; margin-bottom:22px;">{{ sw.when }}</div>
-            <div style="font-family:{{ sw.font }}; font-weight:{{ sw.weight }}; font-style:{{ sw.italic }}; font-size:{{ sw.size }}; line-height:.95; letter-spacing:-.03em; color:{{ sw.ink }}; max-width:{{ sw.titleMax }};">{{ sw.title }}</div>
-            <div style="margin-top:24px; max-width:44ch; font-size:14px; line-height:1.9; color:{{ sw.noteInk }}; opacity:.85;">{{ sw.note }}</div>
+            <div class="t-label kicker" style="color:{{ sw.accent }};">{{ sw.when }}</div>
+            <div class="t-h1" style="color:{{ sw.ink }}; max-width:{{ sw.titleMax }};">{{ sw.title }}</div>
+            <div class="t-body lede lede-md" style="color:{{ sw.noteInk }}; opacity:.85;">{{ sw.note }}</div>
             <sc-if value="{{ sw.hasDetail }}" hint-placeholder-val="{{ true }}">
-              <div class="switcher-detail" style="font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:{{ sw.ink }}; opacity:.7;">{{ sw.detail }}</div>
+              <div class="switcher-detail t-label" style="color:{{ sw.ink }}; opacity:.7;">{{ sw.detail }}</div>
             </sc-if>
             <sc-if value="{{ sw.hasItems }}" hint-placeholder-val="{{ true }}">
-              <div style="margin-top:32px; display:flex; flex-direction:column; gap:14px; max-width:48ch;">
+              <div class="switcher-items">
                 <sc-for list="{{ sw.items }}" as="item" hint-placeholder-count="4">
-                  <div style="font-size:14px; line-height:1.75; color:{{ sw.ink }}; opacity:.9; padding-left:18px; border-left:2px solid {{ sw.accent }};">{{ item.text }}</div>
+                  <div class="t-body switcher-item" style="color:{{ sw.ink }}; opacity:.9; border-left:2px solid {{ sw.accent }};">{{ item.text }}</div>
                 </sc-for>
               </div>
             </sc-if>
           </div>
           <div class="switcher-tabs" style="border-top:1px solid {{ sw.rule }};">
             <sc-for list="{{ sw.sections }}" as="r" hint-placeholder-count="7">
-              <div onMouseEnter="{{ r.pick }}" onClick="{{ r.pick }}" class="clickable switcher-tab" style="border-top-color:{{ r.mark }}; color:{{ r.tint }};">{{ r.short }}</div>
+              <div onMouseEnter="{{ r.pick }}" onClick="{{ r.pick }}" class="clickable switcher-tab t-nav" style="border-top-color:{{ r.mark }}; color:{{ r.tint }};">{{ r.short }}</div>
             </sc-for>
           </div>
         </div>
       </div>
 
-      <div style="padding:80px 6vw 120px; background:#f2ebdd;">
+      <div class="gutter weekend-grid" style="background:var(--beige-300);">
         <sc-for list="{{ grid.groups }}" as="group" hint-placeholder-count="2">
-          <div style="font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8d8676; padding:36px 0 14px; border-top:1px solid rgba(28,26,23,.12);">{{ group.label }}</div>
+          <div class="t-label grid-label" style="color:var(--black-500); border-top:1px solid color-mix(in srgb, var(--black-700) 12%, transparent);">{{ group.label }}</div>
           <div class="grid-group">
             <sc-for list="{{ group.rows }}" as="row" hint-placeholder-count="3">
               <div class="grid-row" style="grid-template-columns:{{ row.cols }};">
                 <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="2">
                   <div onClick="{{ cell.go }}" class="clickable grid-cell">
-                    <div style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; font-size:clamp(22px,2.6vw,36px); letter-spacing:.04em; text-transform:uppercase; color:#ff4d00; line-height:1.1;">{{ cell.title }}</div>
-                    <div style="margin-top:16px; font-size:14px; line-height:1.8; color:#3a3630; max-width:44ch;">{{ cell.note }}</div>
-                    <div style="margin-top:20px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8d8676;">{{ cell.time }}</div>
+                    <div class="t-poster" style="color:var(--orange-700);">{{ cell.title }}</div>
+                    <div class="t-body cell-note" style="color:var(--black-500);">{{ cell.note }}</div>
+                    <div class="t-label cell-meta" style="color:var(--black-500);">{{ cell.time }}</div>
                   </div>
                 </sc-for>
               </div>
@@ -317,17 +487,17 @@
   </sc-if>
 
   <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}">
-    <div style="padding:144px 6vw 130px; background:#ffce9b;">
-      <div style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; font-size:clamp(48px,6vw,104px); line-height:.9; letter-spacing:-.04em; color:#2b2fd6;">Questions,<br>answered loosely</div>
-      <div style="margin-top:60px; max-width:840px;">
+    <div class="page" style="background:var(--orange-300);">
+      <div class="t-h1" style="color:var(--blue-700);">Questions,<br>answered loosely</div>
+      <div class="faq-list">
         <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
-          <div onClick="{{ f.toggle }}" class="clickable" style="border-top:1px solid rgba(43,47,214,.35); padding:26px 0;">
-            <div style="display:flex; justify-content:space-between; gap:30px; align-items:baseline;">
-              <div style="font-family:'Instrument Serif', serif; font-size:30px; line-height:1.15; color:#2b2fd6;">{{ f.q }}</div>
-              <div style="font-size:22px; color:#ff4d00;">{{ f.sign }}</div>
+          <div onClick="{{ f.toggle }}" class="clickable faq-item">
+            <div class="faq-q">
+              <div class="t-h3" style="color:var(--blue-700);">{{ f.q }}</div>
+              <div class="t-h3" style="color:var(--orange-700);">{{ f.sign }}</div>
             </div>
             <div style="max-height:{{ f.h }}; overflow:hidden; transition:max-height .45s ease;">
-              <div style="padding-top:16px; max-width:56ch; font-size:14px; line-height:1.95; color:#3b1d05;">{{ f.a }}</div>
+              <div class="t-body faq-a" style="color:var(--chocolate);">{{ f.a }}</div>
             </div>
           </div>
         </sc-for>
@@ -336,48 +506,48 @@
   </sc-if>
 
   <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
-    <div style="padding:144px 6vw 130px; background:#f2ebdd;">
-      <div style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; font-size:clamp(48px,6vw,96px); line-height:.92; letter-spacing:-.03em; color:#2f4fe8;">Gallery</div>
-      <div style="margin-top:24px; max-width:48ch; font-size:14px; line-height:1.9; color:#3a3630;">A few favorites for now — more from the weekend once we've stopped dancing.</div>
-      <div style="margin-top:56px; display:grid; grid-template-columns:repeat(12,1fr); gap:20px; align-items:end;">
+    <div class="page" style="background:var(--beige-300);">
+      <div class="t-h1" style="color:var(--blue-700);">Gallery</div>
+      <div class="t-body lede" style="color:var(--black-500);">A few favorites for now — more from the weekend once we've stopped dancing.</div>
+      <div class="gallery-grid">
         <sc-for list="{{ galleryPhotos }}" as="photo" hint-placeholder-count="6">
           <div style="grid-column:{{ photo.col }}; aspect-ratio:{{ photo.ratio }}; overflow:hidden;">
             <img src="{{ photo.src }}" alt="" style="width:100%; height:100%; object-fit:cover; object-position:{{ photo.pos }};">
           </div>
         </sc-for>
       </div>
-      <div style="margin-top:48px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#8d8676;">Full gallery coming after the wedding</div>
+      <div class="t-label caption" style="color:var(--black-500);">Full gallery coming after the wedding</div>
     </div>
   </sc-if>
 
   <sc-if value="{{ isRegistry }}" hint-placeholder-val="{{ false }}">
-    <div style="padding:144px 6vw 130px; background:#f2ebdd;">
-      <div style="font-family:'Instrument Serif', serif; font-style:italic; font-size:clamp(48px,6vw,96px); line-height:1.05; color:#2f4fe8;">Registry</div>
-      <div style="margin-top:36px; max-width:48ch; font-size:14px; line-height:1.95; color:#3a3630;">Your presence is the gift. If you'd like to give something anyway, our registry will live here closer to the date — a small, considered list, nothing obligatory.</div>
-      <div style="margin-top:44px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#8d8676;">Coming in early 2027</div>
+    <div class="page" style="background:var(--beige-300);">
+      <div class="t-h1" style="color:var(--blue-700);">Registry</div>
+      <div class="t-body lede" style="color:var(--black-500);">Your presence is the gift. If you'd like to give something anyway, our registry will live here closer to the date — a small, considered list, nothing obligatory.</div>
+      <div class="t-label caption" style="color:var(--black-500);">Coming in early 2027</div>
     </div>
   </sc-if>
 
   <sc-if value="{{ isRsvp }}" hint-placeholder-val="{{ false }}">
-    <div style="position:relative; min-height:80vh; padding:144px 6vw 120px; background:#141318; color:#f6efe0; overflow:hidden;">
-      <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, rgba(255,77,0,.35) 1px, transparent 0); background-size:5px 5px;"></div>
-      <div style="position:relative; display:grid; grid-template-columns:1fr 1fr; gap:70px;">
+    <div class="page" style="position:relative; min-height:80vh; background:var(--black-700); color:var(--white); overflow:hidden;">
+      <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--orange-700) 35%, transparent) 1px, transparent 0); background-size:5px 5px;"></div>
+      <div class="rsvp-grid">
         <div>
-          <div style="font-family:'Cedarville Cursive', cursive; font-size:clamp(64px,7vw,128px); line-height:.8; color:#ff8a3d;">Say yes</div>
-          <div style="margin-top:34px; max-width:40ch; font-size:14px; line-height:2; opacity:.8;">RSVP opens in early 2027. For now, hold the date and tell us if you're bringing someone we should know about.</div>
-          <div style="margin-top:44px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#ff4d00;">kyleandelizabeth@example.com</div>
+          <div class="t-hand" style="color:var(--orange-500);">Say yes</div>
+          <div class="t-body lede lede-sm" style="opacity:.8;">RSVP opens in early 2027. For now, hold the date and tell us if you're bringing someone we should know about.</div>
+          <div class="t-label caption" style="color:var(--orange-700);">kyleandelizabeth@example.com</div>
         </div>
-        <div style="display:flex; flex-direction:column; gap:22px;">
-          <div style="border-bottom:1px solid rgba(246,239,224,.35); padding-bottom:12px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; opacity:.55;">Name</div>
-          <div style="border-bottom:1px solid rgba(246,239,224,.35); padding-bottom:12px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; opacity:.55;">Email</div>
-          <div style="border-bottom:1px solid rgba(246,239,224,.35); padding-bottom:12px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; opacity:.55;">Coming to Friday?</div>
-          <div style="margin-top:18px; align-self:flex-start; background:#ff4d00; color:#141318; padding:16px 30px; font-size:11px; letter-spacing:.2em; text-transform:uppercase;">Placeholder form</div>
+        <div class="form-stack">
+          <div class="t-label form-field" style="opacity:.55;">Name</div>
+          <div class="t-label form-field" style="opacity:.55;">Email</div>
+          <div class="t-label form-field" style="opacity:.55;">Coming to Friday?</div>
+          <div class="t-nav form-submit" style="background:var(--orange-700); color:var(--black-700);">Placeholder form</div>
         </div>
       </div>
     </div>
   </sc-if>
 
-  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; padding:34px 6vw; background:#efe6d3; border-top:1px solid rgba(28,26,23,.15); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#3a3630;">
+  <div class="t-label gutter site-footer" style="background:var(--beige-300); border-top:1px solid color-mix(in srgb, var(--black-700) 15%, transparent); color:var(--black-500);">
     <span>Kyle &amp; Elizabeth</span>
     <span>05.01.2027</span>
     <span>The Madrona, Healdsburg CA</span>
@@ -386,6 +556,20 @@
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{}">
+const C = {
+  orange700: "#FF5D00",
+  orange500: "#FF872B",
+  orange300: "#FFB269",
+  blue700: "#536DFE",
+  blue500: "#95BCF4",
+  blue300: "#D1E5FF",
+  beige300: "#F0E5D2",
+  black700: "#1C1A17",
+  black500: "#3A3630",
+  chocolate: "#4A2306",
+  white: "#FAF6F0"
+};
+
 const PAGES = [
   { id: "home", label: "Home" },
   { id: "weekend", label: "The Weekend" },
@@ -408,44 +592,44 @@ const PAGE_META = {
 };
 
 const WEEKEND_SECTIONS = [
-  { short: "Celebrate", when: "The Weekend", title: "Let's celebrate", note: "Three days in wine country with the people we love most. Friday is for arriving, Saturday is the whole point, and Sunday is for sleeping in and one last glass before the drive home.", detail: "05.01.2027 · Healdsburg, California", photo: "art/p-twirl.jpg", photoPos: "center 35%", titleMax: "12ch", noteInk: "#4a2306", bg: "#ff6a1a", ink: "#2f4fe8", accent: "#f6efe0", grain: "rgba(246,239,224,.35)", rule: "rgba(246,239,224,.35)", font: "'Cedarville Cursive', cursive", weight: "400", italic: "normal", size: "clamp(56px,7vw,120px)" },
-  { short: "Friday", when: "Friday · Little Saint", title: "Little Saint", note: "Colorful, creative arrival energy. Everyone spilling out with a drink already in hand.", detail: "6pm — late · Little Saint", photo: "art/p-portrait.jpg", photoPos: "center 20%", bg: "#ffce9b", ink: "#2b2fd6", accent: "#ff4d00", grain: "rgba(255,255,255,.45)", rule: "rgba(43,47,214,.35)", font: "'Bricolage Grotesque', sans-serif", weight: "800", italic: "normal", size: "clamp(44px,5.4vw,88px)" },
-  { short: "Ceremony", when: "Saturday · The Ceremony", title: "Ceremony", note: "The most restrained moment of the weekend. Hydrangeas, a bolero, and one line of ink.", detail: "4:30pm · The Madrona lawn", photo: "art/p-flowers.jpg", photoPos: "center", bg: "#f2ebdd", ink: "#2f4fe8", accent: "#ff4d00", grain: "rgba(255,138,61,.35)", rule: "rgba(47,79,232,.3)", font: "'Instrument Serif', serif", weight: "400", italic: "italic", size: "clamp(48px,6vw,104px)" },
-  { short: "Cocktails", when: "Cocktail Hour", title: "Cocktail Hour", note: "Sculptural florals, negative space, and a drink in hand before dinner.", detail: "5:15pm · The upper garden", photo: "art/oranges.png", photoPos: "center", photoClass: "switcher-photo--contain", bg: "#eef2ea", ink: "#3a5a44", accent: "#ff6a1a", grain: "rgba(47,79,232,.18)", rule: "rgba(58,90,68,.3)", font: "'Instrument Serif', serif", weight: "400", italic: "normal", size: "clamp(46px,5.6vw,96px)" },
-  { short: "Dinner", when: "Orange Grove Dinner", title: "Dinner", note: "Warm, abundant, Californian. Long table under the orange trees, wine poured before you sit.", detail: "7pm · The orange grove", photo: "art/p-grass.jpg", photoPos: "center", bg: "#ff8534", ink: "#4a2306", accent: "#f6efe0", grain: "rgba(246,239,224,.45)", rule: "rgba(74,35,6,.35)", font: "'Bricolage Grotesque', sans-serif", weight: "700", italic: "normal", size: "clamp(44px,5.2vw,92px)" },
-  { short: "Dancing", when: "Porch Dancing", title: "Dancing", note: "Oldies on the porch until the air cools. Shoes optional, harmony encouraged.", detail: "9:30pm · The porch", photo: "art/photo-1.jpg", photoPos: "60% 50%", bg: "#8cb4f5", ink: "#1b2a6b", accent: "#ff4d00", grain: "rgba(255,255,255,.45)", rule: "rgba(27,42,107,.3)", font: "'Cedarville Cursive', cursive", weight: "400", italic: "normal", size: "clamp(60px,7.4vw,132px)" },
-  { short: "Afters", when: "After Party", title: "Afters", note: "Inside the art-filled rooms. Friends DJing house music, espresso martinis, very late.", detail: "11pm — ? · Inside The Madrona", photo: "art/p-cliff.jpg", photoPos: "center", bg: "#141318", ink: "#f6efe0", accent: "#ff4d00", grain: "rgba(255,77,0,.35)", rule: "rgba(246,239,224,.25)", font: "'Bricolage Grotesque', sans-serif", weight: "800", italic: "normal", size: "clamp(38px,4.4vw,76px)" }
+  { short: "Celebrate", when: "The Weekend", title: "Let's celebrate", note: "Three days in wine country with the people we love most. Friday is for arriving, Saturday is the whole point, and Sunday is for sleeping in and one last glass before the drive home.", detail: "05.01.2027 · Healdsburg, California", photo: "art/p-twirl.jpg", photoPos: "center 35%", titleMax: "12ch", noteInk: C.chocolate, bg: C.orange500, ink: C.blue700, accent: C.white },
+  { short: "Friday", when: "Friday · Little Saint", title: "Little Saint", note: "Colorful, creative arrival energy. Everyone spilling out with a drink already in hand.", detail: "6pm — late · Little Saint", photo: "art/p-portrait.jpg", photoPos: "center 20%", bg: C.orange300, ink: C.blue700, accent: C.orange700 },
+  { short: "Ceremony", when: "Saturday · The Ceremony", title: "Ceremony", note: "The most restrained moment of the weekend. Hydrangeas, a bolero, and one line of ink.", detail: "4:30pm · The Madrona lawn", photo: "art/p-flowers.jpg", photoPos: "center", bg: C.beige300, ink: C.blue700, accent: C.orange700 },
+  { short: "Cocktails", when: "Cocktail Hour", title: "Cocktail Hour", note: "Sculptural florals, negative space, and a drink in hand before dinner.", detail: "5:15pm · The upper garden", photo: "art/oranges.png", photoPos: "center", photoClass: "switcher-photo--contain", bg: C.blue300, ink: C.black700, accent: C.orange500 },
+  { short: "Dinner", when: "Orange Grove Dinner", title: "Dinner", note: "Warm, abundant, Californian. Long table under the orange trees, wine poured before you sit.", detail: "7pm · The orange grove", photo: "art/p-grass.jpg", photoPos: "center", bg: C.orange500, ink: C.chocolate, accent: C.white },
+  { short: "Dancing", when: "Porch Dancing", title: "Dancing", note: "Oldies on the porch until the air cools. Shoes optional, harmony encouraged.", detail: "9:30pm · The porch", photo: "images/dancing-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", bg: C.blue500, ink: C.black700, accent: C.orange700 },
+  { short: "Afters", when: "After Party", title: "Afters", note: "Inside the art-filled rooms. Friends DJing house music, espresso martinis, very late.", detail: "11pm — ? · Inside The Madrona", photo: "images/afters-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", bg: C.black700, ink: C.white, accent: C.orange700 }
 ];
 
 const TRAVEL_SECTIONS = [
-  { short: "By Air", when: "Travel · By air", title: "Fly into the Bay", note: "Most guests fly into San Francisco or Oakland. Santa Rosa is twenty minutes away if the schedule works.", detail: "SFO · OAK · STS", bg: "#c8ddf5", ink: "#1b2a6b", accent: "#ff4d00", grain: "rgba(255,255,255,.5)", rule: "rgba(27,42,107,.3)", font: "'Instrument Serif', serif", weight: "400", italic: "normal", size: "clamp(44px,5vw,88px)",
+  { short: "By Air", when: "Travel · By air", title: "Fly into the Bay", note: "Most guests fly into San Francisco or Oakland. Santa Rosa is twenty minutes away if the schedule works.", detail: "SFO · OAK · STS", bg: C.blue300, ink: C.black700, accent: C.orange700,
     items: ["SFO — San Francisco International, ~2 hrs drive", "OAK — Oakland International, ~2 hrs drive", "STS — Charles M. Schulz Sonoma County, ~20 min drive"] },
-  { short: "By Car", when: "Travel · By car", title: "Drive up through wine country", note: "The drive itself is part of the weekend — rolling hills, vineyards, and the Russian River if you go scenic.", detail: "Highway 101 north · ~2 hrs from the Bay Area", bg: "#f2ebdd", ink: "#3a3630", accent: "#2f4fe8", grain: "rgba(255,138,61,.3)", rule: "rgba(58,54,48,.25)", font: "'Bricolage Grotesque', sans-serif", weight: "700", italic: "normal", size: "clamp(42px,4.8vw,84px)",
+  { short: "By Car", when: "Travel · By car", title: "Drive up through wine country", note: "The drive itself is part of the weekend — rolling hills, vineyards, and the Russian River if you go scenic.", detail: "Highway 101 north · ~2 hrs from the Bay Area", bg: C.beige300, ink: C.black500, accent: C.blue700,
     items: ["From San Francisco — ~2 hrs via 101 North", "From Oakland — ~2 hrs via 580 to 101", "From Los Angeles — ~7 hrs; consider flying instead"] },
-  { short: "Around Town", when: "Travel · Getting around", title: "Rent a car, you'll want one", note: "The Plaza is compact and lovely on foot. You'll still want a car for wineries, The Madrona, and getting back at the end of the night.", detail: "Healdsburg is walkable downtown", bg: "#e8ebe4", ink: "#3a5a44", accent: "#ff6a1a", grain: "rgba(47,79,232,.15)", rule: "rgba(58,90,68,.28)", font: "'Instrument Serif', serif", weight: "400", italic: "italic", size: "clamp(40px,4.6vw,80px)",
+  { short: "Around Town", when: "Travel · Getting around", title: "Rent a car, you'll want one", note: "The Plaza is compact and lovely on foot. You'll still want a car for wineries, The Madrona, and getting back at the end of the night.", detail: "Healdsburg is walkable downtown", bg: C.beige300, ink: C.black700, accent: C.orange500,
     items: ["Rental car recommended — SFO and OAK both have agencies", "Rideshare works in town but can be sparse late", "Bikes are an option for downtown and nearby"] },
-  { short: "Wedding Day", when: "Travel · Saturday", title: "Parking and rides home", note: "There's parking at The Madrona. We'll arrange rides back to town at the end of the night — please use them.", detail: "The Madrona · Healdsburg", bg: "#ffce9b", ink: "#2b2fd6", accent: "#ff4d00", grain: "rgba(255,255,255,.4)", rule: "rgba(43,47,214,.3)", font: "'Bricolage Grotesque', sans-serif", weight: "800", italic: "normal", size: "clamp(40px,4.6vw,80px)",
+  { short: "Wedding Day", when: "Travel · Saturday", title: "Parking and rides home", note: "There's parking at The Madrona. We'll arrange rides back to town at the end of the night — please use them.", detail: "The Madrona · Healdsburg", bg: C.orange300, ink: C.blue700, accent: C.orange700,
     items: ["Parking on-site at The Madrona", "Shuttles back to Plaza hotels after dancing", "Address and gate details coming closer to the date"] }
 ];
 
 const ACCOMMODATION_SECTIONS = [
-  { short: "Madrona", when: "Stay · On property", title: "The Madrona", note: "A handful of rooms at the house itself — first come, and you'll never have to drive.", detail: "0 min · Details coming soon", bg: "#f2ebdd", ink: "#2f4fe8", accent: "#ff4d00", grain: "rgba(255,138,61,.35)", rule: "rgba(47,79,232,.28)", font: "'Cedarville Cursive', cursive", weight: "400", italic: "normal", size: "clamp(52px,6vw,108px)" },
-  { short: "Plaza", when: "Stay · Downtown", title: "Plaza Hotels", note: "Our room block will be downtown — walkable to coffee, dinner, and a very good bookstore.", detail: "Healdsburg Plaza · 8 min walk", bg: "#9dbdf0", ink: "#1b2a6b", accent: "#ff4d00", grain: "rgba(255,255,255,.45)", rule: "rgba(27,42,107,.28)", font: "'Instrument Serif', serif", weight: "400", italic: "italic", size: "clamp(44px,5vw,88px)",
+  { short: "Madrona", when: "Stay · On property", title: "The Madrona", note: "A handful of rooms at the house itself — first come, and you'll never have to drive.", detail: "0 min · Details coming soon", bg: C.beige300, ink: C.blue700, accent: C.orange700 },
+  { short: "Plaza", when: "Stay · Downtown", title: "Plaza Hotels", note: "Our room block will be downtown — walkable to coffee, dinner, and a very good bookstore.", detail: "Healdsburg Plaza · 8 min walk", bg: C.blue500, ink: C.black700, accent: C.orange700,
     items: ["Hotel Healdsburg — placeholder, block code TBD", "Harmon Guest House — placeholder", "H2 Hotel — placeholder"] },
-  { short: "Nearby", when: "Stay · Just outside", title: "Nearby", note: "Quieter, cheaper, still close. Good if you're bringing kids, a dog, or just want a pool.", detail: "Within 10–15 min drive", bg: "#eef2ea", ink: "#3a5a44", accent: "#ff6a1a", grain: "rgba(47,79,232,.15)", rule: "rgba(58,90,68,.28)", font: "'Bricolage Grotesque', sans-serif", weight: "600", italic: "normal", size: "clamp(42px,4.8vw,84px)",
+  { short: "Nearby", when: "Stay · Just outside", title: "Nearby", note: "Quieter, cheaper, still close. Good if you're bringing kids, a dog, or just want a pool.", detail: "Within 10–15 min drive", bg: C.beige300, ink: C.black700, accent: C.orange500,
     items: ["Placeholder hotel — wine country inn", "Placeholder hotel — family-friendly option", "Rates and links coming in early 2027"] },
-  { short: "Rentals", when: "Stay · Houses", title: "Rentals", note: "Our favorite option for groups: split a house with the people you'd want breakfast with anyway.", detail: "Airbnb / VRBO · Book early", bg: "#ffdcb0", ink: "#4a2306", accent: "#2f4fe8", grain: "rgba(246,239,224,.45)", rule: "rgba(74,35,6,.3)", font: "'Instrument Serif', serif", weight: "400", italic: "normal", size: "clamp(44px,5vw,88px)",
+  { short: "Rentals", when: "Stay · Houses", title: "Rentals", note: "Our favorite option for groups: split a house with the people you'd want breakfast with anyway.", detail: "Airbnb / VRBO · Book early", bg: C.orange300, ink: C.chocolate, accent: C.blue700,
     items: ["Search Healdsburg and surrounding areas", "Dry Creek Valley and Windsor are nearby options", "May is peak season — book early"] }
 ];
 
 const TODO_SECTIONS = [
-  { short: "Wineries", when: "Things to do · Wine country", title: "Wineries", note: "You're in one of the best wine regions in the country. Make reservations — tastings book up on weekends.", detail: "Dry Creek · Russian River · Alexander Valley", bg: "#e8d4d0", ink: "#5b1e1e", accent: "#ff4d00", grain: "rgba(255,138,61,.25)", rule: "rgba(91,30,30,.28)", font: "'Instrument Serif', serif", weight: "400", italic: "italic", size: "clamp(44px,5vw,88px)",
+  { short: "Wineries", when: "Things to do · Wine country", title: "Wineries", note: "You're in one of the best wine regions in the country. Make reservations — tastings book up on weekends.", detail: "Dry Creek · Russian River · Alexander Valley", bg: C.orange300, ink: C.chocolate, accent: C.orange700,
     items: ["Dry Creek Valley — zinfandel country, 10 min west", "Russian River — pinot and charming towns", "Placeholder winery picks from us coming soon"] },
-  { short: "Golf", when: "Things to do · Golf", title: "Golf", note: "Several excellent courses within twenty minutes. Book tee times early for a May weekend.", detail: "Healdsburg & beyond", bg: "#d4e4d0", ink: "#2a4a32", accent: "#ff6a1a", grain: "rgba(255,255,255,.4)", rule: "rgba(42,74,50,.28)", font: "'Bricolage Grotesque', sans-serif", weight: "700", italic: "normal", size: "clamp(42px,4.8vw,84px)",
+  { short: "Golf", when: "Things to do · Golf", title: "Golf", note: "Several excellent courses within twenty minutes. Book tee times early for a May weekend.", detail: "Healdsburg & beyond", bg: C.beige300, ink: C.black700, accent: C.orange500,
     items: ["Healdsburg Golf Club — public, 5 min", "Wine Country Golf Club — Cloverdale, ~25 min", "Mayacama — private club, guest policies vary"] },
-  { short: "Downtown", when: "Things to do · Healdsburg", title: "Downtown", note: "Small, beautiful, worth an afternoon. Farmers market Saturday morning if you're in town early.", detail: "The Plaza · Walkable", bg: "#f6f1e5", ink: "#2f4fe8", accent: "#ff4d00", grain: "rgba(255,138,61,.3)", rule: "rgba(47,79,232,.25)", font: "'Cedarville Cursive', cursive", weight: "400", italic: "normal", size: "clamp(52px,5.6vw,100px)",
+  { short: "Downtown", when: "Things to do · Healdsburg", title: "Downtown", note: "Small, beautiful, worth an afternoon. Farmers market Saturday morning if you're in town early.", detail: "The Plaza · Walkable", bg: C.beige300, ink: C.blue700, accent: C.orange700,
     items: ["Healdsburg Plaza — shops, restaurants, people-watching", "Singletree Coffee — essential", "Little Saint — Friday night starts here anyway"] },
-  { short: "Outdoors", when: "Things to do · Outside", title: "Outdoors", note: "The Russian River is twenty minutes west. Redwoods, swimming holes, and the kind of afternoon that makes you understand California.", detail: "Russian River · Armstrong Redwoods", bg: "#b8d4f0", ink: "#1b3a5c", accent: "#ff8534", grain: "rgba(255,255,255,.45)", rule: "rgba(27,58,92,.28)", font: "'Instrument Serif', serif", weight: "400", italic: "normal", size: "clamp(42px,4.8vw,84px)",
+  { short: "Outdoors", when: "Things to do · Outside", title: "Outdoors", note: "The Russian River is twenty minutes west. Redwoods, swimming holes, and the kind of afternoon that makes you understand California.", detail: "Russian River · Armstrong Redwoods", bg: C.blue300, ink: C.black700, accent: C.orange500,
     items: ["Russian River — tubing, swimming, lazy afternoons", "Armstrong Redwoods — short hike among giants", "Lake Sonoma — kayaking and picnics"] }
 ];
 
@@ -475,30 +659,14 @@ const TODO_GRID = {
 };
 
 const HOME_NAV = [
-  { id: "weekend", label: "The Weekend", headline: "Six moments, one world", blurb: "Friday at Little Saint through espresso martini hours inside the Madrona — the whole weekend, moment by moment.",
-    font: "'Instrument Serif', serif", weight: "400", italic: "italic", titleSize: "clamp(28px,3.2vw,52px)",
-    bg: "transparent", ink: "#2f4fe8", accent: "#ff4d00" },
-  { id: "travel", label: "Travel", headline: "Getting to Healdsburg", blurb: "Airports, driving directions, getting around town, and what to know for wedding day.",
-    font: "'Bricolage Grotesque', sans-serif", weight: "700", italic: "normal", titleSize: "clamp(26px,3vw,48px)",
-    bg: "transparent", ink: "#1b2a6b", accent: "#2f4fe8" },
-  { id: "accommodations", label: "Stay", headline: "Where to stay", blurb: "On-property rooms at The Madrona, our Plaza hotel block, nearby options, and houses to rent together.",
-    font: "'Cedarville Cursive', cursive", weight: "400", italic: "normal", titleSize: "clamp(32px,3.6vw,56px)",
-    bg: "transparent", ink: "#2f4fe8", accent: "#ff4d00" },
-  { id: "todo", label: "Things to Do", headline: "Wine country while you're here", blurb: "Wineries, golf, downtown Healdsburg, and a day on the Russian River if you have the time.",
-    font: "'Instrument Serif', serif", weight: "400", italic: "normal", titleSize: "clamp(28px,3.2vw,50px)",
-    bg: "transparent", ink: "#3a5a44", accent: "#ff6a1a" },
-  { id: "gallery", label: "Gallery", headline: "A few favorites", blurb: "Engagement photos, wine country, and the people we love — more coming after the wedding.",
-    font: "'Bricolage Grotesque', sans-serif", weight: "700", italic: "normal", titleSize: "clamp(26px,3vw,46px)",
-    bg: "transparent", ink: "#2f4fe8", accent: "#ff4d00" },
-  { id: "qa", label: "FAQ", headline: "Questions, answered loosely", blurb: "Dress code, kids, the whole weekend, parking, registry — the practical stuff, without the formality.",
-    font: "'Bricolage Grotesque', sans-serif", weight: "800", italic: "normal", titleSize: "clamp(26px,3vw,46px)",
-    bg: "transparent", ink: "#2b2fd6", accent: "#ff4d00" },
-  { id: "registry", label: "Registry", headline: "A small list, if you insist", blurb: "Your presence is genuinely the gift. A considered registry will live here closer to the date.",
-    font: "'Instrument Serif', serif", weight: "400", italic: "italic", titleSize: "clamp(28px,3.2vw,50px)",
-    bg: "transparent", ink: "#2f4fe8", accent: "#ff4d00" },
-  { id: "rsvp", label: "RSVP", headline: "Say yes", blurb: "RSVP opens in early 2027. Hold the date — we can't wait to see you.",
-    font: "'Cedarville Cursive', cursive", weight: "400", italic: "normal", titleSize: "clamp(36px,4vw,64px)",
-    bg: "transparent", ink: "#ff4d00", accent: "#2f4fe8" }
+  { id: "weekend", label: "The Weekend", headline: "Six moments, one world", blurb: "Friday at Little Saint through espresso martini hours inside the Madrona — the whole weekend, moment by moment.", ink: C.blue700, accent: C.orange700 },
+  { id: "travel", label: "Travel", headline: "Getting to Healdsburg", blurb: "Airports, driving directions, getting around town, and what to know for wedding day.", ink: C.blue700, accent: C.orange700 },
+  { id: "accommodations", label: "Stay", headline: "Where to stay", blurb: "On-property rooms at The Madrona, our Plaza hotel block, nearby options, and houses to rent together.", ink: C.blue700, accent: C.orange700 },
+  { id: "todo", label: "Things to Do", headline: "Wine country while you're here", blurb: "Wineries, golf, downtown Healdsburg, and a day on the Russian River if you have the time.", ink: C.black700, accent: C.orange500 },
+  { id: "gallery", label: "Gallery", headline: "A few favorites", blurb: "Engagement photos, wine country, and the people we love — more coming after the wedding.", ink: C.blue700, accent: C.orange700 },
+  { id: "qa", label: "FAQ", headline: "Questions, answered loosely", blurb: "Dress code, kids, the whole weekend, parking, registry — the practical stuff, without the formality.", ink: C.blue700, accent: C.orange700 },
+  { id: "registry", label: "Registry", headline: "A small list, if you insist", blurb: "Your presence is genuinely the gift. A considered registry will live here closer to the date.", ink: C.blue700, accent: C.orange700 },
+  { id: "rsvp", label: "RSVP", headline: "Say yes", blurb: "RSVP opens in early 2027. Hold the date — we can't wait to see you.", ink: C.orange700, accent: C.blue700, hand: true }
 ];
 
 const GALLERY_PHOTOS = [
@@ -524,7 +692,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this._onScroll = () => {
       const y = window.scrollY || 0;
-      const past = y > Math.min(window.innerHeight * .62, 700);
+      const past = y > 1;
       if (past !== this.state.scrolled) this.setState({ scrolled: past });
     };
     window.addEventListener("scroll", this._onScroll, { passive: true });
@@ -560,12 +728,8 @@ class Component extends DCLogic {
       ink: r.ink,
       noteInk: r.noteInk || r.ink,
       accent: r.accent,
-      grain: r.grain,
-      rule: r.rule,
-      font: r.font,
-      weight: r.weight,
-      italic: r.italic,
-      size: r.size,
+      grain: r.bg === C.black700 ? this.hexAlpha(C.orange700, 0.35) : r.bg === C.beige300 ? this.hexAlpha(C.orange500, 0.3) : this.hexAlpha(C.white, 0.4),
+      rule: r.bg === C.black700 ? this.hexAlpha(C.white, 0.25) : r.bg === C.beige300 ? this.hexAlpha(C.black700, 0.12) : this.hexAlpha(r.ink, 0.3),
       sections: sections.map((x, i) => ({
         short: x.short,
         pick: () => this.setState({ [stateKey]: i }),
@@ -603,8 +767,8 @@ class Component extends DCLogic {
     const isSwitcher = SWITCHER_PAGES.includes(p);
     const dark = p === "rsvp";
     const onHero = p === "home" && !this.state.scrolled;
-    const onWeekendCelebrate = p === "weekend" && this.state.weekendIdx === 0;
-    const barInk = onHero ? "#2f4fe8" : onWeekendCelebrate ? "#f6efe0" : (dark ? "#f6efe0" : "#2f4fe8");
+    const onWeekendCelebrate = p === "weekend" && WEEKEND_SECTIONS[this.state.weekendIdx]?.short === "Celebrate";
+    const barInk = onHero ? C.blue700 : (onWeekendCelebrate || dark) ? C.white : C.blue700;
 
     let sw = null;
     let grid = { groups: [] };
@@ -637,11 +801,11 @@ class Component extends DCLogic {
       sw,
       grid,
       pageMeta,
-      barBg: onHero ? "rgba(242,235,221,0)" : onWeekendCelebrate ? "rgba(255,106,26,0)" : (dark ? "rgba(20,19,24,.92)" : "rgba(242,235,221,.9)"),
+      barBg: onHero ? this.hexAlpha(C.beige300, 0) : onWeekendCelebrate ? this.hexAlpha(C.orange500, 0) : (dark ? this.hexAlpha(C.black700, 0.92) : this.hexAlpha(C.beige300, 0.9)),
       barInk,
-      barBorder: onHero ? "rgba(47,79,232,.18)" : onWeekendCelebrate ? "rgba(246,239,224,.22)" : "rgba(28,26,23,.14)",
+      barBorder: onHero ? this.hexAlpha(C.blue700, 0.18) : onWeekendCelebrate ? this.hexAlpha(C.white, 0.22) : this.hexAlpha(C.black700, 0.14),
       barBlur: (onHero || onWeekendCelebrate) ? "none" : "blur(6px)",
-      markO: onHero ? "0" : "1",
+      markClass: onHero ? "" : "is-on",
       barT: "translateY(0)",
       barO: "1",
       barPE: "auto",
@@ -650,8 +814,8 @@ class Component extends DCLogic {
       nav: PAGES.map(x => ({
         label: x.label,
         go: () => this.go(x.id),
-        color: x.id === p ? "#ff4d00" : barInk,
-        mark: x.id === p ? "#ff4d00" : "transparent"
+        color: x.id === p ? C.orange700 : barInk,
+        mark: x.id === p ? C.orange700 : "transparent"
       })),
 
       galleryPhotos: GALLERY_PHOTOS,
@@ -662,21 +826,18 @@ class Component extends DCLogic {
         enter: () => this.setState({ homeNavHover: i }),
         go: () => this.go(item.id),
         mark: i === this.state.homeNavHover ? item.accent : "transparent",
-        color: i === this.state.homeNavHover ? item.accent : "#8d8676"
+        color: i === this.state.homeNavHover ? item.accent : C.black500
       })),
       homeNavPanel: (() => {
         const h = this.state.homeNavHover;
         const item = h >= 0 ? HOME_NAV[h] : null;
-        if (!item) return { h: "0px", o: "0", headline: "", blurb: "", font: "inherit", weight: "400", italic: "normal", titleSize: "1rem", ink: "#3a3630", accent: "#ff4d00", go: () => {} };
+        if (!item) return { h: "0px", o: "0", headline: "", blurb: "", titleClass: "t-h2", ink: C.black500, accent: C.orange700, go: () => {} };
         return {
           h: "180px",
           o: "1",
           headline: item.headline,
           blurb: item.blurb,
-          font: item.font,
-          weight: item.weight,
-          italic: item.italic,
-          titleSize: item.titleSize,
+          titleClass: item.hand ? "t-hand-sm" : "t-h2",
           ink: item.ink,
           accent: item.accent,
           go: () => this.go(item.id)

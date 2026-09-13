@@ -33,6 +33,7 @@
     --text-h1: clamp(2rem, 1.6vw + 1.5rem, 2.5rem);
     --text-hand-sm: 2rem;
     --text-hand: clamp(3rem, 5vw, 4.5rem);
+    --text-page-hero: clamp(3.15rem, 5.8vw, 5.2rem);
 
     --leading-body: 1.65;
     --leading-display: 0.96;
@@ -76,6 +77,7 @@
   html, body { margin: 0; background: var(--beige-300); cursor: var(--cursor); }
   .t-hand { font-family: var(--font-hand); font-size: var(--text-hand); font-weight: 400; line-height: 1; }
   .t-hand-sm { font-family: var(--font-hand); font-size: var(--text-hand-sm); font-weight: 400; line-height: 1; }
+  .page-hero-title { font-family: var(--font-hand); font-size: var(--text-page-hero); font-weight: 400; line-height: 1; }
   .t-h1 { font-family: var(--font-display); font-size: var(--text-h1); font-weight: 400; line-height: var(--leading-display); letter-spacing: -0.02em; }
   .t-h2 { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; }
   .t-h3 { font-family: var(--font-display); font-size: var(--text-h3); font-weight: 400; line-height: 1.15; }
@@ -84,8 +86,10 @@
   .t-body { font-family: var(--font-body); font-size: var(--text-body); font-weight: 400; line-height: var(--leading-body); }
   .t-label { font-family: var(--font-label); font-size: var(--text-label); font-weight: 400; letter-spacing: var(--tracking-label); text-transform: uppercase; }
   .t-nav { font-family: var(--font-label); font-size: var(--text-nav); font-weight: 400; letter-spacing: var(--tracking-label); text-transform: uppercase; line-height: 1; }
-  a { color: var(--blue-700); text-decoration: none; }
-  a:hover { color: var(--orange-700); }
+  .text-link { color: inherit; text-decoration: none; }
+  .text-link:visited { color: inherit; }
+  .text-link:hover { color: var(--blue-700); }
+  .link-hover-orange .text-link:hover { color: var(--orange-700); }
   ::selection { background: var(--orange-500); color: var(--white); }
   a, button, .clickable { cursor: var(--cursor-pointer) !important; }
   .page { padding: var(--space-section) var(--space-gutter); }
@@ -129,6 +133,12 @@
     transition-delay: .3s;
   }
   .nav-link { padding-bottom: var(--space-hair); border-bottom: 2px solid; }
+  .site-bar .nav-link {
+    border-bottom-color: transparent;
+    transition: border-color .3s ease;
+  }
+  .site-bar .nav-link:hover,
+  .site-bar .nav-link.is-current { border-bottom-color: var(--nav-accent, var(--orange-700)); }
   .hero {
     position: relative;
     min-height: 100svh;
@@ -151,6 +161,44 @@
     height: 100%;
     object-fit: cover;
   }
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-gutter);
+    padding-bottom: calc(var(--space-gutter) + var(--space-stack-lg));
+  }
+  .lightbox-scrim {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--beige-300) 82%, var(--chocolate));
+    opacity: 0.72;
+  }
+  .lightbox-frame {
+    position: relative;
+    z-index: 1;
+    max-width: min(44rem, 78vw);
+    max-height: 82vh;
+  }
+  .lightbox-frame img {
+    display: block;
+    max-width: min(44rem, 78vw);
+    max-height: 82vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 24px 80px color-mix(in srgb, var(--chocolate) 28%, transparent);
+  }
+  .lightbox-close {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translateY(calc(100% + var(--space-tight)));
+    color: var(--chocolate);
+  }
   .home-nav { padding-bottom: var(--space-section); }
   .home-nav-panel {
     display: grid;
@@ -168,13 +216,14 @@
     max-width: var(--measure);
   }
   .switcher-item { padding-left: var(--space-inset); }
-  .grid-label { padding: var(--space-stack-lg) 0 var(--space-stack-sm); }
-  .cell-note { margin-top: var(--space-stack-sm); max-width: var(--measure-md); }
+  .grid-label { padding: var(--space-stack) 0 var(--space-stack-sm); font-size: 1.0625rem; }
+  .cell-note { margin-top: var(--space-stack-sm); }
   .cell-meta { margin-top: var(--space-inset); }
   .weekend-grid { padding-top: var(--space-section-sm); padding-bottom: var(--space-panel); }
+  .agenda-title { padding-bottom: var(--space-stack); text-align: center; }
   .hero-art {
     position: absolute;
-    right: 0;
+    right: -72px;
     top: 0;
     bottom: 0;
     width: 70%;
@@ -186,13 +235,13 @@
   .hero-art img {
     position: absolute;
     right: 0;
-    top: 0;
-    height: 100%;
+    top: -96px;
+    height: calc(100% + 136px);
     width: auto;
     min-width: 100%;
     max-width: none;
     object-fit: cover;
-    object-position: right center;
+    object-position: right top;
     opacity: 0.34;
     mix-blend-mode: multiply;
     filter: contrast(0.92) saturate(0.78);
@@ -212,13 +261,13 @@
   .hero-art-blur img {
     position: absolute;
     right: 0;
-    top: 0;
-    height: 100%;
+    top: -96px;
+    height: calc(100% + 136px);
     width: auto;
     min-width: 100%;
     max-width: none;
     object-fit: cover;
-    object-position: right center;
+    object-position: right top;
     opacity: 0.28;
     mix-blend-mode: multiply;
     filter: blur(18px) contrast(0.9) saturate(0.75);
@@ -270,6 +319,13 @@
   .grid-row:first-child { border-top: none; }
   .grid-cell { padding: var(--space-stack-lg); min-height: var(--space-panel); border-right: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); }
   .grid-cell:last-child { border-right: none; }
+  .weekend-grid .grid-cell {
+    padding-top: var(--space-cluster);
+    padding-bottom: var(--space-cluster);
+  }
+  .weekend-grid .grid-cell .t-poster {
+    font-size: clamp(1.625rem, 1.1vw + 1.32rem, 2.0625rem);
+  }
   .home-nav-tabs {
     display: flex;
     border-top: 1px solid color-mix(in srgb, var(--black-700) 15%, transparent);
@@ -301,14 +357,223 @@
     padding: var(--space-section-sm) var(--space-gutter) 0;
     box-sizing: border-box;
     z-index: 3;
+    pointer-events: none;
   }
   .switcher-panel {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     min-height: 0;
     position: relative;
     z-index: 3;
+    pointer-events: none;
+  }
+  .switcher-panel > *,
+  .switcher-tabs {
+    pointer-events: auto;
+  }
+  .switcher-panel .lede {
+    max-width: min(60ch, 52vw);
+  }
+  .switcher-panel--hero {
+    justify-content: center;
+    gap: var(--space-stack);
+  }
+  .switcher-panel--hero .lede { margin-top: 0; }
+  .page-hero-copy {
+    align-self: start;
+    width: max-content;
+    max-width: min(44vw, 100%);
+  }
+  .page-hero-copy .page-hero-title {
+    max-width: 12ch;
+  }
+  .page-hero-copy--oneline .page-hero-title {
+    max-width: none;
+    white-space: nowrap;
+  }
+  .page-hero-copy .lede {
+    max-width: none;
+    width: 0;
+    min-width: 100%;
+  }
+  .page-hero-art {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 54%;
+    z-index: 2;
+    pointer-events: auto;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.25) 10%, rgba(0,0,0,.9) 28%, #000 42%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.25) 10%, rgba(0,0,0,.9) 28%, #000 42%);
+  }
+  .page-hero-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .page-hero-fade {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 58%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to right, var(--beige-300) 0%, color-mix(in srgb, var(--beige-300) 82%, transparent) 55%, transparent 100%);
+  }
+  .page-hero-art--bloom {
+    width: 76%;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: right center;
+    mask-position: right center;
+  }
+  .page-hero-art--travel {
+    width: calc(46% + 100px);
+  }
+  .page-hero-art--travel img {
+    width: 100%;
+    height: 122%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    object-position: 56% 10%;
+  }
+  .page-hero-art--stay img {
+    object-fit: cover;
+  }
+  .page-hero-art--todo.page-hero-art--bloom {
+    width: calc(36% + 80px);
+    -webkit-mask-position: left center;
+    mask-position: left center;
+  }
+  .page-hero-art--todo img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    object-position: 40% 42%;
+  }
+  .page-hero-art--gallery.page-hero-art--bloom {
+    width: calc(68% + 40px);
+    right: -90px;
+    -webkit-mask-position: left center;
+    mask-position: left center;
+  }
+  .page-hero-art--gallery img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    object-position: 36% 78%;
+  }
+  .page-hero-art--faq {
+    width: calc(56% + 40px);
+  }
+  .page-hero-art--faq img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 40px;
+    top: 0;
+    object-fit: cover;
+    object-position: 38% 32%;
+  }
+  .page-hero-art--registry.page-hero-art--bloom {
+    width: calc(62% + 40px);
+    -webkit-mask-position: left center;
+    mask-position: left center;
+  }
+  .page-hero-art--registry img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    object-position: 18% 62%;
+  }
+  .switcher-stage:has(.page-hero-art--travel) .page-hero-fade--bloom {
+    width: 44%;
+  }
+  .switcher-stage:has(.page-hero-art--gallery) .page-hero-fade--bloom {
+    width: 30%;
+  }
+  .switcher-stage:has(.page-hero-art--faq) .page-hero-fade--bloom {
+    width: 34%;
+  }
+  .switcher-stage:has(.page-hero-art--registry) .page-hero-fade--bloom {
+    width: 32%;
+  }
+  .switcher-stage:has(.page-hero-art--todo) .page-hero-fade--bloom {
+    width: 28%;
+  }
+  .page-hero-copy--todo {
+    max-width: min(52vw, 100%);
+  }
+  .page-hero-copy--todo .page-hero-title {
+    max-width: 24ch;
+  }
+  .page-hero-art--blob-a {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27a%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23a%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C760-80%20620%2040%20500%20160C380%20280%20300%20360%20290%20500C280%20650%20360%20740%20500%20860C620%20960%20760%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27a%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23a%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C760-80%20620%2040%20500%20160C380%20280%20300%20360%20290%20500C280%20650%20360%20740%20500%20860C620%20960%20760%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+  }
+  .page-hero-art--blob-b {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27b%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23b%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C800-40%20700%2080%20640%20200C560%20360%20240%20430%20270%20590C300%20760%20420%20840%20560%20940C700%201040%20840%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27b%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23b%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C800-40%20700%2080%20640%20200C560%20360%20240%20430%20270%20590C300%20760%20420%20840%20560%20940C700%201040%20840%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+  }
+  .page-hero-art--blob-c {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27c%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23c%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C280-80%20222%2040%20172%20160C122%20280%2088%20360%2084%20520C80%20650%20113%20740%20172%20860C222%20960%20280%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27c%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23c%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C280-80%20222%2040%20172%20160C122%20280%2088%20360%2084%20520C80%20650%20113%20740%20172%20860C222%20960%20280%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+  }
+  .page-hero-art--blob-d {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27d%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23d%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C280-80%20222%2040%20172%20160C122%20280%2088%20360%2084%20520C80%20650%20113%20740%20172%20860C222%20960%20280%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27d%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23d%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C280-80%20222%2040%20172%20160C122%20280%2088%20360%2084%20520C80%20650%20113%20740%20172%20860C222%20960%20280%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+  }
+  .page-hero-art--blob-e {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27e%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23e%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C700-50%20500%2030%20380%20150C260%20270%20290%20390%20270%20520C250%20660%20220%20760%20340%20880C460%20990%20720%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27e%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23e%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C700-50%20500%2030%20380%20150C260%20270%20290%20390%20270%20520C250%20660%20220%20760%20340%20880C460%20990%20720%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+  }
+  .page-hero-art--blob-f {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27f%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23f%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C280-80%20222%2040%20172%20160C122%20280%2088%20360%2084%20520C80%20650%20113%20740%20172%20860C222%20960%20280%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201000%201000%27%20preserveAspectRatio%3D%27none%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27f%27%20x%3D%27-30%25%27%20y%3D%27-30%25%27%20width%3D%27160%25%27%20height%3D%27160%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%2744%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%27url%28%23f%29%27%20fill%3D%27%23fff%27%20d%3D%27M1280-80C280-80%20222%2040%20172%20160C122%20280%2088%20360%2084%20520C80%20650%20113%20740%20172%20860C222%20960%20280%201080%201280%201080Z%27%2F%3E%3C%2Fsvg%3E");
+  }
+  .page-hero-fade--bloom {
+    width: 52%;
+    background:
+      radial-gradient(ellipse 78% 92% at -6% 28%, var(--beige-300) 40%, transparent 74%),
+      radial-gradient(ellipse 90% 70% at 8% 74%, var(--beige-300) 32%, transparent 68%),
+      linear-gradient(to right, var(--beige-300) 0%, color-mix(in srgb, var(--beige-300) 58%, transparent) 46%, transparent 78%);
+  }
+  .hero-strike {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+  }
+  .hero-strike::after {
+    content: "";
+    position: absolute;
+    left: -0.08em;
+    right: calc(-0.16em - 110px);
+    top: calc(58% - 16px);
+    height: 0.28em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 18' preserveAspectRatio='none'%3E%3Cpath d='M2 10 C 22 7.5, 40 12, 58 9.5 S 92 7, 112 10.5 138 13, 158 9' fill='none' stroke='%23D1E5FF' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    transform: translateY(-10%) rotate(-3.5deg);
+    pointer-events: none;
   }
   .switcher-detail { margin-top: var(--space-stack); }
   .switcher-tabs {
@@ -321,11 +586,21 @@
   }
   .switcher-tab {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: var(--space-stack) var(--space-inset-sm) var(--space-stack);
     margin-top: -2px;
     border-top: 3px solid transparent;
     text-align: center;
     transition: color .3s ease, border-color .3s ease;
+  }
+  .switcher-tab-mark {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: currentColor;
   }
   .switcher-photo {
     position: absolute;
@@ -337,7 +612,7 @@
     z-index: 2;
     overflow: hidden;
     box-shadow: 0 24px 80px color-mix(in srgb, var(--chocolate) 22%, transparent);
-    pointer-events: none;
+    pointer-events: auto;
   }
   .switcher-photo img {
     width: 100%;
@@ -351,28 +626,44 @@
   }
   .switcher-photo--lineart {
     box-shadow: none;
-    background: transparent;
+    background: currentColor;
     aspect-ratio: 1;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
   }
   .switcher-photo--lineart img {
     object-fit: contain;
     padding: 0;
     mix-blend-mode: normal;
+    opacity: 0;
   }
   @media (max-width: 768px) {
     .switcher-photo { width: 56vw; right: var(--space-gutter); top: auto; bottom: var(--space-section); transform: none; }
     .switcher-tab { padding: var(--space-stack) var(--space-hair) var(--space-stack); }
+    .page-hero-art { width: 72%; }
+    .page-hero-fade { width: 70%; }
+    .page-hero-art--bloom { width: 90%; }
+    .page-hero-art--travel { width: 68%; }
+    .page-hero-art--todo { width: calc(58% + 80px); max-width: none; }
+    .page-hero-art--faq { width: 70%; }
+    .page-hero-art--gallery { width: 82%; }
+    .page-hero-art--registry { width: 82%; max-width: none; }
+    .page-hero-fade--bloom { width: 86%; }
   }
 </style>
 </helmet>
 
-<div class="t-body" style="color:var(--black-700); background:var(--beige-300); min-height:100vh;">
+<div class="t-body" style="color:var(--chocolate); background:var(--beige-300); min-height:100vh;">
 
-  <div class="site-bar" style="background:{{ barBg }}; border-bottom:1px solid {{ barBorder }}; backdrop-filter:{{ barBlur }}; -webkit-backdrop-filter:{{ barBlur }}; transform:{{ barT }}; opacity:{{ barO }}; pointer-events:{{ barPE }}; transition:background .6s ease, border-color .6s ease, color .5s ease, backdrop-filter .6s ease;">
+  <div class="site-bar" style="background:{{ barBg }}; border-bottom:1px solid {{ barBorder }}; backdrop-filter:{{ barBlur }}; -webkit-backdrop-filter:{{ barBlur }}; transform:{{ barT }}; opacity:{{ barO }}; pointer-events:{{ barPE }}; --nav-accent:{{ barAccent }}; transition:background .6s ease, border-color .6s ease, color .5s ease, backdrop-filter .6s ease;">
     <div onClick="{{ goHome }}" class="clickable site-bar-mark {{ markClass }}" style="color:{{ barInk }};">Kyle &amp; Elizabeth</div>
     <div class="site-bar-links">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="9">
-        <div onClick="{{ n.go }}" class="clickable t-nav nav-link" style="color:{{ n.color }}; border-bottom-color:{{ n.mark }};">{{ n.label }}</div>
+        <div onClick="{{ n.go }}" class="clickable t-nav nav-link {{ n.currentClass }}" style="color:{{ n.color }};">{{ n.label }}</div>
       </sc-for>
     </div>
   </div>
@@ -383,9 +674,9 @@
         <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--beige-300) 45%, transparent) 1px, transparent 0); background-size:6px 6px;"></div>
 
         <div class="hero-art">
-          <img src="art/save-the-date.png" alt="">
+          <img src="art/illustration.png" alt="">
           <div class="hero-art-blur" aria-hidden="true">
-            <img src="art/save-the-date.png" alt="">
+            <img src="art/illustration.png" alt="">
           </div>
           <div class="hero-art-fade"></div>
         </div>
@@ -400,13 +691,13 @@
       </div>
 
       <div class="home-strip">
-        <div class="home-strip-photo" style="grid-column:1 / span 5; aspect-ratio:3/2;">
+        <div onClick="{{ openHill }}" class="clickable home-strip-photo" style="grid-column:1 / span 5; aspect-ratio:3/2;">
           <img src="art/home-hill.jpg" alt="" style="object-position:center 42%;">
         </div>
-        <div class="home-strip-photo" style="grid-column:7 / span 3; aspect-ratio:2/3; margin-bottom:var(--space-block);">
+        <div onClick="{{ openEmbrace }}" class="clickable home-strip-photo" style="grid-column:7 / span 3; aspect-ratio:2/3; margin-bottom:var(--space-block);">
           <img src="art/home-embrace.jpg" alt="" style="object-position:center 38%;">
         </div>
-        <div class="home-strip-photo" style="grid-column:10 / span 2; aspect-ratio:2/3;">
+        <div onClick="{{ openHands }}" class="clickable home-strip-photo" style="grid-column:10 / span 2; aspect-ratio:2/3;">
           <img src="art/home-hands.jpg" alt="" style="object-position:center 42%;">
         </div>
         <div class="t-hand-sm" style="grid-column:12 / span 1; color:var(--blue-700); padding-bottom:var(--space-stack-lg);">est.<br>2020</div>
@@ -432,50 +723,86 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ hasPageHero }}" hint-placeholder-val="{{ false }}">
+    <div class="switcher-stage" style="background:var(--beige-300);">
+      <div onClick="{{ pageHero.open }}" class="clickable page-hero-art page-hero-art--bloom {{ pageHero.blobClass }} {{ pageHero.artClass }}">
+        <img src="{{ pageHero.art }}" alt="" style="object-position:{{ pageHero.pos }};">
+      </div>
+      <div class="page-hero-fade page-hero-fade--bloom"></div>
+      <div class="switcher-inner">
+        <div class="switcher-panel switcher-panel--hero page-hero-copy {{ pageHero.copyClass }}">
+          <div class="page-hero-title" style="color:var(--orange-700);">{{ pageHero.titleBefore }}<sc-if value="{{ pageHero.hasStrike }}" hint-placeholder-val="{{ false }}"><span class="hero-strike">{{ pageHero.titleStrike }}</span></sc-if>{{ pageHero.titleAfter }}</div>
+          <div class="t-body lede lede-md" style="color:var(--chocolate);">{{ pageHero.note }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ isSwitcher }}" hint-placeholder-val="{{ false }}">
     <div>
       <div class="switcher-stage" style="background:{{ sw.bg }}; transition:background .7s ease;">
-        <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, {{ sw.grain }} 1px, transparent 0); background-size:5px 5px;"></div>
+        <sc-if value="{{ sw.hasGrain }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, {{ sw.grain }} 1px, transparent 0); background-size:5px 5px;"></div>
+        </sc-if>
+        <sc-if value="{{ sw.hasHeroArt }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ sw.openHeroArt }}" class="clickable page-hero-art">
+            <img src="{{ sw.heroArt }}" alt="">
+          </div>
+          <div class="page-hero-fade"></div>
+        </sc-if>
         <sc-if value="{{ sw.hasPhoto }}" hint-placeholder-val="{{ true }}">
-          <div class="switcher-photo {{ sw.photoClass }}">
+          <div onClick="{{ sw.openPhoto }}" class="clickable switcher-photo {{ sw.photoClass }}" style="{{ sw.photoStyle }}">
             <img src="{{ sw.photo }}" alt="" style="object-position:{{ sw.photoPos }};">
           </div>
         </sc-if>
         <div class="switcher-inner">
-          <div class="switcher-panel">
-            <div class="t-label kicker" style="color:{{ sw.accent }};">{{ sw.when }}</div>
-            <div class="t-h1" style="color:{{ sw.ink }}; max-width:{{ sw.titleMax }};">{{ sw.title }}</div>
-            <div class="t-body lede lede-md" style="color:{{ sw.noteInk }}; opacity:.85;">{{ sw.note }}</div>
+          <div class="switcher-panel {{ sw.panelMod }}">
+            <sc-if value="{{ sw.hasKicker }}" hint-placeholder-val="{{ true }}">
+              <div class="t-label kicker" style="color:{{ sw.kickerInk }};">{{ sw.when }}</div>
+            </sc-if>
+            <div class="{{ sw.titleClass }}" style="color:{{ sw.ink }}; max-width:{{ sw.titleMax }};">{{ sw.title }}</div>
+            <div onClick="{{ sw.goCue }}" class="{{ sw.noteClass }}" style="color:{{ sw.noteInk }};">{{ sw.note }}<sc-if value="{{ sw.hasLink }}" hint-placeholder-val="{{ false }}"><span onClick="{{ sw.goLink }}" class="clickable text-link">{{ sw.linkLabel }}</span>{{ sw.noteAfter }}</sc-if></div>
+            <sc-if value="{{ sw.hasMeta }}" hint-placeholder-val="{{ false }}">
+              <div class="switcher-detail t-label" style="color:{{ sw.metaInk }};">{{ sw.time }}<sc-if value="{{ sw.hasPlace }}" hint-placeholder-val="{{ false }}"> · <a href="{{ sw.placeUrl }}" target="_blank" rel="noopener noreferrer" class="text-link">{{ sw.place }}</a></sc-if></div>
+            </sc-if>
             <sc-if value="{{ sw.hasDetail }}" hint-placeholder-val="{{ true }}">
-              <div class="switcher-detail t-label" style="color:{{ sw.ink }}; opacity:.7;">{{ sw.detail }}</div>
+              <div class="switcher-detail t-label" style="color:{{ sw.ink }};">{{ sw.detail }}</div>
             </sc-if>
             <sc-if value="{{ sw.hasItems }}" hint-placeholder-val="{{ true }}">
               <div class="switcher-items">
                 <sc-for list="{{ sw.items }}" as="item" hint-placeholder-count="4">
-                  <div class="t-body switcher-item" style="color:{{ sw.ink }}; opacity:.9; border-left:2px solid {{ sw.accent }};">{{ item.text }}</div>
+                  <div class="t-body switcher-item" style="color:{{ sw.ink }}; border-left:2px solid {{ sw.accent }};">{{ item.text }}</div>
                 </sc-for>
               </div>
             </sc-if>
           </div>
-          <div class="switcher-tabs" style="border-top:1px solid {{ sw.rule }};">
+          <div class="switcher-tabs" style="border-top:1px solid {{ sw.rule }}; border-bottom:1px solid {{ sw.rule }};">
             <sc-for list="{{ sw.sections }}" as="r" hint-placeholder-count="7">
-              <div onMouseEnter="{{ r.pick }}" onClick="{{ r.pick }}" class="clickable switcher-tab t-nav" style="border-top-color:{{ r.mark }}; color:{{ r.tint }};">{{ r.short }}</div>
+              <div onMouseEnter="{{ r.pick }}" onClick="{{ r.pick }}" class="clickable switcher-tab t-nav" style="border-top-color:{{ r.mark }}; color:{{ r.tint }};">
+                <sc-if value="{{ r.hasIcon }}" hint-placeholder-val="{{ false }}">
+                  <span class="switcher-tab-mark"></span>
+                </sc-if>
+                <sc-if value="{{ r.hasLabel }}" hint-placeholder-val="{{ true }}">{{ r.short }}</sc-if>
+              </div>
             </sc-for>
           </div>
         </div>
       </div>
 
       <div class="gutter weekend-grid" style="background:var(--beige-300);">
+        <sc-if value="{{ isWeekend }}" hint-placeholder-val="{{ false }}">
+          <div class="t-h1 agenda-title" style="color:var(--chocolate);">The Weekend</div>
+        </sc-if>
         <sc-for list="{{ grid.groups }}" as="group" hint-placeholder-count="2">
-          <div class="t-label grid-label" style="color:var(--black-500); border-top:1px solid color-mix(in srgb, var(--black-700) 12%, transparent);">{{ group.label }}</div>
+          <div class="t-label grid-label" style="color:{{ group.labelColor }}; border-top:{{ group.labelBorder }}; padding-top:{{ group.labelPad }};">{{ group.label }}</div>
           <div class="grid-group">
             <sc-for list="{{ group.rows }}" as="row" hint-placeholder-count="3">
               <div class="grid-row" style="grid-template-columns:{{ row.cols }};">
                 <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="2">
-                  <div onClick="{{ cell.go }}" class="clickable grid-cell">
+                  <div class="grid-cell">
                     <div class="t-poster" style="color:var(--orange-700);">{{ cell.title }}</div>
-                    <div class="t-body cell-note" style="color:var(--black-500);">{{ cell.note }}</div>
-                    <div class="t-label cell-meta" style="color:var(--black-500);">{{ cell.time }}</div>
+                    <div class="t-body cell-note" style="color:var(--chocolate);">{{ cell.note }}<sc-if value="{{ cell.hasLink }}" hint-placeholder-val="{{ false }}"><span onClick="{{ cell.goLink }}" class="clickable text-link">{{ cell.linkLabel }}</span>{{ cell.noteAfter }}</sc-if></div>
+                    <div class="t-label cell-meta" style="color:var(--chocolate);">{{ cell.time }}<sc-if value="{{ cell.hasPlace }}" hint-placeholder-val="{{ false }}"> · <a href="{{ cell.placeUrl }}" target="_blank" rel="noopener noreferrer" class="text-link">{{ cell.place }}</a></sc-if></div>
                   </div>
                 </sc-for>
               </div>
@@ -488,7 +815,6 @@
 
   <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}">
     <div class="page" style="background:var(--orange-300);">
-      <div class="t-h1" style="color:var(--blue-700);">Questions,<br>answered loosely</div>
       <div class="faq-list">
         <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
           <div onClick="{{ f.toggle }}" class="clickable faq-item">
@@ -507,24 +833,20 @@
 
   <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
     <div class="page" style="background:var(--beige-300);">
-      <div class="t-h1" style="color:var(--blue-700);">Gallery</div>
-      <div class="t-body lede" style="color:var(--black-500);">A few favorites for now — more from the weekend once we've stopped dancing.</div>
       <div class="gallery-grid">
         <sc-for list="{{ galleryPhotos }}" as="photo" hint-placeholder-count="6">
-          <div style="grid-column:{{ photo.col }}; aspect-ratio:{{ photo.ratio }}; overflow:hidden;">
+          <div onClick="{{ photo.open }}" class="clickable" style="grid-column:{{ photo.col }}; aspect-ratio:{{ photo.ratio }}; overflow:hidden;">
             <img src="{{ photo.src }}" alt="" style="width:100%; height:100%; object-fit:cover; object-position:{{ photo.pos }};">
           </div>
         </sc-for>
       </div>
-      <div class="t-label caption" style="color:var(--black-500);">Full gallery coming after the wedding</div>
+      <div class="t-label caption" style="color:var(--chocolate);">Full gallery coming after the wedding</div>
     </div>
   </sc-if>
 
   <sc-if value="{{ isRegistry }}" hint-placeholder-val="{{ false }}">
     <div class="page" style="background:var(--beige-300);">
-      <div class="t-h1" style="color:var(--blue-700);">Registry</div>
-      <div class="t-body lede" style="color:var(--black-500);">Your presence is the gift. If you'd like to give something anyway, our registry will live here closer to the date — a small, considered list, nothing obligatory.</div>
-      <div class="t-label caption" style="color:var(--black-500);">Coming in early 2027</div>
+      <div class="t-label caption" style="color:var(--chocolate);">Coming in early 2027</div>
     </div>
   </sc-if>
 
@@ -547,11 +869,21 @@
     </div>
   </sc-if>
 
-  <div class="t-label gutter site-footer" style="background:var(--beige-300); border-top:1px solid color-mix(in srgb, var(--black-700) 15%, transparent); color:var(--black-500);">
+  <div class="t-label gutter site-footer" style="background:var(--beige-300); border-top:1px solid color-mix(in srgb, var(--black-700) 15%, transparent); color:var(--chocolate);">
     <span>Kyle &amp; Elizabeth</span>
     <span>05.01.2027</span>
-    <span>The Madrona, Healdsburg CA</span>
+    <span>Healdsburg CA</span>
   </div>
+
+  <sc-if value="{{ hasLightbox }}" hint-placeholder-val="{{ false }}">
+    <div class="lightbox">
+      <div onClick="{{ closeLightbox }}" class="clickable lightbox-scrim"></div>
+      <div class="lightbox-frame">
+        <div onClick="{{ closeLightbox }}" class="clickable t-nav lightbox-close">Close</div>
+        <img src="{{ lightboxSrc }}" alt="">
+      </div>
+    </div>
+  </sc-if>
 </div>
 
 </x-dc>
@@ -585,28 +917,99 @@ const PAGES = [
 const SWITCHER_PAGES = ["weekend", "travel", "accommodations", "todo"];
 
 const PAGE_META = {
-  weekend: { title: "The Weekend", intro: "Come for the whole weekend if you can. Saturday is the point — Friday and Sunday are the gravy." },
+  weekend: { title: "The Weekend", intro: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
   travel: { title: "Travel", intro: "Healdsburg is about two hours north of San Francisco. You'll want a car — the drive is part of the weekend." },
   accommodations: { title: "Stay", intro: "Everything below is within fifteen minutes of the Plaza. Room blocks and codes coming in early 2027." },
   todo: { title: "Things to Do", intro: "If you have an extra day or two, wine country is very good at being wine country." }
 };
 
+const PAGE_HEROES = {
+  travel: {
+    titleBefore: "From near & far",
+    titleStrike: "",
+    titleAfter: "",
+    hasStrike: false,
+    note: "We know many of you are traveling long distances, and we cannot thank you enough for your huge efforts!",
+    art: "art/travel-hero.jpg",
+    pos: "56% 10%",
+    blob: "a",
+    artClass: "page-hero-art--travel",
+    copyClass: "page-hero-copy--oneline"
+  },
+  accommodations: {
+    titleBefore: "You've got options!",
+    titleStrike: "",
+    titleAfter: "",
+    hasStrike: false,
+    note: "Stay in one of the many fabulous in town or around town spots.",
+    art: "art/stay-hero.jpg",
+    pos: "68% 78%",
+    blob: "b",
+    artClass: "page-hero-art--stay"
+  },
+  todo: {
+    titleBefore: "Hopefully you'll have time for us...",
+    titleStrike: "",
+    titleAfter: "",
+    hasStrike: false,
+    note: "There's no shortage of activities that we hope you'll enjoy, like playing golf, exploring nature, or, inevitably, drinking wine all day.",
+    art: "art/todo-hero.jpg",
+    pos: "40% 42%",
+    blob: "c",
+    artClass: "page-hero-art--todo",
+    copyClass: "page-hero-copy--todo"
+  },
+  gallery: {
+    titleBefore: "Us again :D",
+    titleStrike: "",
+    titleAfter: "",
+    hasStrike: false,
+    note: "As our parents say, it's been YEARS!",
+    art: "art/gallery-hero.jpg",
+    pos: "36% 78%",
+    blob: "d",
+    artClass: "page-hero-art--gallery"
+  },
+  qa: {
+    titleBefore: "Everything you need to know",
+    titleStrike: "",
+    titleAfter: "",
+    hasStrike: false,
+    note: "... and more!",
+    art: "art/faq-hero.jpg",
+    pos: "38% 32%",
+    blob: "e",
+    artClass: "page-hero-art--faq"
+  },
+  registry: {
+    titleBefore: "Our registry",
+    titleStrike: "",
+    titleAfter: "",
+    hasStrike: false,
+    note: "Thank you so much for your incredible generosity as we step into this next chapter.",
+    art: "art/registry-hero.jpg",
+    pos: "18% 62%",
+    blob: "f",
+    artClass: "page-hero-art--registry"
+  }
+};
+
 const WEEKEND_SECTIONS = [
-  { short: "Celebrate", when: "The Weekend", title: "Let's celebrate", note: "Three days in wine country with the people we love most. Friday is for arriving, Saturday is the whole point, and Sunday is for sleeping in and one last glass before the drive home.", detail: "05.01.2027 · Healdsburg, California", photo: "art/p-twirl.jpg", photoPos: "center 35%", titleMax: "12ch", noteInk: C.chocolate, bg: C.orange500, ink: C.blue700, accent: C.white },
-  { short: "Friday", when: "Friday · Little Saint", title: "Little Saint", note: "Colorful, creative arrival energy. Everyone spilling out with a drink already in hand.", detail: "6pm — late · Little Saint", photo: "art/p-portrait.jpg", photoPos: "center 20%", bg: C.orange300, ink: C.blue700, accent: C.orange700 },
-  { short: "Ceremony", when: "Saturday · The Ceremony", title: "Ceremony", note: "The most restrained moment of the weekend. Hydrangeas, a bolero, and one line of ink.", detail: "4:30pm · The Madrona lawn", photo: "art/p-flowers.jpg", photoPos: "center", bg: C.beige300, ink: C.blue700, accent: C.orange700 },
-  { short: "Cocktails", when: "Cocktail Hour", title: "Cocktail Hour", note: "Sculptural florals, negative space, and a drink in hand before dinner.", detail: "5:15pm · The upper garden", photo: "art/oranges.png", photoPos: "center", photoClass: "switcher-photo--contain", bg: C.blue300, ink: C.black700, accent: C.orange500 },
-  { short: "Dinner", when: "Orange Grove Dinner", title: "Dinner", note: "Warm, abundant, Californian. Long table under the orange trees, wine poured before you sit.", detail: "7pm · The orange grove", photo: "images/dinner-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", bg: C.orange500, ink: C.chocolate, accent: C.white },
-  { short: "Dancing", when: "Porch Dancing", title: "Dancing", note: "Oldies on the porch until the air cools. Shoes optional, harmony encouraged.", detail: "9:30pm · The porch", photo: "images/dancing-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", bg: C.blue500, ink: C.black700, accent: C.orange700 },
-  { short: "Afters", when: "After Party", title: "Afters", note: "Inside the art-filled rooms. Friends DJing house music, espresso martinis, very late.", detail: "11pm — ? · Inside The Madrona", photo: "images/afters-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", bg: C.black700, ink: C.white, accent: C.orange700 }
+  { short: "Preview →", hero: true, title: "Let's celebrate!", note: "Preview the weekend →", heroArt: "art/weekend-hero.jpg", bg: C.beige300, ink: C.orange700, noteInk: C.chocolate, tabInk: C.chocolate, accent: C.orange700 },
+  { short: "Welcome", day: "Friday", title: "Welcome Party", note: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots.", agendaNote: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots. Cocktail attire suggested. Located right by the square, you may consider dining in town beforehand (", agendaLink: "ideas here", agendaAfter: ").", time: "8pm — 10pm", place: "Little Saint", placeUrl: "https://www.littlesainthealdsburg.com/", photo: "images/welcome-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange500, ink: C.white, noteInk: C.white, tabInk: C.white, accent: C.white, kickerInk: C.blue300, grainInk: C.chocolate },
+  { short: "Ceremony", day: "Saturday", title: "Ceremony", note: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage.", agendaNote: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage. The church is right outside of the square for those staying in town. Immediately following the ceremony, transportation will be provided for the short 5-minute drive to The Madrona for the celebrations to continue! Throughout the reception, formal attire is suggested.", time: "3pm", place: "St. Paul's Episcopal Church", placeUrl: "https://www.stpauls-healdsburg.org/", photo: "images/ceremony-white-b.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.orange300, bg: C.beige300, ink: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
+  { short: "Cocktails", day: "Saturday", title: "Cocktail Hour", note: "Toast to the newlyweds with drinks and hors d'oeuvres on the Oak Terrace.", time: "4pm", place: "Oak Terrace", placeUrl: "https://themadronahotel.com/", photo: "images/cocktails-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.blue700, bg: C.blue300, ink: C.chocolate, accent: C.orange500, orangeHover: true },
+  { short: "Dinner", day: "Saturday", title: "Dinner", note: "Eat and drink together in the spring evening air under the Citrus Grove.", time: "6pm", place: "Citrus Grove", placeUrl: "https://themadronahotel.com/", photo: "images/dinner-white.png?v=4", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange300, ink: C.chocolate, tabInk: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
+  { short: "Dancing", day: "Saturday", title: "Dancing", note: "Our favorite part (well, maybe not Kyle)! Dance the night away on the Palm Terrace.", agendaNote: "Our favorite part (well, maybe not Kyle)! Dance the night away on the Palm Terrace. Fear not, alternative footwear will be provided!", time: "8pm", place: "Palm Terrace", placeUrl: "https://themadronahotel.com/", photo: "images/dancing-white.png?v=3", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.orange700, bg: C.blue500, ink: C.chocolate, kickerInk: C.white, accent: C.orange700, orangeHover: true, grainInk: C.orange700 },
+  { short: "Afters", day: "Saturday", title: "Afters", note: "Night caps, chats, and maybe even special amateur DJ appearances inside The Madrona.", agendaNote: "Night caps, chats, and maybe even special amateur DJ appearances inside The Madrona. Throughout the evening, shuttles will be available to bring guests back to town for their accommodations.", time: "10pm — 2am", place: "Inside The Madrona", placeUrl: "https://themadronahotel.com/", photo: "images/afters-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", bg: C.black700, ink: C.white, accent: C.orange700, orangeHover: true }
 ];
 
 const TRAVEL_SECTIONS = [
-  { short: "By Air", when: "Travel · By air", title: "Fly into the Bay", note: "Most guests fly into San Francisco or Oakland. Santa Rosa is twenty minutes away if the schedule works.", detail: "SFO · OAK · STS", bg: C.blue300, ink: C.black700, accent: C.orange700,
+  { short: "By Air", when: "Travel · By air", title: "Fly into the Bay", note: "Most guests fly into San Francisco or Oakland. Santa Rosa is twenty minutes away if the schedule works.", detail: "SFO · OAK · STS", bg: C.blue300, ink: C.chocolate, accent: C.orange700,
     items: ["SFO — San Francisco International, ~2 hrs drive", "OAK — Oakland International, ~2 hrs drive", "STS — Charles M. Schulz Sonoma County, ~20 min drive"] },
-  { short: "By Car", when: "Travel · By car", title: "Drive up through wine country", note: "The drive itself is part of the weekend — rolling hills, vineyards, and the Russian River if you go scenic.", detail: "Highway 101 north · ~2 hrs from the Bay Area", bg: C.beige300, ink: C.black500, accent: C.blue700,
+  { short: "By Car", when: "Travel · By car", title: "Drive up through wine country", note: "The drive itself is part of the weekend — rolling hills, vineyards, and the Russian River if you go scenic.", detail: "Highway 101 north · ~2 hrs from the Bay Area", bg: C.beige300, ink: C.chocolate, accent: C.blue700,
     items: ["From San Francisco — ~2 hrs via 101 North", "From Oakland — ~2 hrs via 580 to 101", "From Los Angeles — ~7 hrs; consider flying instead"] },
-  { short: "Around Town", when: "Travel · Getting around", title: "Rent a car, you'll want one", note: "The Plaza is compact and lovely on foot. You'll still want a car for wineries, The Madrona, and getting back at the end of the night.", detail: "Healdsburg is walkable downtown", bg: C.beige300, ink: C.black700, accent: C.orange500,
+  { short: "Around Town", when: "Travel · Getting around", title: "Rent a car, you'll want one", note: "The Plaza is compact and lovely on foot. You'll still want a car for wineries, The Madrona, and getting back at the end of the night.", detail: "Healdsburg is walkable downtown", bg: C.beige300, ink: C.chocolate, accent: C.orange500,
     items: ["Rental car recommended — SFO and OAK both have agencies", "Rideshare works in town but can be sparse late", "Bikes are an option for downtown and nearby"] },
   { short: "Wedding Day", when: "Travel · Saturday", title: "Parking and rides home", note: "There's parking at The Madrona. We'll arrange rides back to town at the end of the night — please use them.", detail: "The Madrona · Healdsburg", bg: C.orange300, ink: C.blue700, accent: C.orange700,
     items: ["Parking on-site at The Madrona", "Shuttles back to Plaza hotels after dancing", "Address and gate details coming closer to the date"] }
@@ -614,9 +1017,9 @@ const TRAVEL_SECTIONS = [
 
 const ACCOMMODATION_SECTIONS = [
   { short: "Madrona", when: "Stay · On property", title: "The Madrona", note: "A handful of rooms at the house itself — first come, and you'll never have to drive.", detail: "0 min · Details coming soon", bg: C.beige300, ink: C.blue700, accent: C.orange700 },
-  { short: "Plaza", when: "Stay · Downtown", title: "Plaza Hotels", note: "Our room block will be downtown — walkable to coffee, dinner, and a very good bookstore.", detail: "Healdsburg Plaza · 8 min walk", bg: C.blue500, ink: C.black700, accent: C.orange700,
+  { short: "Plaza", when: "Stay · Downtown", title: "Plaza Hotels", note: "Our room block will be downtown — walkable to coffee, dinner, and a very good bookstore.", detail: "Healdsburg Plaza · 8 min walk", bg: C.blue500, ink: C.chocolate, accent: C.orange700,
     items: ["Hotel Healdsburg — placeholder, block code TBD", "Harmon Guest House — placeholder", "H2 Hotel — placeholder"] },
-  { short: "Nearby", when: "Stay · Just outside", title: "Nearby", note: "Quieter, cheaper, still close. Good if you're bringing kids, a dog, or just want a pool.", detail: "Within 10–15 min drive", bg: C.beige300, ink: C.black700, accent: C.orange500,
+  { short: "Nearby", when: "Stay · Just outside", title: "Nearby", note: "Quieter, cheaper, still close. Good if you're bringing kids, a dog, or just want a pool.", detail: "Within 10–15 min drive", bg: C.beige300, ink: C.chocolate, accent: C.orange500,
     items: ["Placeholder hotel — wine country inn", "Placeholder hotel — family-friendly option", "Rates and links coming in early 2027"] },
   { short: "Rentals", when: "Stay · Houses", title: "Rentals", note: "Our favorite option for groups: split a house with the people you'd want breakfast with anyway.", detail: "Airbnb / VRBO · Book early", bg: C.orange300, ink: C.chocolate, accent: C.blue700,
     items: ["Search Healdsburg and surrounding areas", "Dry Creek Valley and Windsor are nearby options", "May is peak season — book early"] }
@@ -625,11 +1028,11 @@ const ACCOMMODATION_SECTIONS = [
 const TODO_SECTIONS = [
   { short: "Wineries", when: "Things to do · Wine country", title: "Wineries", note: "You're in one of the best wine regions in the country. Make reservations — tastings book up on weekends.", detail: "Dry Creek · Russian River · Alexander Valley", bg: C.orange300, ink: C.chocolate, accent: C.orange700,
     items: ["Dry Creek Valley — zinfandel country, 10 min west", "Russian River — pinot and charming towns", "Placeholder winery picks from us coming soon"] },
-  { short: "Golf", when: "Things to do · Golf", title: "Golf", note: "Several excellent courses within twenty minutes. Book tee times early for a May weekend.", detail: "Healdsburg & beyond", bg: C.beige300, ink: C.black700, accent: C.orange500,
+  { short: "Golf", when: "Things to do · Golf", title: "Golf", note: "Several excellent courses within twenty minutes. Book tee times early for a May weekend.", detail: "Healdsburg & beyond", bg: C.beige300, ink: C.chocolate, accent: C.orange500,
     items: ["Healdsburg Golf Club — public, 5 min", "Wine Country Golf Club — Cloverdale, ~25 min", "Mayacama — private club, guest policies vary"] },
   { short: "Downtown", when: "Things to do · Healdsburg", title: "Downtown", note: "Small, beautiful, worth an afternoon. Farmers market Saturday morning if you're in town early.", detail: "The Plaza · Walkable", bg: C.beige300, ink: C.blue700, accent: C.orange700,
     items: ["Healdsburg Plaza — shops, restaurants, people-watching", "Singletree Coffee — essential", "Little Saint — Friday night starts here anyway"] },
-  { short: "Outdoors", when: "Things to do · Outside", title: "Outdoors", note: "The Russian River is twenty minutes west. Redwoods, swimming holes, and the kind of afternoon that makes you understand California.", detail: "Russian River · Armstrong Redwoods", bg: C.blue300, ink: C.black700, accent: C.orange500,
+  { short: "Outdoors", when: "Things to do · Outside", title: "Outdoors", note: "The Russian River is twenty minutes west. Redwoods, swimming holes, and the kind of afternoon that makes you understand California.", detail: "Russian River · Armstrong Redwoods", bg: C.blue300, ink: C.chocolate, accent: C.orange500,
     items: ["Russian River — tubing, swimming, lazy afternoons", "Armstrong Redwoods — short hike among giants", "Lake Sonoma — kayaking and picnics"] }
 ];
 
@@ -662,7 +1065,7 @@ const HOME_NAV = [
   { id: "weekend", label: "The Weekend", headline: "Six moments, one world", blurb: "Friday at Little Saint through espresso martini hours inside the Madrona — the whole weekend, moment by moment.", ink: C.blue700, accent: C.orange700 },
   { id: "travel", label: "Travel", headline: "Getting to Healdsburg", blurb: "Airports, driving directions, getting around town, and what to know for wedding day.", ink: C.blue700, accent: C.orange700 },
   { id: "accommodations", label: "Stay", headline: "Where to stay", blurb: "On-property rooms at The Madrona, our Plaza hotel block, nearby options, and houses to rent together.", ink: C.blue700, accent: C.orange700 },
-  { id: "todo", label: "Things to Do", headline: "Wine country while you're here", blurb: "Wineries, golf, downtown Healdsburg, and a day on the Russian River if you have the time.", ink: C.black700, accent: C.orange500 },
+  { id: "todo", label: "Things to Do", headline: "Wine country while you're here", blurb: "Wineries, golf, downtown Healdsburg, and a day on the Russian River if you have the time.", ink: C.chocolate, accent: C.orange500 },
   { id: "gallery", label: "Gallery", headline: "A few favorites", blurb: "Engagement photos, wine country, and the people we love — more coming after the wedding.", ink: C.blue700, accent: C.orange700 },
   { id: "qa", label: "FAQ", headline: "Questions, answered loosely", blurb: "Dress code, kids, the whole weekend, parking, registry — the practical stuff, without the formality.", ink: C.blue700, accent: C.orange700 },
   { id: "registry", label: "Registry", headline: "A small list, if you insist", blurb: "Your presence is genuinely the gift. A considered registry will live here closer to the date.", ink: C.blue700, accent: C.orange700 },
@@ -687,7 +1090,7 @@ const FAQS = [
 ];
 
 class Component extends DCLogic {
-  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, todoIdx: 0, open: 0, scrolled: false, homeNavHover: -1 };
+  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, todoIdx: 0, open: 0, scrolled: false, homeNavHover: -1, lightbox: "" };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -695,12 +1098,36 @@ class Component extends DCLogic {
       const past = y > 1;
       if (past !== this.state.scrolled) this.setState({ scrolled: past });
     };
+    this._onKey = (e) => {
+      if (e.key === "Escape" && this.state.lightbox) this.closeLightbox();
+    };
     window.addEventListener("scroll", this._onScroll, { passive: true });
+    window.addEventListener("keydown", this._onKey);
     this._onScroll();
   }
-  componentWillUnmount() { window.removeEventListener("scroll", this._onScroll); }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this._onScroll);
+    window.removeEventListener("keydown", this._onKey);
+  }
 
-  go(id) { this.setState({ page: id, scrolled: false }); if (typeof window !== "undefined") { window.scrollTo({ top: 0, behavior: "instant" }); setTimeout(() => this._onScroll?.(), 0); } }
+  openLightbox(src) {
+    this.setState({ lightbox: src });
+    if (typeof document !== "undefined") document.body.style.overflow = "hidden";
+  }
+  closeLightbox() {
+    this.setState({ lightbox: "" });
+    if (typeof document !== "undefined") document.body.style.overflow = "";
+  }
+
+  go(id) {
+    const next = { page: id, scrolled: false };
+    if (id === "weekend") next.weekendIdx = 0;
+    this.setState(next);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      setTimeout(() => this._onScroll?.(), 0);
+    }
+  }
 
   hexAlpha(hex, alpha) {
     if (!hex || hex[0] !== "#" || hex.length < 7) return hex;
@@ -710,51 +1137,92 @@ class Component extends DCLogic {
 
   buildSwitcher(sections, idx, stateKey) {
     const r = sections[idx];
+    const isHero = !!r.hero;
     return {
-      when: r.when,
+      when: r.day || r.when || "",
       title: r.title,
       note: r.note,
       detail: r.detail || "",
-      hasDetail: !!(r.detail),
+      time: r.time || "",
+      place: r.place || "",
+      placeUrl: r.placeUrl || "",
+      hasPlace: !!r.place,
+      hasKicker: !isHero && !!(r.day || r.when),
+      hasMeta: !isHero && !!(r.time || r.place),
+      meta: [r.time, r.place].filter(Boolean).join(" · "),
+      hasDetail: !isHero && !r.time && !!(r.detail),
+      hasLink: !!r.noteLink,
+      linkLabel: r.noteLink || "",
+      noteAfter: r.noteAfter || "",
+      goLink: r.noteLink ? () => this.go("todo") : () => {},
       hasItems: !!(r.items && r.items.length),
       items: (r.items || []).map(text => ({ text })),
-      hasPhoto: !!r.photo,
+      hasGrain: !isHero,
+      hasHeroArt: !!r.heroArt,
+      heroArt: r.heroArt || "",
+      openHeroArt: r.heroArt ? () => this.openLightbox(r.heroArt) : () => {},
+      hasPhoto: !isHero && !!r.photo,
       photo: r.photo || "",
       photoPos: r.photoPos || "center 35%",
       photoClass: r.photoClass || "",
-      titleMax: r.titleMax || "18ch",
+      photoStyle: (r.photoClass || "").includes("lineart")
+        ? `color:${r.photoInk || r.noteInk || r.ink};-webkit-mask-image:url("${r.photo}");mask-image:url("${r.photo}")`
+        : "",
+      openPhoto: r.photo ? () => this.openLightbox(r.photo) : () => {},
+      titleClass: isHero ? "page-hero-title" : "t-h1",
+      panelMod: [isHero ? "switcher-panel--hero" : "", r.ink === C.blue700 || r.orangeHover ? "link-hover-orange" : ""].filter(Boolean).join(" "),
+      noteClass: isHero ? "t-body lede lede-md clickable" : "t-body lede lede-md",
+      titleMax: isHero ? "none" : (r.titleMax || "18ch"),
+      goCue: isHero ? () => this.setState({ [stateKey]: Math.min(idx + 1, sections.length - 1) }) : () => {},
       bgFade: this.hexAlpha(r.bg, 0.92),
       bg: r.bg,
       ink: r.ink,
       noteInk: r.noteInk || r.ink,
+      metaInk: r.metaInk || r.ink,
       accent: r.accent,
-      grain: r.bg === C.black700 ? this.hexAlpha(C.orange700, 0.35) : r.bg === C.beige300 ? this.hexAlpha(C.orange500, 0.3) : this.hexAlpha(C.white, 0.4),
+      kickerInk: r.kickerInk || r.accent,
+      grain: this.hexAlpha(r.grainInk || (r.bg === C.black700 ? C.orange700 : r.bg === C.beige300 ? C.orange500 : C.white), r.bg === C.black700 ? 0.35 : r.bg === C.beige300 ? 0.3 : 0.4),
       rule: r.bg === C.black700 ? this.hexAlpha(C.white, 0.25) : r.bg === C.beige300 ? this.hexAlpha(C.black700, 0.12) : this.hexAlpha(r.ink, 0.3),
-      sections: sections.map((x, i) => ({
-        short: x.short,
-        pick: () => this.setState({ [stateKey]: i }),
-        mark: i === idx ? r.accent : "transparent",
-        tint: i === idx ? r.ink : r.ink + "80"
-      }))
+      sections: sections.map((x, i) => {
+        const overHeroPhoto = isHero && (x.short === "Dinner" || x.short === "Dancing" || x.short === "Afters");
+        const tabColor = overHeroPhoto ? C.white : (r.tabInk || r.ink);
+        const isActive = i === idx;
+        const previewTab = !!x.hero;
+        return {
+          short: previewTab ? "Preview →" : x.short,
+          hasIcon: previewTab ? !isActive : !!x.icon,
+          hasLabel: previewTab ? isActive : !x.icon,
+          pick: () => this.setState({ [stateKey]: i }),
+          mark: isActive ? r.accent : "transparent",
+          tint: isActive ? tabColor : tabColor + "CC"
+        };
+      })
     };
   }
 
-  buildGrid(gridConfig, sections, stateKey) {
+  buildGrid(gridConfig, sections, stateKey, opts = {}) {
     return {
-      groups: gridConfig.groups.map(g => ({
+      groups: gridConfig.groups.map((g, gi) => ({
         label: g.label,
+        labelColor: opts.labelColor || "var(--chocolate)",
+        labelBorder: opts.labelBorder != null ? opts.labelBorder : (gi === 0 ? "none" : "1px solid color-mix(in srgb, var(--black-700) 12%, transparent)"),
+        labelPad: gi === 0 ? "0px" : (opts.groupGap || "var(--space-stack)"),
         rows: g.rows.map(row => ({
           cols: row.length === 1 ? "1fr" : "1fr 1fr",
           cells: row.map(ref => {
             const s = sections[ref.idx];
             return {
               title: s.title,
-              note: s.note,
-              time: s.detail,
-              go: () => {
-                this.setState({ [stateKey]: ref.idx });
-                if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
-              }
+              note: s.agendaNote || s.note,
+              time: s.time || s.detail || "",
+              place: s.place || "",
+              placeUrl: s.placeUrl || "",
+              hasPlace: !!s.place,
+              meta: [s.time, s.place].filter(Boolean).join(" · ") || s.detail || "",
+              hasLink: !!s.agendaLink,
+              linkLabel: s.agendaLink || "",
+              noteAfter: s.agendaAfter || "",
+              goLink: s.agendaLink ? () => this.go("todo") : () => {}
             };
           })
         }))
@@ -767,15 +1235,17 @@ class Component extends DCLogic {
     const isSwitcher = SWITCHER_PAGES.includes(p);
     const dark = p === "rsvp";
     const onHero = p === "home" && !this.state.scrolled;
-    const onWeekendCelebrate = p === "weekend" && WEEKEND_SECTIONS[this.state.weekendIdx]?.short === "Celebrate";
-    const barInk = onHero ? C.blue700 : (onWeekendCelebrate || dark) ? C.white : C.blue700;
+    const onWeekendHero = p === "weekend" && !!WEEKEND_SECTIONS[this.state.weekendIdx]?.hero && !this.state.scrolled;
+    const pageHeroData = PAGE_HEROES[p] || null;
+    const onPageHero = !!pageHeroData && !this.state.scrolled;
+    const onTopHero = onHero || onWeekendHero || onPageHero;
 
     let sw = null;
     let grid = { groups: [] };
     let pageMeta = { title: "", intro: "" };
     if (p === "weekend") {
       sw = this.buildSwitcher(WEEKEND_SECTIONS, this.state.weekendIdx, "weekendIdx");
-      grid = this.buildGrid(WEEKEND_GRID, WEEKEND_SECTIONS, "weekendIdx");
+      grid = this.buildGrid(WEEKEND_GRID, WEEKEND_SECTIONS, "weekendIdx", { labelColor: "var(--blue-700)", labelBorder: "none", groupGap: "48px" });
       pageMeta = PAGE_META.weekend;
     } else if (p === "travel") {
       sw = this.buildSwitcher(TRAVEL_SECTIONS, this.state.travelIdx, "travelIdx");
@@ -791,20 +1261,61 @@ class Component extends DCLogic {
       pageMeta = PAGE_META.todo;
     }
 
+    const onWeekendSlide = p === "weekend" && !!sw && !this.state.scrolled;
+    const darkSlide = onWeekendSlide && sw.ink === C.white;
+    let barInk = onTopHero ? C.blue700 : dark ? C.white : C.blue700;
+    let barBg = dark ? this.hexAlpha(C.black700, 0.92) : this.hexAlpha(C.beige300, 0.6);
+    let barBorder = this.hexAlpha(C.black700, 0.14);
+    let barAccent = C.orange700;
+    if (onWeekendSlide) {
+      barBg = this.hexAlpha(sw.bg, darkSlide ? 0.84 : 0.7);
+      barInk = darkSlide ? C.white : C.blue700;
+      barBorder = this.hexAlpha(darkSlide ? C.white : C.black700, darkSlide ? 0.16 : 0.12);
+      barAccent = darkSlide ? C.white : C.orange700;
+    }
+
     return {
       isHome: p === "home",
+      isWeekend: p === "weekend",
       isSwitcher,
       isQa: p === "qa",
       isGallery: p === "gallery",
       isRegistry: p === "registry",
       isRsvp: p === "rsvp",
+      hasPageHero: !!pageHeroData,
+      pageHero: pageHeroData ? {
+        titleBefore: pageHeroData.titleBefore,
+        titleStrike: pageHeroData.titleStrike || "",
+        titleAfter: pageHeroData.titleAfter || "",
+        hasStrike: !!pageHeroData.hasStrike,
+        note: pageHeroData.note,
+        art: pageHeroData.art,
+        pos: pageHeroData.pos || "right 30%",
+        blobClass: pageHeroData.blob ? `page-hero-art--blob-${pageHeroData.blob}` : "page-hero-art--blob-a",
+        artClass: pageHeroData.artClass || "",
+        copyClass: pageHeroData.copyClass || "",
+        open: () => this.openLightbox(pageHeroData.art)
+      } : {
+        titleBefore: "",
+        titleStrike: "",
+        titleAfter: "",
+        hasStrike: false,
+        note: "",
+        art: "",
+        pos: "right 30%",
+        blobClass: "page-hero-art--blob-a",
+        artClass: "",
+        copyClass: "",
+        open: () => {}
+      },
       sw,
       grid,
       pageMeta,
-      barBg: onHero ? this.hexAlpha(C.beige300, 0) : onWeekendCelebrate ? this.hexAlpha(C.orange500, 0) : (dark ? this.hexAlpha(C.black700, 0.92) : this.hexAlpha(C.beige300, 0.9)),
+      barBg,
       barInk,
-      barBorder: onHero ? this.hexAlpha(C.blue700, 0.18) : onWeekendCelebrate ? this.hexAlpha(C.white, 0.22) : this.hexAlpha(C.black700, 0.14),
-      barBlur: (onHero || onWeekendCelebrate) ? "none" : "blur(6px)",
+      barAccent,
+      barBorder,
+      barBlur: "blur(6px)",
       markClass: onHero ? "" : "is-on",
       barT: "translateY(0)",
       barO: "1",
@@ -814,11 +1325,20 @@ class Component extends DCLogic {
       nav: PAGES.map(x => ({
         label: x.label,
         go: () => this.go(x.id),
-        color: x.id === p ? C.orange700 : barInk,
-        mark: x.id === p ? C.orange700 : "transparent"
+        color: x.id === p ? barAccent : barInk,
+        currentClass: x.id === p ? "is-current" : ""
       })),
 
-      galleryPhotos: GALLERY_PHOTOS,
+      galleryPhotos: GALLERY_PHOTOS.map(photo => ({
+        ...photo,
+        open: () => this.openLightbox(photo.src)
+      })),
+      hasLightbox: !!this.state.lightbox,
+      lightboxSrc: this.state.lightbox || "",
+      closeLightbox: () => this.closeLightbox(),
+      openHill: () => this.openLightbox("art/home-hill.jpg"),
+      openEmbrace: () => this.openLightbox("art/home-embrace.jpg"),
+      openHands: () => this.openLightbox("art/home-hands.jpg"),
 
       homeNavLeave: () => this.setState({ homeNavHover: -1 }),
       homeNavTabs: HOME_NAV.map((item, i) => ({
@@ -826,12 +1346,12 @@ class Component extends DCLogic {
         enter: () => this.setState({ homeNavHover: i }),
         go: () => this.go(item.id),
         mark: i === this.state.homeNavHover ? item.accent : "transparent",
-        color: i === this.state.homeNavHover ? item.accent : C.black500
+        color: i === this.state.homeNavHover ? item.accent : C.chocolate
       })),
       homeNavPanel: (() => {
         const h = this.state.homeNavHover;
         const item = h >= 0 ? HOME_NAV[h] : null;
-        if (!item) return { h: "0px", o: "0", headline: "", blurb: "", titleClass: "t-h2", ink: C.black500, accent: C.orange700, go: () => {} };
+        if (!item) return { h: "0px", o: "0", headline: "", blurb: "", titleClass: "t-h2", ink: C.chocolate, accent: C.orange700, go: () => {} };
         return {
           h: "180px",
           o: "1",

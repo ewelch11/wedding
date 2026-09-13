@@ -66,6 +66,7 @@
     --space-section-sm: 5rem;    /* reduced section padding */
     --space-panel: 8rem;         /* large panel min-height / generous region pad */
     --space-section: 9rem;       /* full page / section padding */
+    --nav-h: 58px;
 
     --measure-sm: 40ch;          /* short asides */
     --measure-md: 44ch;          /* notes beside a photo */
@@ -99,12 +100,45 @@
   .lede-md { max-width: var(--measure-md); }
   .lede-lg { max-width: var(--measure-lg); }
   .caption { margin-top: var(--space-cluster); }
-  .faq-list { margin-top: var(--space-block); max-width: var(--measure-panel); }
-  .faq-item { border-top: 1px solid color-mix(in srgb, var(--blue-700) 35%, transparent); padding: var(--space-stack) 0; }
+  .faq-page {
+    padding-top: var(--space-section-sm);
+    padding-bottom: var(--space-panel);
+    background: var(--beige-300);
+  }
+  .faq-list { max-width: var(--measure-panel); margin: 0 auto; }
+  .faq-item { border-top: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent); padding: var(--space-stack) 0; }
+  .faq-item:last-child { border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent); }
   .faq-q { display: flex; justify-content: space-between; gap: var(--space-stack-lg); align-items: baseline; }
+  .faq-sign { flex: none; color: var(--orange-700); }
   .faq-a { padding-top: var(--space-stack-sm); max-width: var(--measure-wide); }
-  .gallery-grid { margin-top: var(--space-block); display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-inset); align-items: end; }
-  .site-footer { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: var(--space-inset); padding-top: var(--space-stack-lg); padding-bottom: var(--space-stack-lg); background: var(--beige-300); }
+  .gallery-page {
+    padding-top: var(--space-section-sm);
+    padding-bottom: var(--space-panel);
+    background: var(--beige-300);
+  }
+  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-inset); align-items: end; }
+  .gallery-ph { background: color-mix(in srgb, var(--chocolate) 8%, var(--beige-300)); }
+  .site-footer {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: baseline;
+    gap: var(--space-inset);
+    padding-top: var(--space-stack-lg);
+    padding-bottom: var(--space-stack-lg);
+    background: var(--beige-300);
+  }
+  .site-footer-date { justify-self: start; }
+  .site-footer-copy {
+    justify-self: center;
+    font-family: var(--font-label);
+    font-size: 0.5625rem;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    color: color-mix(in srgb, var(--chocolate) 55%, transparent);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .site-footer-place { justify-self: end; }
   .note-band {
     padding: var(--space-section-sm) var(--space-gutter) var(--space-block);
     background: var(--orange-300);
@@ -777,7 +811,179 @@
     }
     .cell-photo { order: -1; max-width: 16rem; }
     .note-grid,
-    .home-recap-grid { grid-template-columns: 1fr; }
+    .home-recap-grid,
+    .todo-blurb-grid { grid-template-columns: 1fr; }
+    .map-stage {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(16rem, 42%) 1fr;
+    }
+    .map-rail {
+      padding-top: var(--space-stack);
+      border-right: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
+    }
+  }
+  .todo-blurb {
+    padding: 76px var(--space-gutter);
+    background: var(--beige-300);
+    border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
+  }
+  .todo-blurb-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.4fr);
+    gap: var(--space-block);
+    align-items: center;
+  }
+  .todo-blurb-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-stack);
+  }
+  .todo-blurb-copy p { margin: 0; }
+  .todo-blurb-place { display: block; }
+  .map-intro {
+    padding: 48px var(--space-gutter);
+    background: var(--beige-300);
+    border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
+    text-align: center;
+  }
+  .map-band {
+    position: relative;
+    background: var(--beige-300);
+    min-height: 100svh;
+  }
+  .map-stage {
+    display: grid;
+    grid-template-columns: 24rem 1fr;
+    position: sticky;
+    top: var(--nav-h);
+    height: calc(100svh - var(--nav-h));
+    min-height: 0;
+    background: var(--beige-300);
+    overflow: hidden;
+  }
+  .map-canvas {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    background: var(--beige-300);
+  }
+  .map-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+    min-height: 0;
+    padding: var(--space-stack) 0 0;
+    overflow: hidden;
+    background: var(--beige-300);
+    border-right: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
+    box-sizing: border-box;
+  }
+  .map-dd-block {
+    position: relative;
+    z-index: 7;
+    flex: none;
+    padding: 0 var(--space-stack) 16px;
+    border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
+  }
+  .map-dd-label {
+    color: var(--chocolate);
+    margin-bottom: var(--space-tight);
+  }
+  .map-dd { position: relative; }
+  .map-dd-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.35rem 0 0.55rem;
+    color: var(--blue-700);
+    border-bottom: 2px solid var(--blue-500);
+  }
+  .map-dd-btn-label { flex: 1; }
+  .map-dd-chev {
+    width: 0;
+    height: 0;
+    flex: none;
+    border-left: 0.32rem solid transparent;
+    border-right: 0.32rem solid transparent;
+    border-top: 0.38rem solid currentColor;
+    opacity: 0.9;
+    transition: transform .2s ease;
+  }
+  .map-dd.is-open .map-dd-chev { transform: rotate(180deg); }
+  .map-dd-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% - 2px);
+    z-index: 6;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.15rem 0.2rem;
+    padding: 0.55rem 0.45rem 0.6rem;
+    background: var(--white);
+    border: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
+  }
+  .map-dd-opt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.45rem 0.15rem;
+    color: var(--chocolate);
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+  }
+  .map-dd-opt.is-on {
+    color: var(--blue-700);
+    background: var(--blue-300);
+  }
+  .map-dd-opt:hover { color: var(--blue-700); }
+  .map-ico {
+    width: 0.85rem;
+    height: 0.85rem;
+    flex: none;
+    display: block;
+  }
+  .map-places {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: var(--space-tight) var(--space-stack) var(--space-stack);
+    overflow: auto;
+    min-height: 0;
+    flex: 1;
+  }
+  .map-place {
+    padding: 0.32rem 0;
+    color: var(--chocolate);
+  }
+  .map-place-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .map-place-name {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.3;
+    color: inherit;
+    text-decoration: none;
+  }
+  a.map-place-name { text-decoration: none; }
+  a.map-place-name:hover { color: var(--blue-700); }
+  .map-place.is-on { color: var(--blue-700); }
+  .map-place-note {
+    margin: 0.3rem 0 0.2rem 1.35rem;
+    max-width: 34ch;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--chocolate);
   }
 </style>
 </helmet>
@@ -787,7 +993,7 @@
   <div class="site-bar" style="background:{{ barBg }}; border-bottom:1px solid {{ barBorder }}; backdrop-filter:{{ barBlur }}; -webkit-backdrop-filter:{{ barBlur }}; transform:{{ barT }}; opacity:{{ barO }}; pointer-events:{{ barPE }}; --nav-accent:{{ barAccent }}; transition:background .6s ease, border-color .6s ease, color .5s ease, backdrop-filter .6s ease;">
     <div onClick="{{ goHome }}" class="clickable site-bar-mark {{ markClass }}" style="color:{{ barInk }};">Kyle &amp; Elizabeth</div>
     <div class="site-bar-links">
-      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="9">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
         <div onClick="{{ n.go }}" class="clickable t-nav nav-link {{ n.currentClass }}" style="color:{{ n.color }};">{{ n.label }}</div>
       </sc-for>
     </div>
@@ -832,8 +1038,8 @@
         <div class="t-h2" style="color:var(--chocolate);">A little recap</div>
         <div class="home-recap-grid">
           <div class="t-body home-recap-col" style="color:var(--chocolate);">
-            <p>We met at Williams College in the early spring of 2020, Kyle a senior and Elizabeth a sophomore. Like the start of every great love story, we were promptly swept off campus by the pandemic but decided to stay together.</p>
-            <p>From then, we spent some years shuttling between Williamstown and Manhattan, and others between Southie and Beacon Hill in Boston. In September of 2024, we packed up the car and drove out to San Francisco together.</p>
+            <p>We met at Williams College in the early spring of 2020, Kyle a senior and Elizabeth a sophomore. Like the start of every great love story, we were promptly swept off campus by the pandemic but thankfully decided to stay together.</p>
+            <p>From then on, we spent some years shuttling between Williamstown and Manhattan, and others between Southie and Beacon Hill in Boston. In September of 2024, we packed up the car and drove out to San Francisco together.</p>
             <p>Throughout the years, Kyle (an only child) has adopted 4 new siblings, Elizabeth has learned to sometimes give him quiet time, and Kyle has earned his Welch stripes on the ski mountain, even when he sneaks off to apres early.</p>
           </div>
           <div class="t-body home-recap-col" style="color:var(--chocolate);">
@@ -844,7 +1050,7 @@
       </div>
 
       <div class="gutter home-links" style="background:var(--beige-300);">
-        <sc-for list="{{ homeNavTabs }}" as="tab" hint-placeholder-count="8">
+        <sc-for list="{{ homeNavTabs }}" as="tab" hint-placeholder-count="7">
           <div onClick="{{ tab.go }}" class="clickable home-link">
             <span class="t-poster-sm">{{ tab.label }}</span>
             <span class="t-poster-sm">→</span>
@@ -972,13 +1178,14 @@
   </sc-if>
 
   <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}">
-    <div class="page" style="background:var(--orange-300);">
+    <div class="gutter faq-page">
+      <div class="t-h1 agenda-title" style="color:var(--chocolate);">Frequently Asked Questions</div>
       <div class="faq-list">
         <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
           <div onClick="{{ f.toggle }}" class="clickable faq-item">
             <div class="faq-q">
-              <div class="t-h3" style="color:var(--blue-700);">{{ f.q }}</div>
-              <div class="t-h3" style="color:var(--orange-700);">{{ f.sign }}</div>
+              <div class="t-h3" style="color:var(--chocolate);">{{ f.q }}</div>
+              <div class="t-h3 faq-sign">{{ f.sign }}</div>
             </div>
             <div style="max-height:{{ f.h }}; overflow:hidden; transition:max-height .45s ease;">
               <div class="t-body faq-a" style="color:var(--chocolate);">{{ f.a }}</div>
@@ -990,15 +1197,15 @@
   </sc-if>
 
   <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
-    <div class="page" style="background:var(--beige-300);">
+    <div class="gutter gallery-page">
       <div class="gallery-grid">
-        <sc-for list="{{ galleryPhotos }}" as="photo" hint-placeholder-count="6">
-          <div onClick="{{ photo.open }}" class="clickable" style="grid-column:{{ photo.col }}; aspect-ratio:{{ photo.ratio }}; overflow:hidden;">
-            <img src="{{ photo.src }}" alt="" style="width:100%; height:100%; object-fit:cover; object-position:{{ photo.pos }};">
-          </div>
-        </sc-for>
+        <div class="gallery-ph" style="grid-column:1 / span 5; aspect-ratio:3/2;"></div>
+        <div class="gallery-ph" style="grid-column:7 / span 3; aspect-ratio:2/3;"></div>
+        <div class="gallery-ph" style="grid-column:10 / span 2; aspect-ratio:2/3;"></div>
+        <div class="gallery-ph" style="grid-column:1 / span 3; aspect-ratio:4/5;"></div>
+        <div class="gallery-ph" style="grid-column:5 / span 4; aspect-ratio:3/2;"></div>
+        <div class="gallery-ph" style="grid-column:10 / span 3; aspect-ratio:3/4;"></div>
       </div>
-      <div class="t-label caption" style="color:var(--chocolate);">Full gallery coming after the wedding</div>
     </div>
   </sc-if>
 
@@ -1008,6 +1215,68 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ isTodo }}" hint-placeholder-val="{{ false }}">
+    <div class="todo-blurb">
+      <div class="todo-blurb-grid">
+        <div class="t-poster todo-blurb-place" style="color:var(--orange-700);"><a href="https://www.google.com/maps/search/?api=1&query=Healdsburg%20Plaza%2C%20Healdsburg%2C%20CA" target="_blank" rel="noopener noreferrer" class="text-link">Healdsburg,<br>Sonoma County,<br>California</a></div>
+        <div class="t-body todo-blurb-copy" style="color:var(--chocolate);">
+          <p>We love Healdsburg for more than the wine, if you can believe it! This small but mighty town is oriented around a lovely square, with incredible restaurants pulling from local farming and flavors, art galleries, and even a few dive bars, worry not!</p>
+          <p>Nestled in Northern California, Healdsburg is also a great jumping off point to the redwoods and coastline, with countless scenic walks, hikes, and golf courses. And yes, you can (and should) also go to the dozens of vineyards and tasting rooms dotting the area.</p>
+          <p>If you are flying in to SFO and renting a car, we'd suggest exploring some stops on the way up, like Chrissy Field in San Francisco (our stomping grounds!) or Rodeo Beach and Point Reyes across the bridge.</p>
+        </div>
+      </div>
+    </div>
+    <div class="map-intro">
+      <div class="t-h2" style="color:var(--chocolate);">Things to Do</div>
+    </div>
+    <div class="map-band">
+      <div class="map-stage">
+        <div class="map-rail">
+          <div class="map-dd-block">
+            <div class="t-label map-dd-label">Select a category:</div>
+            <div class="map-dd {{ map.menuClass }}">
+              <div onClick="{{ map.toggleMenu }}" class="clickable t-nav map-dd-btn">
+                <img class="map-ico" src="{{ map.currentIcon }}" alt="">
+                <span class="map-dd-btn-label">{{ map.currentLabel }}</span>
+                <span class="map-dd-chev"></span>
+              </div>
+              <sc-if value="{{ map.menuOpen }}" hint-placeholder-val="{{ false }}">
+                <div class="map-dd-menu">
+                  <sc-for list="{{ map.lists }}" as="cat" hint-placeholder-count="9">
+                    <div onClick="{{ cat.pick }}" class="clickable t-nav map-dd-opt {{ cat.onClass }}">
+                      <img class="map-ico" src="{{ cat.iconSrc }}" alt="">
+                      <span>{{ cat.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          <div class="map-places">
+            <sc-for list="{{ map.places }}" as="place" hint-placeholder-count="8">
+              <div id="map-place-{{ place.id }}" onClick="{{ place.pick }}" class="clickable map-place {{ place.onClass }}">
+                <div class="map-place-row">
+                  <img class="map-ico" src="{{ place.iconSrc }}" alt="">
+                  <sc-if value="{{ place.linkName }}" hint-placeholder-val="{{ false }}">
+                    <a href="{{ place.site }}" target="_blank" rel="noopener noreferrer" class="map-place-name" onclick="event.stopPropagation()">{{ place.name }}</a>
+                  </sc-if>
+                  <sc-if value="{{ place.plainName }}" hint-placeholder-val="{{ true }}">
+                    <span class="map-place-name">{{ place.name }}</span>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ place.showNote }}" hint-placeholder-val="{{ false }}">
+                  <div class="map-place-note">{{ place.note }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div id="map-google" class="map-canvas"></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showSiteEnd }}" hint-placeholder-val="{{ true }}">
   <div class="note-band">
     <div class="note-grid">
       <div>
@@ -1025,9 +1294,11 @@
   </div>
 
   <div class="gutter site-footer">
-    <span class="t-poster-sm" style="color:var(--blue-500); font-size:1.3125rem;">05.01.2027</span>
-    <span class="t-label" style="color:var(--chocolate); font-size:0.90625rem;">Healdsburg, CA</span>
+    <span class="t-poster-sm site-footer-date" style="color:var(--blue-500); font-size:1.3125rem;">05.01.2027</span>
+    <span class="site-footer-copy">© Elizabeth Welch &amp; Kyle Dean 2026</span>
+    <span class="t-label site-footer-place" style="color:var(--chocolate); font-size:0.90625rem;">Healdsburg, CA</span>
   </div>
+  </sc-if>
 
   <sc-if value="{{ hasLightbox }}" hint-placeholder-val="{{ false }}">
     <div class="lightbox">
@@ -1064,18 +1335,17 @@ const PAGES = [
   { id: "todo", label: "Things to Do" },
   { id: "gallery", label: "Gallery" },
   { id: "qa", label: "FAQ" },
-  { id: "registry", label: "Registry" }
+  { id: "registry", label: "Registry", hidden: true }
 ];
 
-const SWITCHER_PAGES = ["weekend", "todo"];
-const AGENDA_PAGES = ["weekend", "travel", "accommodations", "todo"];
+const SWITCHER_PAGES = ["weekend"];
+const AGENDA_PAGES = ["weekend", "travel", "accommodations"];
 const AGENDA_TITLES = { weekend: "The Weekend", travel: "Travel", accommodations: "Stay" };
 
 const PAGE_META = {
   weekend: { title: "The Weekend", intro: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
   travel: { title: "Travel", intro: "Healdsburg is about two hours north of San Francisco. You'll want a car — the drive is part of the weekend." },
-  accommodations: { title: "Stay", intro: "On the square, a short stroll away, or out in the vineyards — a mix of hotels, inns, and houses." },
-  todo: { title: "Things to Do", intro: "If you have an extra day or two, wine country is very good at being wine country." }
+  accommodations: { title: "Stay", intro: "On the square, a short stroll away, or out in the vineyards — a mix of hotels, inns, and houses." }
 };
 
 const PAGE_HEROES = {
@@ -1153,9 +1423,9 @@ const WEEKEND_SECTIONS = [
   { short: "Explore →", hero: true, title: "Let's celebrate!", note: "Explore the weekend →", heroArt: "art/weekend-hero.jpg", bg: C.beige300, ink: C.orange700, noteInk: C.chocolate, tabInk: C.chocolate, accent: C.orange700 },
   { short: "Welcome", day: "Friday", title: "Welcome Party", note: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots.", agendaNote: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots. Cocktail attire suggested. Located right by the square, you may consider dining in town beforehand (", agendaLink: "ideas here", agendaAfter: ").", time: "8pm — 10pm", place: "Little Saint", placeUrl: "https://www.littlesainthealdsburg.com/", photo: "images/welcome-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange500, ink: C.white, noteInk: C.white, tabInk: C.white, accent: C.white, kickerInk: C.blue300, grainInk: C.chocolate },
   { short: "Ceremony", day: "Saturday", title: "Ceremony", note: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage.", agendaNote: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage. The church is right outside of the square for those staying in town. Immediately following the ceremony, transportation will be provided for the short 5-minute drive to The Madrona for the celebrations to continue! Throughout the reception, formal attire is suggested.", time: "3pm", place: "St. Paul's Episcopal Church", placeUrl: "https://www.stpauls-healdsburg.org/", photo: "images/ceremony-white-b.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.orange300, bg: C.beige300, ink: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
-  { short: "Cocktails", day: "Saturday", title: "Cocktail Hour", note: "Toast to the newlyweds with drinks and hors d'oeuvres on the Oak Terrace.", time: "4pm", place: "Oak Terrace", placeUrl: "https://themadronahotel.com/", photo: "images/cocktails-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.blue700, bg: C.blue300, ink: C.chocolate, accent: C.orange500, orangeHover: true },
-  { short: "Dinner", day: "Saturday", title: "Dinner", note: "Eat and drink together in the spring evening air under the Citrus Grove.", time: "6pm", place: "Citrus Grove", placeUrl: "https://themadronahotel.com/", photo: "images/dinner-white.png?v=4", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange300, ink: C.chocolate, tabInk: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
-  { short: "Dancing", day: "Saturday", title: "Dancing", note: "Our favorite part (well, maybe not Kyle)! Dance the night away on the Palm Terrace.", agendaNote: "Our favorite part (well, maybe not Kyle)! Dance the night away on the Palm Terrace. Fear not, alternative footwear will be provided!", time: "8pm", place: "Palm Terrace", placeUrl: "https://themadronahotel.com/", photo: "images/dancing-white.png?v=3", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.orange700, bg: C.blue500, ink: C.chocolate, kickerInk: C.white, accent: C.orange700, orangeHover: true, grainInk: C.orange700 },
+  { short: "Cocktails", day: "Saturday", title: "Cocktail Hour", note: "Toast to the newlyweds with drinks and hors d'oeuvres on the Oak Terrace.", time: "4pm", place: "Oak Terrace, The Madrona", placeUrl: "https://themadronahotel.com/", photo: "images/cocktails-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.blue700, bg: C.blue300, ink: C.chocolate, accent: C.orange500, orangeHover: true },
+  { short: "Dinner", day: "Saturday", title: "Dinner", note: "Eat and drink together in the spring evening air under the Citrus Grove.", time: "6pm", place: "Citrus Grove, The Madrona", placeUrl: "https://themadronahotel.com/", photo: "images/dinner-white.png?v=4", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange300, ink: C.chocolate, tabInk: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
+  { short: "Dancing", day: "Saturday", title: "Dancing", note: "Our favorite part (well, maybe not Kyle)! Dance the night away on the Palm Terrace.", agendaNote: "Our favorite part (well, maybe not Kyle)! Dance the night away on the Palm Terrace. Fear not, alternative footwear will be provided!", time: "8pm", place: "Palm Terrace, The Madrona", placeUrl: "https://themadronahotel.com/", photo: "images/dancing-white.png?v=3", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.orange700, bg: C.blue500, ink: C.chocolate, kickerInk: C.white, accent: C.orange700, orangeHover: true, grainInk: C.orange700 },
   { short: "Afters", day: "Saturday", title: "Afters", note: "Night caps, chats, and maybe even special amateur DJ appearances inside The Madrona.", agendaNote: "Night caps, chats, and maybe even special amateur DJ appearances inside The Madrona. Throughout the evening, shuttles will be available to bring guests back to town for their accommodations.", time: "10pm — 2am", place: "Inside The Madrona", placeUrl: "https://themadronahotel.com/", photo: "images/afters-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", bg: C.black700, ink: C.white, accent: C.orange700, orangeHover: true }
 ];
 
@@ -1184,6 +1454,97 @@ const TRAVEL_SECTIONS = [
 ];
 
 const mapsSearch = (addr) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr);
+const mapsDir = (origin, dest) => "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(dest) + "&travelmode=driving";
+const MAPS_KEY = "AIzaSyBzo9qjZxhCVnDkCqg2NwU9Hc6jgm0FX3Q";
+
+const MAP_ICONS = {
+  all: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+  weekend: '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>',
+  travel: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  stay: '<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M12 4v6"/><path d="M2 18h20"/>',
+  wine: '<path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/>',
+  dine: '<path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/><path d="m2.1 21.8 6.4-6.3"/><path d="m19 5-7 7"/>',
+  nature: '<path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/>',
+  towns: '<path d="M10 18v-7"/><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/>',
+  golf: '<path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/>',
+  chevron: '<path d="m6 9 6 6 6-6"/>'
+};
+
+const lucideUri = (id, color) => {
+  const inner = MAP_ICONS[id] || MAP_ICONS.all;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+};
+
+const MAP_LISTS = [
+  { id: "all", label: "All" },
+  { id: "weekend", label: "The Weekend" },
+  { id: "travel", label: "Travel" },
+  { id: "stay", label: "Stay" },
+  { id: "wine", label: "Wine" },
+  { id: "dine", label: "Dine" },
+  { id: "nature", label: "Nature" },
+  { id: "towns", label: "Towns" },
+  { id: "golf", label: "Golf" }
+];
+
+const MAP_SPOTS = [
+  { id: "little-saint", list: "weekend", name: "Little Saint", note: "Welcome drinks live here. Plant-based, music, a very Ken Fulk room — right by the square.", site: "https://www.littlesainthealdsburg.com/", query: "Little Saint Healdsburg CA", zoom: 16 },
+  { id: "church", list: "weekend", name: "St. Paul's", note: "The ceremony. A short walk from the square; then we all go on to The Madrona.", site: "https://www.stpauls-healdsburg.org/", query: "St. Paul's Episcopal Church Healdsburg CA", zoom: 16 },
+  { id: "madrona", list: "weekend", name: "The Madrona", note: "Ceremony's in town; this is where we go after. Oak Terrace, the citrus grove, dancing on the Palm Terrace.", site: "https://themadronahotel.com/", query: "The Madrona Hotel Healdsburg CA", zoom: 16 },
+  { id: "sfo", list: "travel", name: "SFO", note: "Then a beautiful drive north — about an hour and a half, traffic depending.", site: "https://www.flysfo.com/", query: "San Francisco International Airport", zoom: 12 },
+  { id: "sts", list: "travel", name: "Sonoma Airport", note: "Charles M. Schulz, twelve minutes from town. If you can land here, do.", site: "https://sonomacountyairport.org/", query: "Charles M. Schulz Sonoma County Airport", zoom: 13 },
+  { id: "hotel", list: "stay", name: "Hotel Healdsburg", note: "Our personal favorite. On the plaza, if you want to walk everywhere.", site: "http://www.hotelhealdsburg.com/", query: "Hotel Healdsburg", zoom: 16 },
+  { id: "harmon", list: "stay", name: "Harmon Guest House", note: "Modern, with a rooftop bar and a pool — still an easy stroll to the square.", site: "https://harmonguesthouse.com/", query: "Harmon Guest House Healdsburg", zoom: 16 },
+  { id: "h2", list: "stay", name: "H2hotel", note: "Cool decor, attached restaurant, outdoor pool. Right on Healdsburg Ave.", site: "https://h2hotel.com/", query: "H2hotel Healdsburg", zoom: 16 },
+  { id: "liora", list: "stay", name: "Liora Estate", note: "More classical, and right next door to Friday night.", site: "https://www.lioraestatehotel.com/", query: "Liora Estate Healdsburg", zoom: 16 },
+  { id: "montage", list: "stay", name: "Montage Healdsburg", note: "Out in the vines. A little removed from town; they run an area shuttle.", site: "https://www.montage.com/", query: "Montage Healdsburg", zoom: 15 },
+  { id: "fairview", list: "stay", name: "Fairview Inn & Suites", note: "A comfortable stay a bit outside of town.", site: "https://www.fairviewinnandsuites.com/", query: "Fairview Inn and Suites Healdsburg", zoom: 16 },
+  { id: "bella", list: "wine", name: "Bella Vineyards", note: "Wine caves and a lawn in Dry Creek. Reservations recommended.", site: "https://www.bellawinery.com/", query: "Bella Vineyards Healdsburg", zoom: 15 },
+  { id: "bloodroot", list: "wine", name: "BloodRoot", note: "Downtown tasting room on North Street. Open daily 1–7.", site: "https://www.bloodrootwines.com/", query: "BloodRoot Wines Healdsburg", zoom: 16 },
+  { id: "quail", list: "dine", name: "Quail & Condor", note: "Bakery and cafe at The Row. Bread, pastries, coffee — 7 to 3.", site: "https://www.quailandcondor.com/", query: "Quail & Condor Healdsburg", zoom: 16 },
+  { id: "lo-behold", list: "dine", name: "Lo & Behold", note: "Bar and kitchen on Healdsburg Ave. Lunch, dinner, drinks.", site: "https://www.loandbeholdca.com/", query: "Lo & Behold Healdsburg", zoom: 16 },
+  { id: "black-oak", list: "dine", name: "Black Oak Coffee Roasters", note: "Just off the plaza on Center Street.", site: "https://blackoakcoffee.com/pages/healdsburg", query: "Black Oak Coffee Roasters Healdsburg", zoom: 16 },
+  { id: "bodega", list: "nature", name: "Bodega Bay", note: "About an hour. Harbor, dunes, and the coast.", query: "Bodega Bay CA", zoom: 12 },
+  { id: "muir", list: "nature", name: "Muir Woods", note: "Redwoods, about 90 minutes. Parking reservations required.", site: "https://www.nps.gov/muwo/", query: "Muir Woods National Monument", zoom: 14 },
+  { id: "rodeo", list: "nature", name: "Rodeo Beach", note: "Marin Headlands. Cold water, big sky, the city across the water.", site: "https://www.nps.gov/goga/", query: "Rodeo Beach Marin Headlands", zoom: 14 },
+  { id: "crissy", list: "nature", name: "Crissy Field", note: "Presidio shoreline, right under the bridge. Walk, picnic, the city and the Gate.", site: "https://www.nps.gov/goga/planyourvisit/crissyfield.htm", query: "Crissy Field San Francisco", zoom: 14 },
+  { id: "tubes", list: "nature", name: "Russian River Tubes & Kayaks", note: "Rent in Guerneville. Float, paddle, sit in the sun.", site: "https://www.russianrivertubes.com/", query: "Russian River Tubes and Kayaks Guerneville", zoom: 14 },
+  { id: "reyes", list: "nature", name: "Point Reyes", note: "National seashore. Elk, estuary, a long walk if you want one.", site: "https://www.nps.gov/pore/", query: "Point Reyes National Seashore", zoom: 12 },
+  { id: "rock-point", list: "nature", name: "Rock Point Beach", note: "A pull-out on Highway 1, just south of Duncan's Landing.", query: "Rock Point Beach Bodega Bay CA", zoom: 14 },
+  { id: "sausalito", list: "towns", name: "Sausalito", note: "On the way up from the city. Harbor, bikes, the bay.", query: "Sausalito CA", zoom: 13 },
+  { id: "calistoga", list: "towns", name: "Calistoga", note: "Over the hill in Napa. A smaller spa town.", query: "Calistoga CA", zoom: 13 },
+  { id: "northwood", list: "golf", name: "Northwood Golf Club", note: "A nine-hole course in the redwoods, Monte Rio.", site: "https://www.northwoodgolf.com/", query: "Northwood Golf Club Monte Rio", zoom: 15 }
+];
+
+const MAP_FALLBACK = {
+  "little-saint": { lat: 38.61201, lng: -122.87189 },
+  "church": { lat: 38.61101, lng: -122.86779 },
+  "madrona": { lat: 38.59855, lng: -122.8769 },
+  "sfo": { lat: 37.6213, lng: -122.379 },
+  "sts": { lat: 38.50856, lng: -122.8127 },
+  "hotel": { lat: 38.61079, lng: -122.8712 },
+  "harmon": { lat: 38.61355, lng: -122.86945 },
+  "h2": { lat: 38.61285, lng: -122.8695 },
+  "liora": { lat: 38.61185, lng: -122.87155 },
+  "montage": { lat: 38.62915, lng: -122.8624 },
+  "fairview": { lat: 38.6054, lng: -122.8699 },
+  "bella": { lat: 38.7059, lng: -122.98084 },
+  "bloodroot": { lat: 38.61196, lng: -122.87034 },
+  "quail": { lat: 38.60675, lng: -122.8695 },
+  "lo-behold": { lat: 38.60901, lng: -122.86994 },
+  "black-oak": { lat: 38.6115, lng: -122.86952 },
+  "bodega": { lat: 38.32165, lng: -123.02884 },
+  "muir": { lat: 37.89639, lng: -122.58022 },
+  "rodeo": { lat: 37.8319, lng: -122.5386 },
+  "crissy": { lat: 37.80662, lng: -122.44965 },
+  "tubes": { lat: 38.5018, lng: -122.99854 },
+  "reyes": { lat: 38.04112, lng: -122.80034 },
+  "rock-point": { lat: 38.392, lng: -123.0865 },
+  "sausalito": { lat: 37.85903, lng: -122.48547 },
+  "calistoga": { lat: 38.5788, lng: -122.57971 },
+  "northwood": { lat: 38.47854, lng: -122.99403 }
+};
 
 const ACCOMMODATION_SECTIONS = [
   {
@@ -1252,17 +1613,6 @@ const ACCOMMODATION_SECTIONS = [
   }
 ];
 
-const TODO_SECTIONS = [
-  { short: "Wineries", when: "Things to do · Wine country", title: "Wineries", note: "You're in one of the best wine regions in the country. Make reservations — tastings book up on weekends.", detail: "Dry Creek · Russian River · Alexander Valley", bg: C.orange300, ink: C.chocolate, accent: C.orange700,
-    items: ["Dry Creek Valley — zinfandel country, 10 min west", "Russian River — pinot and charming towns", "Placeholder winery picks from us coming soon"] },
-  { short: "Golf", when: "Things to do · Golf", title: "Golf", note: "Several excellent courses within twenty minutes. Book tee times early for a May weekend.", detail: "Healdsburg & beyond", bg: C.beige300, ink: C.chocolate, accent: C.orange500,
-    items: ["Healdsburg Golf Club — public, 5 min", "Wine Country Golf Club — Cloverdale, ~25 min", "Mayacama — private club, guest policies vary"] },
-  { short: "Downtown", when: "Things to do · Healdsburg", title: "Downtown", note: "Small, beautiful, worth an afternoon. Farmers market Saturday morning if you're in town early.", detail: "The Plaza · Walkable", bg: C.beige300, ink: C.blue700, accent: C.orange700,
-    items: ["Healdsburg Plaza — shops, restaurants, people-watching", "Singletree Coffee — essential", "Little Saint — Friday night starts here anyway"] },
-  { short: "Outdoors", when: "Things to do · Outside", title: "Outdoors", note: "The Russian River is twenty minutes west. Redwoods, swimming holes, and the kind of afternoon that makes you understand California.", detail: "Russian River · Armstrong Redwoods", bg: C.blue300, ink: C.chocolate, accent: C.orange500,
-    items: ["Russian River — tubing, swimming, lazy afternoons", "Armstrong Redwoods — short hike among giants", "Lake Sonoma — kayaking and picnics"] }
-];
-
 const WEEKEND_GRID = {
   groups: [
     { label: "Friday, April 30, 2027", rows: [[{ idx: 1 }]] },
@@ -1285,29 +1635,16 @@ const ACCOMMODATIONS_GRID = {
   ]
 };
 
-const TODO_GRID = {
-  groups: [{ label: "While you're here", rows: [[{ idx: 0 }, { idx: 1 }], [{ idx: 2 }, { idx: 3 }]] }]
-};
-
-const GALLERY_PHOTOS = [
-  { src: "art/photo-1.jpg", col: "1 / span 5", ratio: "3/2", pos: "60% 50%" },
-  { src: "art/p-twirl.jpg", col: "7 / span 3", ratio: "2/3", pos: "center" },
-  { src: "art/p-hands.jpg", col: "10 / span 2", ratio: "2/3", pos: "center" },
-  { src: "art/p-flowers.jpg", col: "1 / span 3", ratio: "4/5", pos: "center" },
-  { src: "art/p-grass.jpg", col: "5 / span 4", ratio: "3/2", pos: "center" },
-  { src: "art/p-ocean.jpg", col: "10 / span 3", ratio: "3/4", pos: "center" }
-];
-
 const FAQS = [
-  { q: "What should we wear?", a: "Garden formal on Saturday — color is very welcome, this is not a black-tie crowd. Friday is whatever you traveled in. The lawn is grass; consider your heels." },
-  { q: "Can we bring the kids?", a: "Friday and Sunday, absolutely. Saturday evening we're keeping it adults — we'll help arrange sitters in town." },
-  { q: "Is the whole weekend expected?", a: "Come to what you can. Saturday is the point; Friday and Sunday are the gravy, and the gravy is good." },
-  { q: "Where do we park?", a: "There's parking at The Madrona, and rides back to town at the end of the night. Please use them." },
-  { q: "Registry?", a: "Your presence, genuinely. If you insist, there will be a small list here closer to the date." }
+  { q: "Lorem ipsum dolor sit amet?", a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
+  { q: "Consectetur adipiscing elit?", a: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." },
+  { q: "Sed do eiusmod tempor incididunt?", a: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo." },
+  { q: "Ut enim ad minim veniam?", a: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt." },
+  { q: "Quis nostrud exercitation ullamco?", a: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem." }
 ];
 
 class Component extends DCLogic {
-  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, todoIdx: 0, open: 0, scrolled: false, lightbox: "" };
+  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -1316,15 +1653,278 @@ class Component extends DCLogic {
       if (past !== this.state.scrolled) this.setState({ scrolled: past });
     };
     this._onKey = (e) => {
-      if (e.key === "Escape" && this.state.lightbox) this.closeLightbox();
+      if (e.key !== "Escape") return;
+      if (this.state.lightbox) this.closeLightbox();
+      else if (this.state.mapMenu) this.setState({ mapMenu: false });
+      else if (this.state.mapPin) this.setState({ mapPin: "" });
     };
     window.addEventListener("scroll", this._onScroll, { passive: true });
     window.addEventListener("keydown", this._onKey);
     this._onScroll();
+    this.syncMap();
+  }
+  componentDidUpdate() {
+    this.syncMap();
+    this.revealMapPlace();
   }
   componentWillUnmount() {
     window.removeEventListener("scroll", this._onScroll);
     window.removeEventListener("keydown", this._onKey);
+    this.destroyMap();
+  }
+
+  visibleSpots() {
+    const list = this.state.mapList || "all";
+    return MAP_SPOTS.filter(s => list === "all" || s.list === list);
+  }
+  pinSize(on) {
+    const z = (this._gmap && this._gmap.getZoom()) || 12;
+    const t = Math.min(1, Math.max(0, (z - 9) / 8));
+    const base = 16 + t * 12;
+    return Math.round(on ? base + 4 : base);
+  }
+  pinIcon(on, list) {
+    const g = window.google.maps;
+    const fill = on ? C.blue300 : "#FFC592";
+    const ink = on ? C.blue700 : C.orange700;
+    const line = on ? C.blue700 : C.orange700;
+    const inner = MAP_ICONS[list] || MAP_ICONS.all;
+    const size = this.pinSize(on);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24"><rect x="0.5" y="0.5" width="23" height="23" rx="6" fill="${fill}" stroke="${line}" stroke-width="0.85"/><g transform="translate(4 4) scale(0.666)" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${inner}</g></svg>`;
+    return {
+      url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg),
+      size: new g.Size(size, size),
+      scaledSize: new g.Size(size, size),
+      origin: new g.Point(0, 0),
+      anchor: new g.Point(size / 2, size / 2)
+    };
+  }
+  scalePins() {
+    if (!this._markers || !window.google?.maps) return;
+    const z = Math.round((this._gmap && this._gmap.getZoom()) || 12);
+    if (z === this._pinZoom && this._pinZoomOn === (this.state.mapPin || "")) return;
+    this._pinZoom = z;
+    this._pinZoomOn = this.state.mapPin || "";
+    const pinId = this._pinZoomOn;
+    this._markers.forEach(m => {
+      m.setIcon(this.pinIcon(pinId === m._id, m._list));
+    });
+  }
+  ensureGoogleMaps() {
+    if (typeof window === "undefined") return Promise.resolve(null);
+    if (window.google?.maps) return Promise.resolve(window.google.maps);
+    if (this._gmapsLoading) return this._gmapsLoading;
+    this._gmapsLoading = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://maps.googleapis.com/maps/api/js?key=" + MAPS_KEY + "&libraries=places";
+      s.async = true;
+      s.onload = () => resolve(window.google.maps);
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return this._gmapsLoading;
+  }
+  destroyMap() {
+    if (this._mapResize) {
+      this._mapResize.disconnect();
+      this._mapResize = null;
+    }
+    if (this._markers) this._markers.forEach(m => m.setMap(null));
+    this._markers = null;
+    this._gmap = null;
+    this._markerKey = "";
+    this._fitKey = "";
+    this._pinZoom = null;
+    this._pinZoomOn = null;
+    const el = typeof document !== "undefined" && document.getElementById("map-google");
+    if (el) el.innerHTML = "";
+  }
+  syncMap() {
+    if (typeof document === "undefined") return;
+    if (this.state.page !== "todo") {
+      this.destroyMap();
+      return;
+    }
+    this.ensureGoogleMaps().then(async g => {
+      if (!g || this.state.page !== "todo") return;
+      const el = document.getElementById("map-google");
+      if (!el) return;
+      if (!this._gmap) this.createGoogleMap(g, el);
+      await this.resolvePlaces(g);
+      if (!g || this.state.page !== "todo" || !this._gmap) return;
+      this.refreshGoogleMap(g);
+    }).catch(() => {});
+  }
+  spotLoc(s) {
+    return (this._placeCache && this._placeCache[s.id]) || MAP_FALLBACK[s.id] || null;
+  }
+  resolvePlaces(g) {
+    if (this._placesReady) return Promise.resolve();
+    if (this._placesLoading) return this._placesLoading;
+    this._placeCache = this._placeCache || {};
+    const lookup = async (spot) => {
+      try {
+        const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": MAPS_KEY,
+            "X-Goog-FieldMask": "places.location"
+          },
+          body: JSON.stringify({ textQuery: spot.query || (spot.name + " Healdsburg CA"), pageSize: 1 })
+        });
+        const json = await res.json();
+        const p = json.places && json.places[0];
+        if (p && p.location) {
+          this._placeCache[spot.id] = { lat: p.location.latitude, lng: p.location.longitude };
+        }
+      } catch (e) {}
+    };
+    const run = async () => {
+      const pending = MAP_SPOTS.filter(s => !this._placeCache[s.id]);
+      const n = 3;
+      for (let i = 0; i < pending.length; i += n) {
+        await Promise.all(pending.slice(i, i + n).map(lookup));
+        this._markerKey = "";
+        this._fitKey = "";
+        if (this._gmap) this.refreshGoogleMap(g);
+      }
+      this._placesReady = true;
+      this._placesLoading = null;
+    };
+    this._placesLoading = run();
+    return this._placesLoading;
+  }
+  createGoogleMap(g, el) {
+    this._gmap = new g.Map(el, {
+      center: { lat: 38.61055, lng: -122.8692 },
+      zoom: 15,
+      mapTypeControl: false,
+      streetViewControl: true,
+      fullscreenControl: false,
+      zoomControl: true,
+      gestureHandling: "greedy"
+    });
+    this._gmap.addListener("click", () => {
+      if (this.state.mapPin || this.state.mapMenu) this.setState({ mapPin: "", mapMenu: false });
+    });
+    this._gmap.addListener("zoom_changed", () => this.scalePins());
+    this._fitKey = "";
+    this._markerKey = "";
+    if (typeof ResizeObserver !== "undefined") {
+      this._mapResize = new ResizeObserver(() => {
+        if (this._gmap) g.event.trigger(this._gmap, "resize");
+      });
+      this._mapResize.observe(el);
+    }
+    setTimeout(() => {
+      if (this._gmap) g.event.trigger(this._gmap, "resize");
+    }, 80);
+  }
+  refreshGoogleMap(g) {
+    const map = this._gmap;
+    if (!g || !map) return;
+    const pinId = this.state.mapPin || "";
+    const spots = this.visibleSpots().filter(s => this.spotLoc(s));
+    const markerKey = (this.state.mapList || "all") + ":" + pinId + ":" + spots.map(s => s.id).join(",");
+    if (markerKey === this._markerKey && this._markers) return;
+    this._markerKey = markerKey;
+    if (this._markers) this._markers.forEach(m => m.setMap(null));
+    this._markers = spots.map(s => {
+      const loc = this.spotLoc(s);
+      const mark = new g.Marker({
+        position: loc,
+        map,
+        title: s.name,
+        icon: this.pinIcon(pinId === s.id, s.list),
+        optimized: false,
+        zIndex: pinId === s.id ? 8 : 4
+      });
+      mark._id = s.id;
+      mark._list = s.list;
+      mark.addListener("click", () => this.pickMapPin(s.id));
+      return mark;
+    });
+    this._pinZoom = null;
+    this.scalePins();
+    const key = (this.state.mapList || "all") + ":" + spots.map(s => s.id).join(",");
+    if (key !== this._fitKey && spots.length) {
+      this._fitKey = key;
+      const b = new g.LatLngBounds();
+      spots.forEach(s => b.extend(this.spotLoc(s)));
+      const pad = { top: 56, right: 40, bottom: 40, left: 40 };
+      map.fitBounds(b, pad);
+      if (spots.length === 1) {
+        map.setZoom(spots[0].zoom || 16);
+      }
+    }
+  }
+  setMapList(id) {
+    this._fitKey = "";
+    this.setState({ mapList: id, mapPin: "", mapMenu: false });
+  }
+  toggleMapMenu() {
+    this.setState({ mapMenu: !this.state.mapMenu });
+  }
+  pickMapPin(id) {
+    const spot = MAP_SPOTS.find(s => s.id === id);
+    if (!spot) return;
+    const next = this.state.mapPin === id ? "" : id;
+    this.setState({ mapPin: next, mapMenu: false });
+    if (next && this._gmap) {
+      const loc = this.spotLoc(spot);
+      if (loc) this._gmap.panTo(loc);
+      const want = spot.zoom || 15;
+      if ((this._gmap.getZoom() || 0) < want) this._gmap.setZoom(want);
+    }
+  }
+  revealMapPlace() {
+    const id = this.state.mapPin || "";
+    if (typeof document === "undefined" || !id || this.state.page !== "todo") {
+      this._revealedPin = "";
+      return;
+    }
+    if (id === this._revealedPin) return;
+    this._revealedPin = id;
+    const run = () => {
+      const el = document.getElementById("map-place-" + id);
+      if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  }
+
+  buildMap() {
+    const list = this.state.mapList || "all";
+    const pinId = this.state.mapPin || "";
+    const spots = this.visibleSpots();
+    const current = MAP_LISTS.find(l => l.id === list) || MAP_LISTS[0];
+    return {
+      menuOpen: !!this.state.mapMenu,
+      menuClass: this.state.mapMenu ? "is-open" : "",
+      currentLabel: current.label,
+      currentIcon: lucideUri(current.id, C.blue700),
+      toggleMenu: () => this.toggleMapMenu(),
+      lists: MAP_LISTS.map(l => ({
+        label: l.label,
+        iconSrc: lucideUri(l.id, l.id === list ? C.blue700 : C.blue500),
+        onClass: l.id === list ? "is-on" : "",
+        pick: () => this.setMapList(l.id)
+      })),
+      places: spots.map(s => ({
+        id: s.id,
+        name: s.name,
+        note: s.note || "",
+        site: s.site || "",
+        hasSite: !!s.site,
+        noSite: !s.site,
+        linkName: pinId === s.id && !!s.site,
+        plainName: !(pinId === s.id && !!s.site),
+        showNote: pinId === s.id,
+        iconSrc: lucideUri(s.list, pinId === s.id ? C.blue700 : C.orange500),
+        onClass: pinId === s.id ? "is-on" : "",
+        pick: () => this.pickMapPin(s.id)
+      }))
+    };
   }
 
   openLightbox(src) {
@@ -1337,8 +1937,14 @@ class Component extends DCLogic {
   }
 
   go(id) {
+    if (PAGES.find(x => x.id === id)?.hidden) id = "home";
     const next = { page: id, scrolled: false };
     if (id === "weekend") next.weekendIdx = 0;
+    if (id === "todo") {
+      next.mapList = "all";
+      next.mapPin = "";
+      next.mapMenu = false;
+    }
     this.setState(next);
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "instant" });
@@ -1499,10 +2105,6 @@ class Component extends DCLogic {
     } else if (p === "accommodations") {
       grid = this.buildGrid(ACCOMMODATIONS_GRID, ACCOMMODATION_SECTIONS, "accIdx", { labelColor: "var(--blue-700)", labelBorder: "none", groupGap: "48px" });
       pageMeta = PAGE_META.accommodations;
-    } else if (p === "todo") {
-      sw = this.buildSwitcher(TODO_SECTIONS, this.state.todoIdx, "todoIdx");
-      grid = this.buildGrid(TODO_GRID, TODO_SECTIONS, "todoIdx");
-      pageMeta = PAGE_META.todo;
     }
 
     const onWeekendSlide = p === "weekend" && !!sw && !this.state.scrolled;
@@ -1528,6 +2130,9 @@ class Component extends DCLogic {
       isQa: p === "qa",
       isGallery: p === "gallery",
       isRegistry: p === "registry",
+      isTodo: p === "todo",
+      showSiteEnd: p !== "todo",
+      map: this.buildMap(),
       hasPageHero: !!pageHeroData,
       pageHero: pageHeroData ? {
         titleBefore: pageHeroData.titleBefore,
@@ -1568,17 +2173,13 @@ class Component extends DCLogic {
       barPE: "auto",
       goHome: () => this.go("home"),
       goWeekend: () => this.go("weekend"),
-      nav: PAGES.map(x => ({
+      nav: PAGES.filter(x => !x.hidden).map(x => ({
         label: x.label,
         go: () => this.go(x.id),
         color: x.id === p ? barAccent : barInk,
         currentClass: x.id === p ? "is-current" : ""
       })),
 
-      galleryPhotos: GALLERY_PHOTOS.map(photo => ({
-        ...photo,
-        open: () => this.openLightbox(photo.src)
-      })),
       hasLightbox: !!this.state.lightbox,
       lightboxSrc: this.state.lightbox || "",
       closeLightbox: () => this.closeLightbox(),
@@ -1586,7 +2187,7 @@ class Component extends DCLogic {
       openEmbrace: () => this.openLightbox("art/home-embrace.jpg"),
       openHands: () => this.openLightbox("art/home-hands.jpg"),
 
-      homeNavTabs: PAGES.filter(x => x.id !== "home").map(item => ({
+      homeNavTabs: PAGES.filter(x => x.id !== "home" && !x.hidden).map(item => ({
         label: item.label,
         go: () => this.go(item.id)
       })),

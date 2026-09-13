@@ -1434,7 +1434,7 @@ const TRAVEL_SECTIONS = [
     title: "San Francisco International Airport",
     code: "SFO",
     codeUrl: "https://www.flysfo.com/",
-    agendaNote: "This route goes directly through San Francisco, so if you have a few extra days, you may consider a city stopover :) We'd LOVE to give you our favorite spots, so please feel free to reach out!",
+    agendaNote: "This route goes directly through San Francisco, so if you have a few extra days, you may consider a city stopover :) We'd love to give you our favorite spots, so please feel free to reach out!",
     facts: [
       { icon: "flights", kind: "Flights", text: "Nonstop flights from most airports" },
       { icon: "drive", kind: "Distance", text: "", link: "90 miles", after: " from Healdsburg; 1.5 hour drive, traffic-dependent", href: "https://www.google.com/maps/dir/?api=1&origin=San+Francisco+International+Airport&destination=Healdsburg+Plaza,+Healdsburg,+CA&travelmode=driving" },
@@ -1453,7 +1453,7 @@ const TRAVEL_SECTIONS = [
   }
 ];
 
-const mapsSearch = (addr) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr);
+const mapsPlace = (name, placeId) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(name) + "&query_place_id=" + encodeURIComponent(placeId);
 const mapsDir = (origin, dest) => "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(dest) + "&travelmode=driving";
 const MAPS_KEY = "AIzaSyBzo9qjZxhCVnDkCqg2NwU9Hc6jgm0FX3Q";
 
@@ -1553,7 +1553,7 @@ const ACCOMMODATION_SECTIONS = [
     agendaNote: "Our personal favorite! Right in the action, with a chic outdoor pool and a lovely atmosphere.",
     time: "$$$",
     place: "25 Matheson St",
-    placeUrl: mapsSearch("25 Matheson St, Healdsburg, CA 95448"),
+    placeUrl: mapsPlace("Hotel Healdsburg", "ChIJmzw5qjYXhIARRWLwa_K9vpY"),
     photo: "art/stay/hotel-healdsburg.jpg"
   },
   {
@@ -1562,7 +1562,7 @@ const ACCOMMODATION_SECTIONS = [
     agendaNote: "Modern decor, with a rooftop bar and an outdoor pool.",
     time: "$$$",
     place: "227 Healdsburg Ave",
-    placeUrl: mapsSearch("227 Healdsburg Ave, Healdsburg, CA 95448"),
+    placeUrl: mapsPlace("Harmon Guest House", "ChIJ9ScTtjYXhIARveyGYpOUCXg"),
     photo: "art/stay/harmon.jpg"
   },
   {
@@ -1571,7 +1571,7 @@ const ACCOMMODATION_SECTIONS = [
     agendaNote: "Cool decor, with an attached restaurant, and an outdoor pool.",
     time: "$$$",
     place: "219 Healdsburg Ave",
-    placeUrl: mapsSearch("219 Healdsburg Ave, Healdsburg, CA 95448"),
+    placeUrl: mapsPlace("h2hotel", "ChIJTyWVzDYXhIARVK-HUdE5NAk"),
     photo: "art/stay/h2.jpg",
     photoPos: "center 40%"
   },
@@ -1581,7 +1581,7 @@ const ACCOMMODATION_SECTIONS = [
     agendaNote: "More classically decorated, and right next door to our welcome party!",
     time: "$$",
     place: "27 North St",
-    placeUrl: mapsSearch("27 North St, Healdsburg, CA 95448"),
+    placeUrl: mapsPlace("Liora Estate", "ChIJpzN3ZjQXhIAR_gVBDtZ-C1c"),
     photo: "art/stay/liora.jpg",
     photoPos: "center 28%"
   },
@@ -1591,7 +1591,7 @@ const ACCOMMODATION_SECTIONS = [
     agendaNote: "A newly built luxury resort nestled in the vineyards. Located outside of town, but their website says they run a free area shuttle.",
     time: "$$$$",
     place: "100 Montage Way",
-    placeUrl: mapsSearch("100 Montage Way, Healdsburg, CA 95448"),
+    placeUrl: mapsPlace("Montage Healdsburg", "ChIJkdxxuaARhIARuCm1c5VaSaQ"),
     photo: "art/stay/montage.jpg"
   },
   {
@@ -1600,7 +1600,7 @@ const ACCOMMODATION_SECTIONS = [
     agendaNote: "A comfortable stay a bit outside of town.",
     time: "$",
     place: "74 Healdsburg Ave",
-    placeUrl: mapsSearch("74 Healdsburg Ave, Healdsburg, CA 95448"),
+    placeUrl: mapsPlace("Fairview Inn & Suites", "ChIJVVXxHDsXhIAR_NIj2cE4_J8"),
     photo: "art/stay/fairview-logo.svg",
     photoClass: "cell-photo--logo"
   },

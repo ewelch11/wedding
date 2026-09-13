@@ -67,7 +67,7 @@
     --space-panel: 8rem;         /* large panel min-height / generous region pad */
     --space-section: 9rem;       /* full page / section padding */
 
-    --measure-sm: 40ch;          /* short asides, RSVP copy */
+    --measure-sm: 40ch;          /* short asides */
     --measure-md: 44ch;          /* notes beside a photo */
     --measure: 48ch;             /* default body column */
     --measure-lg: 52ch;          /* home blurbs, hero wrap */
@@ -104,11 +104,44 @@
   .faq-q { display: flex; justify-content: space-between; gap: var(--space-stack-lg); align-items: baseline; }
   .faq-a { padding-top: var(--space-stack-sm); max-width: var(--measure-wide); }
   .gallery-grid { margin-top: var(--space-block); display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-inset); align-items: end; }
-  .site-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-inset); padding-top: var(--space-stack-lg); padding-bottom: var(--space-stack-lg); }
-  .rsvp-grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-block); }
-  .form-stack { display: flex; flex-direction: column; gap: var(--space-stack); }
-  .form-field { border-bottom: 1px solid color-mix(in srgb, var(--white) 35%, transparent); padding-bottom: var(--space-inset-sm); }
-  .form-submit { margin-top: var(--space-inset); align-self: flex-start; padding: var(--space-stack-sm) var(--space-stack-lg); }
+  .site-footer { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: var(--space-inset); padding-top: var(--space-stack-lg); padding-bottom: var(--space-stack-lg); background: var(--beige-300); }
+  .note-band {
+    padding: var(--space-section-sm) var(--space-gutter) var(--space-block);
+    background: var(--orange-300);
+  }
+  .note-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-block);
+    align-items: start;
+  }
+  .note-form { display: flex; flex-direction: column; gap: var(--space-stack); }
+  .note-field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--chocolate) 28%, transparent);
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--chocolate);
+    padding: var(--space-inset-sm) 0;
+    border-radius: 0;
+    outline: none;
+    appearance: none;
+    resize: vertical;
+  }
+  .note-field::placeholder { color: color-mix(in srgb, var(--chocolate) 40%, transparent); }
+  .note-field:focus { border-bottom-color: var(--orange-700); }
+  .note-submit {
+    align-self: flex-start;
+    margin-top: var(--space-inset);
+    padding: 0 0 var(--space-hair);
+    border: none;
+    background: transparent;
+    color: var(--chocolate);
+  }
+  .note-submit:hover { color: var(--blue-700); }
   .site-bar {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -144,13 +177,14 @@
     min-height: 100svh;
     overflow: hidden;
     background: var(--beige-300);
+    border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
   }
   .kicker { margin-bottom: var(--space-stack); }
   .home-strip {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: var(--space-stack);
-    padding: var(--space-section-sm) var(--space-gutter) var(--space-section);
+    padding: var(--space-section-sm) var(--space-gutter);
     align-items: end;
     background: var(--beige-300);
   }
@@ -199,15 +233,20 @@
     transform: translateY(calc(100% + var(--space-tight)));
     color: var(--chocolate);
   }
-  .home-nav { padding-bottom: var(--space-section); }
-  .home-nav-panel {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--space-cluster);
-    align-items: end;
-    padding: var(--space-stack-lg) 0 var(--space-tight);
-    min-height: var(--space-panel);
+  .home-links { padding-bottom: var(--space-section-sm); }
+  .home-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-stack);
+    padding: var(--space-stack) 0;
+    border-top: 1px solid color-mix(in srgb, var(--black-700) 15%, transparent);
+    color: var(--orange-700);
   }
+  .home-link:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--black-700) 15%, transparent);
+  }
+  .home-link:hover { color: var(--blue-700); }
   .switcher-items {
     margin-top: var(--space-stack-lg);
     display: flex;
@@ -315,7 +354,7 @@
     font-size: var(--text-body);
   }
   .grid-group { border: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); margin-top: var(--space-inset-sm); }
-  .grid-row { display: grid; border-top: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); }
+  .grid-row { display: grid; grid-template-columns: var(--row-cols, 1fr); border-top: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); }
   .grid-row:first-child { border-top: none; }
   .grid-cell { padding: var(--space-stack-lg); min-height: var(--space-panel); border-right: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent); }
   .grid-cell:last-child { border-right: none; }
@@ -326,27 +365,80 @@
   .weekend-grid .grid-cell .t-poster {
     font-size: clamp(1.625rem, 1.1vw + 1.32rem, 2.0625rem);
   }
-  .home-nav-tabs {
-    display: flex;
-    border-top: 1px solid color-mix(in srgb, var(--black-700) 15%, transparent);
+  .weekend-grid .grid-cell:has(.cell-photo) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(8rem, 12rem);
+    column-gap: var(--space-stack);
+    align-items: start;
   }
-  .home-nav-tab {
-    flex: 1;
-    padding: var(--space-stack) var(--space-tight) var(--space-stack);
-    margin-top: -2px;
-    border-top: 3px solid transparent;
-    text-align: center;
-    transition: color .3s ease, border-color .3s ease;
+  .grid-cell:only-child:has(.cell-photo) {
+    grid-template-columns: minmax(0, 1fr) minmax(8rem, 12rem);
+    align-items: center;
   }
-  .home-nav-expand {
+  .cell-photo {
+    width: 100%;
+    aspect-ratio: 3 / 2;
     overflow: hidden;
-    transition: max-height .5s cubic-bezier(.2,.8,.2,1), opacity .4s ease;
+    background: color-mix(in srgb, var(--chocolate) 7%, var(--beige-300));
+  }
+  .cell-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cell-photo--logo img {
+    object-fit: contain;
+    padding: var(--space-stack);
+    box-sizing: border-box;
+  }
+  .cell-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-stack) var(--space-cluster);
+    margin-top: var(--space-stack);
+  }
+  .cell-fact {
+    display: grid;
+    grid-template-columns: 1.35rem 1fr;
+    gap: var(--space-inset);
+    align-items: start;
+  }
+  .fact-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-top: 0.12rem;
+    background: var(--chocolate);
+    -webkit-mask: center / contain no-repeat;
+    mask: center / contain no-repeat;
+  }
+  .fact-icon--flights {
+    -webkit-mask-image: url("art/icon-flights.svg");
+    mask-image: url("art/icon-flights.svg");
+  }
+  .fact-icon--drive {
+    -webkit-mask-image: url("art/icon-drive.svg");
+    mask-image: url("art/icon-drive.svg");
+  }
+  .fact-icon--ride {
+    -webkit-mask-image: url("art/icon-ride.svg");
+    mask-image: url("art/icon-ride.svg");
+  }
+  .fact-copy { display: flex; flex-direction: column; gap: var(--space-tight); }
+  .fact-kind { color: var(--chocolate); }
+  .cell-facts + .cell-note {
+    margin-top: var(--space-stack-lg);
+    padding-left: var(--space-inset);
+    border-left: 2px solid var(--orange-700);
   }
   .switcher-stage {
     position: relative;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
+  }
+  .page-hero-stage {
+    border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
   }
   .switcher-inner {
     position: relative;
@@ -653,6 +745,22 @@
     .page-hero-art--gallery { width: 82%; }
     .page-hero-art--registry { width: 82%; max-width: none; }
     .page-hero-fade--bloom { width: 86%; }
+    .cell-facts { grid-template-columns: 1fr; }
+    .grid-row { grid-template-columns: 1fr; }
+    .grid-cell { border-right: none; }
+    .grid-cell + .grid-cell {
+      border-top: 1px solid color-mix(in srgb, var(--orange-700) 28%, transparent);
+    }
+  }
+  @media (max-width: 1100px) {
+    .weekend-grid .grid-cell:has(.cell-photo),
+    .grid-cell:only-child:has(.cell-photo) {
+      grid-template-columns: 1fr;
+      align-items: start;
+      row-gap: var(--space-stack);
+    }
+    .cell-photo { order: -1; max-width: 16rem; }
+    .note-grid { grid-template-columns: 1fr; }
   }
 </style>
 </helmet>
@@ -703,28 +811,19 @@
         <div class="t-hand-sm" style="grid-column:12 / span 1; color:var(--blue-700); padding-bottom:var(--space-stack-lg);">est.<br>2020</div>
       </div>
 
-      <div class="gutter home-nav" style="background:var(--beige-300);" onMouseLeave="{{ homeNavLeave }}">
-        <div class="home-nav-tabs">
-          <sc-for list="{{ homeNavTabs }}" as="tab" hint-placeholder-count="8">
-            <div onMouseEnter="{{ tab.enter }}" onClick="{{ tab.go }}" class="clickable home-nav-tab t-nav" style="border-top-color:{{ tab.mark }}; color:{{ tab.color }};">{{ tab.label }}</div>
-          </sc-for>
-        </div>
-        <div class="home-nav-expand" style="max-height:{{ homeNavPanel.h }}; opacity:{{ homeNavPanel.o }};">
-          <div class="home-nav-panel">
-            <div>
-              <div class="{{ homeNavPanel.titleClass }}" style="color:{{ homeNavPanel.ink }};">{{ homeNavPanel.headline }}</div>
-              <div class="t-body lede lede-lg" style="color:{{ homeNavPanel.ink }}; opacity:.82;">{{ homeNavPanel.blurb }}</div>
-            </div>
-            <div onClick="{{ homeNavPanel.go }}" class="clickable t-nav nav-link" style="color:{{ homeNavPanel.accent }}; border-bottom-color:{{ homeNavPanel.accent }}; white-space:nowrap;">Learn more →</div>
+      <div class="gutter home-links" style="background:var(--beige-300);">
+        <sc-for list="{{ homeNavTabs }}" as="tab" hint-placeholder-count="8">
+          <div onClick="{{ tab.go }}" class="clickable home-link">
+            <span class="t-poster-sm">{{ tab.label }}</span>
+            <span class="t-poster-sm">→</span>
           </div>
-        </div>
-        <div style="border-top:1px solid color-mix(in srgb, var(--black-700) 15%, transparent);"></div>
+        </sc-for>
       </div>
     </div>
   </sc-if>
 
   <sc-if value="{{ hasPageHero }}" hint-placeholder-val="{{ false }}">
-    <div class="switcher-stage" style="background:var(--beige-300);">
+    <div class="switcher-stage page-hero-stage" style="background:var(--beige-300);">
       <div onClick="{{ pageHero.open }}" class="clickable page-hero-art page-hero-art--bloom {{ pageHero.blobClass }} {{ pageHero.artClass }}">
         <img src="{{ pageHero.art }}" alt="" style="object-position:{{ pageHero.pos }};">
       </div>
@@ -739,7 +838,6 @@
   </sc-if>
 
   <sc-if value="{{ isSwitcher }}" hint-placeholder-val="{{ false }}">
-    <div>
       <div class="switcher-stage" style="background:{{ sw.bg }}; transition:background .7s ease;">
         <sc-if value="{{ sw.hasGrain }}" hint-placeholder-val="{{ true }}">
           <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, {{ sw.grain }} 1px, transparent 0); background-size:5px 5px;"></div>
@@ -788,21 +886,50 @@
           </div>
         </div>
       </div>
+  </sc-if>
 
+  <sc-if value="{{ hasAgenda }}" hint-placeholder-val="{{ false }}">
       <div class="gutter weekend-grid" style="background:var(--beige-300);">
-        <sc-if value="{{ isWeekend }}" hint-placeholder-val="{{ false }}">
-          <div class="t-h1 agenda-title" style="color:var(--chocolate);">The Weekend</div>
+        <sc-if value="{{ hasAgendaTitle }}" hint-placeholder-val="{{ false }}">
+          <div class="t-h1 agenda-title" style="color:var(--chocolate);">{{ agendaTitle }}</div>
         </sc-if>
         <sc-for list="{{ grid.groups }}" as="group" hint-placeholder-count="2">
           <div class="t-label grid-label" style="color:{{ group.labelColor }}; border-top:{{ group.labelBorder }}; padding-top:{{ group.labelPad }};">{{ group.label }}</div>
           <div class="grid-group">
             <sc-for list="{{ group.rows }}" as="row" hint-placeholder-count="3">
-              <div class="grid-row" style="grid-template-columns:{{ row.cols }};">
+              <div class="grid-row" style="--row-cols:{{ row.cols }};">
                 <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="2">
                   <div class="grid-cell">
-                    <div class="t-poster" style="color:var(--orange-700);">{{ cell.title }}</div>
-                    <div class="t-body cell-note" style="color:var(--chocolate);">{{ cell.note }}<sc-if value="{{ cell.hasLink }}" hint-placeholder-val="{{ false }}"><span onClick="{{ cell.goLink }}" class="clickable text-link">{{ cell.linkLabel }}</span>{{ cell.noteAfter }}</sc-if></div>
-                    <div class="t-label cell-meta" style="color:var(--chocolate);">{{ cell.time }}<sc-if value="{{ cell.hasPlace }}" hint-placeholder-val="{{ false }}"> · <a href="{{ cell.placeUrl }}" target="_blank" rel="noopener noreferrer" class="text-link">{{ cell.place }}</a></sc-if></div>
+                    <div class="cell-copy">
+                    <div class="t-poster" style="color:var(--orange-700);"><sc-if value="{{ cell.hasTitleUrl }}" hint-placeholder-val="{{ false }}"><a href="{{ cell.titleUrl }}" target="_blank" rel="noopener noreferrer" class="text-link">{{ cell.title }}</a></sc-if><sc-if value="{{ cell.hasPlainTitle }}" hint-placeholder-val="{{ true }}">{{ cell.title }}</sc-if><sc-if value="{{ cell.hasCode }}" hint-placeholder-val="{{ false }}"> <a href="{{ cell.codeUrl }}" target="_blank" rel="noopener noreferrer" class="text-link">({{ cell.code }})</a></sc-if></div>
+                    <sc-if value="{{ cell.hasSubtitleMeta }}" hint-placeholder-val="{{ false }}">
+                      <div class="t-label cell-meta" style="color:var(--chocolate);">{{ cell.subtitle }}</div>
+                    </sc-if>
+                    <sc-if value="{{ cell.hasFacts }}" hint-placeholder-val="{{ false }}">
+                      <div class="cell-facts">
+                        <sc-for list="{{ cell.facts }}" as="fact" hint-placeholder-count="3">
+                          <div class="cell-fact">
+                            <span class="{{ fact.iconClass }}" aria-hidden="true"></span>
+                            <div class="fact-copy">
+                              <div class="t-label fact-kind">{{ fact.kind }}</div>
+                              <div class="t-body" style="color:var(--chocolate);">{{ fact.text }}<sc-if value="{{ fact.hasHref }}" hint-placeholder-val="{{ false }}"><a href="{{ fact.href }}" target="_blank" rel="noopener noreferrer" class="text-link">{{ fact.linkLabel }}</a>{{ fact.textAfter }}</sc-if><sc-if value="{{ fact.hasLink }}" hint-placeholder-val="{{ false }}"><span onClick="{{ fact.goLink }}" class="clickable text-link">{{ fact.linkLabel }}</span>{{ fact.textAfter }}</sc-if></div>
+                            </div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ cell.hasNote }}" hint-placeholder-val="{{ true }}">
+                      <div class="t-body cell-note" style="color:var(--chocolate);">{{ cell.note }}<sc-if value="{{ cell.hasLink }}" hint-placeholder-val="{{ false }}"><span onClick="{{ cell.goLink }}" class="clickable text-link">{{ cell.linkLabel }}</span>{{ cell.noteAfter }}</sc-if></div>
+                    </sc-if>
+                    <sc-if value="{{ cell.hasEventMeta }}" hint-placeholder-val="{{ true }}">
+                      <div class="t-label cell-meta" style="color:var(--chocolate);">{{ cell.time }}<sc-if value="{{ cell.hasPlace }}" hint-placeholder-val="{{ false }}"> · <a href="{{ cell.placeUrl }}" target="_blank" rel="noopener noreferrer" class="text-link">{{ cell.place }}</a></sc-if></div>
+                    </sc-if>
+                    </div>
+                    <sc-if value="{{ cell.hasPhoto }}" hint-placeholder-val="{{ false }}">
+                      <div onClick="{{ cell.openPhoto }}" class="{{ cell.photoClass }}">
+                        <img src="{{ cell.photo }}" alt="" style="object-position:{{ cell.photoPos }};">
+                      </div>
+                    </sc-if>
                   </div>
                 </sc-for>
               </div>
@@ -810,7 +937,6 @@
           </div>
         </sc-for>
       </div>
-    </div>
   </sc-if>
 
   <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}">
@@ -850,29 +976,25 @@
     </div>
   </sc-if>
 
-  <sc-if value="{{ isRsvp }}" hint-placeholder-val="{{ false }}">
-    <div class="page" style="position:relative; min-height:80vh; background:var(--black-700); color:var(--white); overflow:hidden;">
-      <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--orange-700) 35%, transparent) 1px, transparent 0); background-size:5px 5px;"></div>
-      <div class="rsvp-grid">
-        <div>
-          <div class="t-hand" style="color:var(--orange-500);">Say yes</div>
-          <div class="t-body lede lede-sm" style="opacity:.8;">RSVP opens in early 2027. For now, hold the date and tell us if you're bringing someone we should know about.</div>
-          <div class="t-label caption" style="color:var(--orange-700);">kyleandelizabeth@example.com</div>
-        </div>
-        <div class="form-stack">
-          <div class="t-label form-field" style="opacity:.55;">Name</div>
-          <div class="t-label form-field" style="opacity:.55;">Email</div>
-          <div class="t-label form-field" style="opacity:.55;">Coming to Friday?</div>
-          <div class="t-nav form-submit" style="background:var(--orange-700); color:var(--black-700);">Placeholder form</div>
-        </div>
+  <div class="note-band">
+    <div class="note-grid">
+      <div>
+        <div class="t-h2" style="color:var(--chocolate);">Can't make it?</div>
+        <div class="t-body lede lede-md" style="color:var(--chocolate);">Formal RSVPs to come, but if you already know you won't be able to celebrate with us, kindly send a note ahead of time for our planning purposes. We will miss you dearly!!</div>
       </div>
+      <form class="note-form" action="#" method="post">
+        <div>
+          <label class="t-label" for="guest-name" style="color:var(--chocolate);">Guest(s) who cannot attend:</label>
+          <input class="note-field" id="guest-name" type="text" name="name" placeholder="Name" autocomplete="name">
+        </div>
+        <button class="clickable t-nav note-submit" type="button">Send →</button>
+      </form>
     </div>
-  </sc-if>
+  </div>
 
-  <div class="t-label gutter site-footer" style="background:var(--beige-300); border-top:1px solid color-mix(in srgb, var(--black-700) 15%, transparent); color:var(--chocolate);">
-    <span>Kyle &amp; Elizabeth</span>
-    <span>05.01.2027</span>
-    <span>Healdsburg CA</span>
+  <div class="gutter site-footer">
+    <span class="t-poster-sm" style="color:var(--blue-500); font-size:1.3125rem;">05.01.2027</span>
+    <span class="t-label" style="color:var(--chocolate); font-size:0.90625rem;">Healdsburg, CA</span>
   </div>
 
   <sc-if value="{{ hasLightbox }}" hint-placeholder-val="{{ false }}">
@@ -910,22 +1032,23 @@ const PAGES = [
   { id: "todo", label: "Things to Do" },
   { id: "gallery", label: "Gallery" },
   { id: "qa", label: "FAQ" },
-  { id: "registry", label: "Registry" },
-  { id: "rsvp", label: "RSVP" }
+  { id: "registry", label: "Registry" }
 ];
 
-const SWITCHER_PAGES = ["weekend", "travel", "accommodations", "todo"];
+const SWITCHER_PAGES = ["weekend", "todo"];
+const AGENDA_PAGES = ["weekend", "travel", "accommodations", "todo"];
+const AGENDA_TITLES = { weekend: "The Weekend", travel: "Travel", accommodations: "Stay" };
 
 const PAGE_META = {
   weekend: { title: "The Weekend", intro: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
   travel: { title: "Travel", intro: "Healdsburg is about two hours north of San Francisco. You'll want a car — the drive is part of the weekend." },
-  accommodations: { title: "Stay", intro: "Everything below is within fifteen minutes of the Plaza. Room blocks and codes coming in early 2027." },
+  accommodations: { title: "Stay", intro: "On the square, a short stroll away, or out in the vineyards — a mix of hotels, inns, and houses." },
   todo: { title: "Things to Do", intro: "If you have an extra day or two, wine country is very good at being wine country." }
 };
 
 const PAGE_HEROES = {
   travel: {
-    titleBefore: "From near & far",
+    titleBefore: "Getting here",
     titleStrike: "",
     titleAfter: "",
     hasStrike: false,
@@ -937,22 +1060,22 @@ const PAGE_HEROES = {
     copyClass: "page-hero-copy--oneline"
   },
   accommodations: {
-    titleBefore: "You've got options!",
+    titleBefore: "Staying here",
     titleStrike: "",
     titleAfter: "",
     hasStrike: false,
-    note: "Stay in one of the many fabulous in town or around town spots.",
+    note: "We hope you enjoy one of the many fabulous accommodations in and around town.",
     art: "art/stay-hero.jpg",
     pos: "68% 78%",
     blob: "b",
     artClass: "page-hero-art--stay"
   },
   todo: {
-    titleBefore: "Hopefully you'll have time for us...",
+    titleBefore: "In your spare time...",
     titleStrike: "",
     titleAfter: "",
     hasStrike: false,
-    note: "There's no shortage of activities that we hope you'll enjoy, like playing golf, exploring nature, or, inevitably, drinking wine all day.",
+    note: "There's no shortage of activities in the area, like playing golf, exploring nature, or, inevitably, drinking wine all day.",
     art: "art/todo-hero.jpg",
     pos: "40% 42%",
     blob: "c",
@@ -995,7 +1118,7 @@ const PAGE_HEROES = {
 };
 
 const WEEKEND_SECTIONS = [
-  { short: "Preview →", hero: true, title: "Let's celebrate!", note: "Preview the weekend →", heroArt: "art/weekend-hero.jpg", bg: C.beige300, ink: C.orange700, noteInk: C.chocolate, tabInk: C.chocolate, accent: C.orange700 },
+  { short: "Explore →", hero: true, title: "Let's celebrate!", note: "Explore the weekend →", heroArt: "art/weekend-hero.jpg", bg: C.beige300, ink: C.orange700, noteInk: C.chocolate, tabInk: C.chocolate, accent: C.orange700 },
   { short: "Welcome", day: "Friday", title: "Welcome Party", note: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots.", agendaNote: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots. Cocktail attire suggested. Located right by the square, you may consider dining in town beforehand (", agendaLink: "ideas here", agendaAfter: ").", time: "8pm — 10pm", place: "Little Saint", placeUrl: "https://www.littlesainthealdsburg.com/", photo: "images/welcome-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange500, ink: C.white, noteInk: C.white, tabInk: C.white, accent: C.white, kickerInk: C.blue300, grainInk: C.chocolate },
   { short: "Ceremony", day: "Saturday", title: "Ceremony", note: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage.", agendaNote: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage. The church is right outside of the square for those staying in town. Immediately following the ceremony, transportation will be provided for the short 5-minute drive to The Madrona for the celebrations to continue! Throughout the reception, formal attire is suggested.", time: "3pm", place: "St. Paul's Episcopal Church", placeUrl: "https://www.stpauls-healdsburg.org/", photo: "images/ceremony-white-b.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.orange300, bg: C.beige300, ink: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
   { short: "Cocktails", day: "Saturday", title: "Cocktail Hour", note: "Toast to the newlyweds with drinks and hors d'oeuvres on the Oak Terrace.", time: "4pm", place: "Oak Terrace", placeUrl: "https://themadronahotel.com/", photo: "images/cocktails-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.blue700, bg: C.blue300, ink: C.chocolate, accent: C.orange500, orangeHover: true },
@@ -1005,24 +1128,96 @@ const WEEKEND_SECTIONS = [
 ];
 
 const TRAVEL_SECTIONS = [
-  { short: "By Air", when: "Travel · By air", title: "Fly into the Bay", note: "Most guests fly into San Francisco or Oakland. Santa Rosa is twenty minutes away if the schedule works.", detail: "SFO · OAK · STS", bg: C.blue300, ink: C.chocolate, accent: C.orange700,
-    items: ["SFO — San Francisco International, ~2 hrs drive", "OAK — Oakland International, ~2 hrs drive", "STS — Charles M. Schulz Sonoma County, ~20 min drive"] },
-  { short: "By Car", when: "Travel · By car", title: "Drive up through wine country", note: "The drive itself is part of the weekend — rolling hills, vineyards, and the Russian River if you go scenic.", detail: "Highway 101 north · ~2 hrs from the Bay Area", bg: C.beige300, ink: C.chocolate, accent: C.blue700,
-    items: ["From San Francisco — ~2 hrs via 101 North", "From Oakland — ~2 hrs via 580 to 101", "From Los Angeles — ~7 hrs; consider flying instead"] },
-  { short: "Around Town", when: "Travel · Getting around", title: "Rent a car, you'll want one", note: "The Plaza is compact and lovely on foot. You'll still want a car for wineries, The Madrona, and getting back at the end of the night.", detail: "Healdsburg is walkable downtown", bg: C.beige300, ink: C.chocolate, accent: C.orange500,
-    items: ["Rental car recommended — SFO and OAK both have agencies", "Rideshare works in town but can be sparse late", "Bikes are an option for downtown and nearby"] },
-  { short: "Wedding Day", when: "Travel · Saturday", title: "Parking and rides home", note: "There's parking at The Madrona. We'll arrange rides back to town at the end of the night — please use them.", detail: "The Madrona · Healdsburg", bg: C.orange300, ink: C.blue700, accent: C.orange700,
-    items: ["Parking on-site at The Madrona", "Shuttles back to Plaza hotels after dancing", "Address and gate details coming closer to the date"] }
+  {
+    title: "San Francisco International Airport",
+    code: "SFO",
+    codeUrl: "https://www.flysfo.com/",
+    agendaNote: "This route goes directly through San Francisco, so if you have a few extra days, you may consider a city stopover :) We'd LOVE to give you our favorite spots, so please feel free to reach out!",
+    facts: [
+      { icon: "flights", kind: "Flights", text: "Nonstop flights from most airports" },
+      { icon: "drive", kind: "Distance", text: "", link: "90 miles", after: " from Healdsburg; 1.5 hour drive, traffic-dependent", href: "https://www.google.com/maps/dir/?api=1&origin=San+Francisco+International+Airport&destination=Healdsburg+Plaza,+Healdsburg,+CA&travelmode=driving" },
+      { icon: "ride", kind: "Ride", text: "Consider Ubering (typically ~$150), or renting a car. Check out ", link: "Things to Do", after: " to see if you may want one for the weekend." }
+    ]
+  },
+  {
+    title: "Charles M. Schulz-Sonoma County Airport",
+    code: "STS",
+    codeUrl: "https://sonomacountyairport.org/",
+    facts: [
+      { icon: "flights", kind: "Flights", text: "Hosts a few 1-stop flights" },
+      { icon: "drive", kind: "Distance", text: "", link: "9 miles", after: " from Healdsburg; 12 minute drive", href: "https://www.google.com/maps/dir/?api=1&origin=Charles+M.+Schulz-Sonoma+County+Airport&destination=Healdsburg+Plaza,+Healdsburg,+CA&travelmode=driving" },
+      { icon: "ride", kind: "Ride", text: "Consider Ubering, or renting a car. Check out ", link: "Things to Do", after: " to see if you may want one for the weekend." }
+    ]
+  }
 ];
 
+const mapsSearch = (addr) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr);
+
 const ACCOMMODATION_SECTIONS = [
-  { short: "Madrona", when: "Stay · On property", title: "The Madrona", note: "A handful of rooms at the house itself — first come, and you'll never have to drive.", detail: "0 min · Details coming soon", bg: C.beige300, ink: C.blue700, accent: C.orange700 },
-  { short: "Plaza", when: "Stay · Downtown", title: "Plaza Hotels", note: "Our room block will be downtown — walkable to coffee, dinner, and a very good bookstore.", detail: "Healdsburg Plaza · 8 min walk", bg: C.blue500, ink: C.chocolate, accent: C.orange700,
-    items: ["Hotel Healdsburg — placeholder, block code TBD", "Harmon Guest House — placeholder", "H2 Hotel — placeholder"] },
-  { short: "Nearby", when: "Stay · Just outside", title: "Nearby", note: "Quieter, cheaper, still close. Good if you're bringing kids, a dog, or just want a pool.", detail: "Within 10–15 min drive", bg: C.beige300, ink: C.chocolate, accent: C.orange500,
-    items: ["Placeholder hotel — wine country inn", "Placeholder hotel — family-friendly option", "Rates and links coming in early 2027"] },
-  { short: "Rentals", when: "Stay · Houses", title: "Rentals", note: "Our favorite option for groups: split a house with the people you'd want breakfast with anyway.", detail: "Airbnb / VRBO · Book early", bg: C.orange300, ink: C.chocolate, accent: C.blue700,
-    items: ["Search Healdsburg and surrounding areas", "Dry Creek Valley and Windsor are nearby options", "May is peak season — book early"] }
+  {
+    title: "Hotel Healdsburg",
+    titleUrl: "http://www.hotelhealdsburg.com/",
+    agendaNote: "Our personal favorite! Right in the action, with a chic outdoor pool and a lovely atmosphere.",
+    time: "$$$",
+    place: "25 Matheson St",
+    placeUrl: mapsSearch("25 Matheson St, Healdsburg, CA 95448"),
+    photo: "art/stay/hotel-healdsburg.jpg"
+  },
+  {
+    title: "Harmon Guest House",
+    titleUrl: "https://harmonguesthouse.com/",
+    agendaNote: "Modern decor, with a rooftop bar and an outdoor pool.",
+    time: "$$$",
+    place: "227 Healdsburg Ave",
+    placeUrl: mapsSearch("227 Healdsburg Ave, Healdsburg, CA 95448"),
+    photo: "art/stay/harmon.jpg"
+  },
+  {
+    title: "H2hotel",
+    titleUrl: "https://h2hotel.com/",
+    agendaNote: "Cool decor, with an attached restaurant, and an outdoor pool.",
+    time: "$$$",
+    place: "219 Healdsburg Ave",
+    placeUrl: mapsSearch("219 Healdsburg Ave, Healdsburg, CA 95448"),
+    photo: "art/stay/h2.jpg",
+    photoPos: "center 40%"
+  },
+  {
+    title: "Liora Estate",
+    titleUrl: "https://www.lioraestatehotel.com/",
+    agendaNote: "More classically decorated, and right next door to our welcome party!",
+    time: "$$",
+    place: "27 North St",
+    placeUrl: mapsSearch("27 North St, Healdsburg, CA 95448"),
+    photo: "art/stay/liora.jpg",
+    photoPos: "center 28%"
+  },
+  {
+    title: "Montage Healdsburg",
+    titleUrl: "https://www.montage.com/",
+    agendaNote: "A newly built luxury resort nestled in the vineyards. Located outside of town, but their website says they run a free area shuttle.",
+    time: "$$$$",
+    place: "100 Montage Way",
+    placeUrl: mapsSearch("100 Montage Way, Healdsburg, CA 95448"),
+    photo: "art/stay/montage.jpg"
+  },
+  {
+    title: "Fairview Inn & Suites",
+    titleUrl: "https://www.fairviewinnandsuites.com/",
+    agendaNote: "A comfortable stay a bit outside of town.",
+    time: "$",
+    place: "74 Healdsburg Ave",
+    placeUrl: mapsSearch("74 Healdsburg Ave, Healdsburg, CA 95448"),
+    photo: "art/stay/fairview-logo.svg",
+    photoClass: "cell-photo--logo"
+  },
+  {
+    title: "Airbnb",
+    titleUrl: "https://www.airbnb.com/s/Healdsburg--California/homes?checkin=2027-04-30&checkout=2027-05-02",
+    agendaNote: "Check out options in Healdsburg and the surrounding area.",
+    photo: "art/stay/airbnb-logo.svg",
+    photoClass: "cell-photo--logo"
+  }
 ];
 
 const TODO_SECTIONS = [
@@ -1045,32 +1240,22 @@ const WEEKEND_GRID = {
 
 const TRAVEL_GRID = {
   groups: [
-    { label: "Getting here", rows: [[{ idx: 0 }, { idx: 1 }]] },
-    { label: "Once you're here", rows: [[{ idx: 2 }, { idx: 3 }]] }
+    { label: "Likely the most convenient flights", rows: [[{ idx: 0 }]] },
+    { label: "Regional airport nearby the venue", rows: [[{ idx: 1 }]] }
   ]
 };
 
 const ACCOMMODATIONS_GRID = {
   groups: [
-    { label: "On property", rows: [[{ idx: 0 }]] },
-    { label: "In town", rows: [[{ idx: 1 }, { idx: 2 }], [{ idx: 3 }]] }
+    { label: "In town", rows: [[{ idx: 0 }, { idx: 1 }], [{ idx: 2 }, { idx: 3 }]] },
+    { label: "Out in the vineyards", rows: [[{ idx: 4 }]] },
+    { label: "Around town", rows: [[{ idx: 5 }, { idx: 6 }]] }
   ]
 };
 
 const TODO_GRID = {
   groups: [{ label: "While you're here", rows: [[{ idx: 0 }, { idx: 1 }], [{ idx: 2 }, { idx: 3 }]] }]
 };
-
-const HOME_NAV = [
-  { id: "weekend", label: "The Weekend", headline: "Six moments, one world", blurb: "Friday at Little Saint through espresso martini hours inside the Madrona — the whole weekend, moment by moment.", ink: C.blue700, accent: C.orange700 },
-  { id: "travel", label: "Travel", headline: "Getting to Healdsburg", blurb: "Airports, driving directions, getting around town, and what to know for wedding day.", ink: C.blue700, accent: C.orange700 },
-  { id: "accommodations", label: "Stay", headline: "Where to stay", blurb: "On-property rooms at The Madrona, our Plaza hotel block, nearby options, and houses to rent together.", ink: C.blue700, accent: C.orange700 },
-  { id: "todo", label: "Things to Do", headline: "Wine country while you're here", blurb: "Wineries, golf, downtown Healdsburg, and a day on the Russian River if you have the time.", ink: C.chocolate, accent: C.orange500 },
-  { id: "gallery", label: "Gallery", headline: "A few favorites", blurb: "Engagement photos, wine country, and the people we love — more coming after the wedding.", ink: C.blue700, accent: C.orange700 },
-  { id: "qa", label: "FAQ", headline: "Questions, answered loosely", blurb: "Dress code, kids, the whole weekend, parking, registry — the practical stuff, without the formality.", ink: C.blue700, accent: C.orange700 },
-  { id: "registry", label: "Registry", headline: "A small list, if you insist", blurb: "Your presence is genuinely the gift. A considered registry will live here closer to the date.", ink: C.blue700, accent: C.orange700 },
-  { id: "rsvp", label: "RSVP", headline: "Say yes", blurb: "RSVP opens in early 2027. Hold the date — we can't wait to see you.", ink: C.orange700, accent: C.blue700, hand: true }
-];
 
 const GALLERY_PHOTOS = [
   { src: "art/photo-1.jpg", col: "1 / span 5", ratio: "3/2", pos: "60% 50%" },
@@ -1090,7 +1275,7 @@ const FAQS = [
 ];
 
 class Component extends DCLogic {
-  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, todoIdx: 0, open: 0, scrolled: false, homeNavHover: -1, lightbox: "" };
+  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, todoIdx: 0, open: 0, scrolled: false, lightbox: "" };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -1189,7 +1374,7 @@ class Component extends DCLogic {
         const isActive = i === idx;
         const previewTab = !!x.hero;
         return {
-          short: previewTab ? "Preview →" : x.short,
+          short: previewTab ? "Explore →" : x.short,
           hasIcon: previewTab ? !isActive : !!x.icon,
           hasLabel: previewTab ? isActive : !x.icon,
           pick: () => this.setState({ [stateKey]: i }),
@@ -1211,14 +1396,44 @@ class Component extends DCLogic {
           cols: row.length === 1 ? "1fr" : "1fr 1fr",
           cells: row.map(ref => {
             const s = sections[ref.idx];
+            const facts = (s.facts || []).map(f => ({
+              kind: f.kind,
+              text: f.text,
+              iconClass: `fact-icon fact-icon--${f.icon}`,
+              hasHref: !!f.href,
+              href: f.href || "",
+              hasLink: !!f.link && !f.href,
+              linkLabel: f.link || "",
+              textAfter: f.after || "",
+              goLink: f.link ? () => this.go("todo") : () => {}
+            }));
+            const hasFacts = facts.length > 0;
+            const subtitle = !s.time && !s.place && !hasFacts ? (s.detail || "") : "";
+            const showPhoto = !!s.photo && !(s.photoClass || "").includes("lineart");
             return {
               title: s.title,
-              note: s.agendaNote || s.note,
-              time: s.time || s.detail || "",
+              titleUrl: s.titleUrl || "",
+              hasTitleUrl: !!s.titleUrl,
+              hasPlainTitle: !s.titleUrl,
+              code: s.code || "",
+              codeUrl: s.codeUrl || "",
+              hasCode: !!s.code,
+              note: s.agendaNote || s.note || "",
+              hasNote: !!(s.agendaNote || s.note),
+              time: s.time || (!hasFacts && s.detail) || "",
               place: s.place || "",
               placeUrl: s.placeUrl || "",
               hasPlace: !!s.place,
-              meta: [s.time, s.place].filter(Boolean).join(" · ") || s.detail || "",
+              hasEventMeta: !!(s.time || s.place || (!hasFacts && s.detail)),
+              subtitle,
+              hasSubtitleMeta: !!subtitle,
+              hasFacts,
+              facts,
+              photo: showPhoto ? s.photo : "",
+              photoPos: s.photoPos || "center",
+              photoClass: ["cell-photo", s.photoClass, showPhoto && !(s.photoClass || "").includes("logo") ? "clickable" : ""].filter(Boolean).join(" "),
+              hasPhoto: showPhoto,
+              openPhoto: showPhoto && !(s.photoClass || "").includes("logo") ? () => this.openLightbox(s.photo) : () => {},
               hasLink: !!s.agendaLink,
               linkLabel: s.agendaLink || "",
               noteAfter: s.agendaAfter || "",
@@ -1233,7 +1448,6 @@ class Component extends DCLogic {
   renderVals() {
     const p = this.state.page;
     const isSwitcher = SWITCHER_PAGES.includes(p);
-    const dark = p === "rsvp";
     const onHero = p === "home" && !this.state.scrolled;
     const onWeekendHero = p === "weekend" && !!WEEKEND_SECTIONS[this.state.weekendIdx]?.hero && !this.state.scrolled;
     const pageHeroData = PAGE_HEROES[p] || null;
@@ -1248,12 +1462,10 @@ class Component extends DCLogic {
       grid = this.buildGrid(WEEKEND_GRID, WEEKEND_SECTIONS, "weekendIdx", { labelColor: "var(--blue-700)", labelBorder: "none", groupGap: "48px" });
       pageMeta = PAGE_META.weekend;
     } else if (p === "travel") {
-      sw = this.buildSwitcher(TRAVEL_SECTIONS, this.state.travelIdx, "travelIdx");
-      grid = this.buildGrid(TRAVEL_GRID, TRAVEL_SECTIONS, "travelIdx");
+      grid = this.buildGrid(TRAVEL_GRID, TRAVEL_SECTIONS, "travelIdx", { labelColor: "var(--blue-700)", labelBorder: "none", groupGap: "48px" });
       pageMeta = PAGE_META.travel;
     } else if (p === "accommodations") {
-      sw = this.buildSwitcher(ACCOMMODATION_SECTIONS, this.state.accIdx, "accIdx");
-      grid = this.buildGrid(ACCOMMODATIONS_GRID, ACCOMMODATION_SECTIONS, "accIdx");
+      grid = this.buildGrid(ACCOMMODATIONS_GRID, ACCOMMODATION_SECTIONS, "accIdx", { labelColor: "var(--blue-700)", labelBorder: "none", groupGap: "48px" });
       pageMeta = PAGE_META.accommodations;
     } else if (p === "todo") {
       sw = this.buildSwitcher(TODO_SECTIONS, this.state.todoIdx, "todoIdx");
@@ -1263,8 +1475,8 @@ class Component extends DCLogic {
 
     const onWeekendSlide = p === "weekend" && !!sw && !this.state.scrolled;
     const darkSlide = onWeekendSlide && sw.ink === C.white;
-    let barInk = onTopHero ? C.blue700 : dark ? C.white : C.blue700;
-    let barBg = dark ? this.hexAlpha(C.black700, 0.92) : this.hexAlpha(C.beige300, 0.6);
+    let barInk = C.blue700;
+    let barBg = this.hexAlpha(C.beige300, 0.6);
     let barBorder = this.hexAlpha(C.black700, 0.14);
     let barAccent = C.orange700;
     if (onWeekendSlide) {
@@ -1278,10 +1490,12 @@ class Component extends DCLogic {
       isHome: p === "home",
       isWeekend: p === "weekend",
       isSwitcher,
+      hasAgenda: AGENDA_PAGES.includes(p),
+      hasAgendaTitle: !!AGENDA_TITLES[p],
+      agendaTitle: AGENDA_TITLES[p] || "",
       isQa: p === "qa",
       isGallery: p === "gallery",
       isRegistry: p === "registry",
-      isRsvp: p === "rsvp",
       hasPageHero: !!pageHeroData,
       pageHero: pageHeroData ? {
         titleBefore: pageHeroData.titleBefore,
@@ -1340,29 +1554,10 @@ class Component extends DCLogic {
       openEmbrace: () => this.openLightbox("art/home-embrace.jpg"),
       openHands: () => this.openLightbox("art/home-hands.jpg"),
 
-      homeNavLeave: () => this.setState({ homeNavHover: -1 }),
-      homeNavTabs: HOME_NAV.map((item, i) => ({
+      homeNavTabs: PAGES.filter(x => x.id !== "home").map(item => ({
         label: item.label,
-        enter: () => this.setState({ homeNavHover: i }),
-        go: () => this.go(item.id),
-        mark: i === this.state.homeNavHover ? item.accent : "transparent",
-        color: i === this.state.homeNavHover ? item.accent : C.chocolate
+        go: () => this.go(item.id)
       })),
-      homeNavPanel: (() => {
-        const h = this.state.homeNavHover;
-        const item = h >= 0 ? HOME_NAV[h] : null;
-        if (!item) return { h: "0px", o: "0", headline: "", blurb: "", titleClass: "t-h2", ink: C.chocolate, accent: C.orange700, go: () => {} };
-        return {
-          h: "180px",
-          o: "1",
-          headline: item.headline,
-          blurb: item.blurb,
-          titleClass: item.hand ? "t-hand-sm" : "t-h2",
-          ink: item.ink,
-          accent: item.accent,
-          go: () => this.go(item.id)
-        };
-      })(),
 
       faqs: FAQS.map((f, i) => ({
         q: f.q, a: f.a,

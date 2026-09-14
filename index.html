@@ -1267,7 +1267,7 @@
             </div>
           </div>
           <div class="map-places">
-            <sc-for list="{{ map.places }}" as="place" hint-placeholder-count="8">
+            <sc-for list="{{ map.places }}" as="place" hint-placeholder-count="18">
               <div id="map-place-{{ place.id }}" onClick="{{ place.pick }}" class="clickable map-place {{ place.onClass }}">
                 <div class="map-place-row">
                   <img class="map-ico" src="{{ place.iconSrc }}" alt="">
@@ -1435,7 +1435,7 @@ const PAGE_HEROES = {
 
 const WEEKEND_SECTIONS = [
   { short: "Explore →", hero: true, title: "Let's celebrate!", note: "Explore the weekend →", heroArt: "art/weekend-hero.jpg", bg: C.beige300, ink: C.orange700, noteInk: C.chocolate, tabInk: C.chocolate, accent: C.orange700 },
-  { short: "Welcome", day: "Friday", title: "Welcome Party", note: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots.", agendaNote: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots. Cocktail attire suggested. Located right by the square, you may consider dining in town beforehand (", agendaLink: "ideas here", agendaAfter: ").", time: "8pm — 10pm", place: "Little Saint", placeUrl: "https://www.littlesainthealdsburg.com/", photo: "images/welcome-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange500, ink: C.white, noteInk: C.white, tabInk: C.white, accent: C.white, kickerInk: C.blue300, grainInk: C.chocolate },
+  { short: "Welcome", day: "Friday", title: "Welcome Party", note: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots.", agendaNote: "Kick off the weekend festivities with drinks and light bites at one of our favorite Healdsburg spots. Cocktail attire suggested. Located right by the square, you may consider dining in town beforehand (", agendaLink: "ideas here", agendaAfter: ").", time: "8pm — 10pm", place: "Little Saint", placeUrl: "https://www.littlesainthealdsburg.com/", photo: "images/welcome-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: "#FF7818", ink: C.white, noteInk: C.white, tabInk: C.white, accent: C.white, kickerInk: C.blue300, grainInk: C.chocolate },
   { short: "Ceremony", day: "Saturday", title: "Ceremony", note: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage.", agendaNote: "Join us at St. Paul's Episcopal Church for our wedding ceremony. It means so much to have everyone we love bear witness to our marriage. The church is right outside of the square for those staying in town. Immediately following the ceremony, transportation will be provided for the short 5-minute drive to The Madrona for the celebrations to continue! Throughout the reception, formal attire is suggested.", time: "3pm", place: "St. Paul's Episcopal Church", placeUrl: "https://www.stpauls-healdsburg.org/", photo: "images/ceremony-white-b.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.orange300, bg: C.beige300, ink: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
   { short: "Cocktails", day: "Saturday", title: "Cocktail Hour", note: "Toast to the newlyweds with drinks and hors d'oeuvres on the Oak Terrace.", time: "4pm", place: "Oak Terrace, The Madrona", placeUrl: "https://themadronahotel.com/", photo: "images/cocktails-white.png", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.blue700, bg: C.blue300, ink: C.chocolate, accent: C.orange500, orangeHover: true },
   { short: "Dinner", day: "Saturday", title: "Dinner", note: "Eat and drink together in the spring evening air under the Citrus Grove.", time: "6pm", place: "Citrus Grove, The Madrona", placeUrl: "https://themadronahotel.com/", photo: "images/dinner-white.png?v=4", photoPos: "center", photoClass: "switcher-photo--lineart", photoInk: C.white, bg: C.orange300, ink: C.chocolate, tabInk: C.chocolate, kickerInk: C.blue700, accent: C.orange700 },
@@ -1478,8 +1478,8 @@ const MAP_ICONS = {
   wine: '<path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/>',
   dine: '<path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/><path d="m2.1 21.8 6.4-6.3"/><path d="m19 5-7 7"/>',
   nature: '<path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/>',
-  towns: '<path d="M10 18v-7"/><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/>',
-  golf: '<path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/>'
+  golf: '<path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/>',
+  other: '<path d="M10 10h4"/><path d="M19 7V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3"/><path d="M20 21a2 2 0 0 0 2-2v-3.851c0-1.39-2-2.962-2-4.829V8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v11a2 2 0 0 0 2 2z"/><path d="M22 16H2"/><path d="M4 21a2 2 0 0 1-2-2v-3.851c0-1.39 2-2.962 2-4.829V8a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2z"/><path d="M9 7V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v3"/>'
 };
 
 const lucideUri = (id, color) => {
@@ -1493,11 +1493,11 @@ const MAP_LISTS = [
   { id: "weekend", label: "The Weekend" },
   { id: "travel", label: "Travel" },
   { id: "stay", label: "Stay" },
-  { id: "wine", label: "Wine" },
+  { id: "wine", label: "Sip" },
   { id: "dine", label: "Dine" },
   { id: "nature", label: "Nature" },
-  { id: "towns", label: "Towns" },
-  { id: "golf", label: "Golf" }
+  { id: "golf", label: "Golf" },
+  { id: "other", label: "Other" }
 ];
 
 const MAP_SPOTS = [
@@ -1513,10 +1513,32 @@ const MAP_SPOTS = [
   { id: "montage", list: "stay", name: "Montage Healdsburg", note: "Out in the vines. A little removed from town; they run an area shuttle.", site: "https://www.montage.com/", query: "Montage Healdsburg", zoom: 15 },
   { id: "fairview", list: "stay", name: "Fairview Inn & Suites", note: "A comfortable stay a bit outside of town.", site: "https://www.fairviewinnandsuites.com/", query: "Fairview Inn and Suites Healdsburg", zoom: 16 },
   { id: "bella", list: "wine", name: "Bella Vineyards", note: "Wine caves and a lawn in Dry Creek. Reservations recommended.", site: "https://www.bellawinery.com/", query: "Bella Vineyards Healdsburg", zoom: 15 },
+  { id: "matrix", list: "wine", name: "Matrix Winery", note: "Outdoors, overlooking a pond. Russian River Valley.", site: "https://matrixwinery.com/", query: "Matrix Winery Healdsburg", zoom: 15 },
+  { id: "papapietro", list: "wine", name: "Papapietro Perry", note: "Dry Creek. Pinot and zin, small lots.", site: "https://www.papapietro-perry.com/", query: "Papapietro Perry Winery Healdsburg", zoom: 15 },
+  { id: "fogbelt", list: "wine", name: "Fogbelt Brewing", note: "A brewery stop, if wine isn't the assignment that hour.", site: "https://fogbeltbrewing.com/", query: "Fogbelt Brewing Santa Rosa CA", zoom: 15 },
+  { id: "lioco", list: "wine", name: "LIOCO", note: "Downtown tasting room. Chardonnay and pinot, mostly.", site: "https://www.liocowine.com/", query: "LIOCO tasting room Healdsburg", zoom: 16 },
   { id: "bloodroot", list: "wine", name: "BloodRoot", note: "Downtown tasting room on North Street. Open daily 1–7.", site: "https://www.bloodrootwines.com/", query: "BloodRoot Wines Healdsburg", zoom: 16 },
-  { id: "quail", list: "dine", name: "Quail & Condor", note: "Bakery and cafe at The Row. Bread, pastries, coffee — 7 to 3.", site: "https://www.quailandcondor.com/", query: "Quail & Condor Healdsburg", zoom: 16 },
+  { id: "williamson", list: "wine", name: "Williamson", note: "A tasting room on the plaza.", site: "https://williamsonwines.com/", query: "Williamson Wines Healdsburg", zoom: 16 },
+  { id: "portalupi", list: "wine", name: "Portalupi", note: "Italian-leaning tasting room on North Street.", site: "https://portalupiwine.com/", query: "Portalupi Wines Healdsburg", zoom: 16 },
+  { id: "troubadour", list: "dine", name: "Troubadour", note: "French, a Michelin star. Bread by day, bistro at night.", site: "https://www.troubadourhbg.com/", query: "Troubadour Bread and Bistro Healdsburg", zoom: 16 },
+  { id: "single-thread", list: "dine", name: "SingleThread", note: "Three Michelin stars. Book far ahead.", site: "https://singlethreadfarms.com/restaurant/", query: "SingleThread Restaurant Healdsburg", zoom: 16 },
+  { id: "valette", list: "dine", name: "Valette", note: "Californian, from two brothers who grew up here.", site: "https://www.valettehealdsburg.com/", query: "Valette Healdsburg", zoom: 16 },
+  { id: "barndiva", list: "dine", name: "Barndiva", note: "Californian, in a barn and garden off the plaza.", site: "https://www.barndiva.com/", query: "Barndiva Healdsburg", zoom: 16 },
   { id: "lo-behold", list: "dine", name: "Lo & Behold", note: "Bar and kitchen on Healdsburg Ave. Lunch, dinner, drinks.", site: "https://www.loandbeholdca.com/", query: "Lo & Behold Healdsburg", zoom: 16 },
+  { id: "journeyman", list: "dine", name: "Journeyman Meat Co.", note: "Butcher shop and a place to sit down for it.", site: "https://www.journeymanmeat.com/", query: "Journeyman Meat Co Healdsburg", zoom: 16 },
+  { id: "guiso", list: "dine", name: "Guiso", note: "Latin fusion, a short walk from the square.", query: "Guiso Latin Fusion Healdsburg", zoom: 16 },
+  { id: "baci", list: "dine", name: "Baci", note: "Italian, downtown.", query: "Baci Healdsburg CA", zoom: 16 },
+  { id: "matheson", list: "dine", name: "The Matheson", note: "A big, lively room on Matheson Street.", site: "https://thematheson.com/", query: "The Matheson Healdsburg", zoom: 16 },
+  { id: "roof-106", list: "dine", name: "Roof 106", note: "Pizza and small plates, up on the roof.", site: "https://thematheson.com/", query: "Roof 106 Healdsburg", zoom: 16 },
+  { id: "marela", list: "dine", name: "Maréla", note: "Coastal European, right next door to Friday night.", query: "Marela Healdsburg CA", zoom: 16 },
+  { id: "pizzando", list: "dine", name: "PizZando", note: "Pizza, on the parklet.", query: "PizZando Healdsburg", zoom: 16 },
+  { id: "bravas", list: "dine", name: "Bravas", note: "Spanish. Paella on Friday nights.", query: "Bravas Bar de Tapas Healdsburg", zoom: 16 },
+  { id: "otoro", list: "dine", name: "Otoro Sushi", note: "Sushi in town.", query: "Otoro Sushi Healdsburg", zoom: 16 },
+  { id: "quail", list: "dine", name: "Quail & Condor", note: "Bakery and cafe at The Row. Bread, pastries, coffee — 7 to 3.", site: "https://www.quailandcondor.com/", query: "Quail & Condor Healdsburg", zoom: 16 },
+  { id: "costeaux", list: "dine", name: "Costeaux", note: "Breakfast, and a bakery that's been here forever.", site: "https://www.costeaux.com/", query: "Costeaux French Bakery Healdsburg", zoom: 16 },
   { id: "black-oak", list: "dine", name: "Black Oak Coffee Roasters", note: "Just off the plaza on Center Street.", site: "https://blackoakcoffee.com/pages/healdsburg", query: "Black Oak Coffee Roasters Healdsburg", zoom: 16 },
+  { id: "dukes", list: "dine", name: "Duke's", note: "Cocktails on the plaza.", query: "Duke's Spirited Cocktails Healdsburg", zoom: 16 },
+  { id: "zekes", list: "dine", name: "John & Zeke's", note: "The dive. Pool, shuffleboard, a proper bar.", query: "John and Zeke's Bar Healdsburg", zoom: 16 },
   { id: "bodega", list: "nature", name: "Bodega Bay", note: "About an hour. Harbor, dunes, and the coast.", query: "Bodega Bay CA", zoom: 12 },
   { id: "muir", list: "nature", name: "Muir Woods", note: "Redwoods, about 90 minutes. Parking reservations required.", site: "https://www.nps.gov/muwo/", query: "Muir Woods National Monument", zoom: 14 },
   { id: "rodeo", list: "nature", name: "Rodeo Beach", note: "Marin Headlands. Cold water, big sky, the city across the water.", site: "https://www.nps.gov/goga/", query: "Rodeo Beach Marin Headlands", zoom: 14 },
@@ -1524,9 +1546,14 @@ const MAP_SPOTS = [
   { id: "tubes", list: "nature", name: "Russian River Tubes & Kayaks", note: "Rent in Guerneville. Float, paddle, sit in the sun.", site: "https://www.russianrivertubes.com/", query: "Russian River Tubes and Kayaks Guerneville", zoom: 14 },
   { id: "reyes", list: "nature", name: "Point Reyes", note: "National seashore. Elk, estuary, a long walk if you want one.", site: "https://www.nps.gov/pore/", query: "Point Reyes National Seashore", zoom: 12 },
   { id: "rock-point", list: "nature", name: "Rock Point Beach", note: "A pull-out on Highway 1, just south of Duncan's Landing.", query: "Rock Point Beach Bodega Bay CA", zoom: 14 },
-  { id: "sausalito", list: "towns", name: "Sausalito", note: "On the way up from the city. Harbor, bikes, the bay.", query: "Sausalito CA", zoom: 13 },
-  { id: "calistoga", list: "towns", name: "Calistoga", note: "Over the hill in Napa. A smaller spa town.", query: "Calistoga CA", zoom: 13 },
-  { id: "northwood", list: "golf", name: "Northwood Golf Club", note: "A nine-hole course in the redwoods, Monte Rio.", site: "https://www.northwoodgolf.com/", query: "Northwood Golf Club Monte Rio", zoom: 15 }
+  { id: "healdsburg-golf", list: "golf", name: "Healdsburg Golf Club", note: "Nine holes at Tayman Park, just above town.", query: "Healdsburg Golf Club Tayman Park", zoom: 15 },
+  { id: "windsor-golf", list: "golf", name: "Windsor Golf Club", note: "An 18-hole course in Windsor, a short drive south.", site: "https://www.windsorgolf.com/", query: "Windsor Golf Club CA", zoom: 15 },
+  { id: "northwood", list: "golf", name: "Northwood Golf Club", note: "A nine-hole course in the redwoods, Monte Rio.", site: "https://www.northwoodgolf.com/", query: "Northwood Golf Club Monte Rio", zoom: 15 },
+  { id: "savor", list: "other", name: "Savor Healdsburg", note: "A walking food tour of town. Good if you want someone else to pick.", site: "https://savorhealdsburgfoodtours.com/", query: "Savor Healdsburg Food Tours", zoom: 16 },
+  { id: "sausalito", list: "other", name: "Sausalito", note: "On the way up from the city. Harbor, bikes, the bay.", query: "Sausalito CA", zoom: 13 },
+  { id: "calistoga", list: "other", name: "Calistoga", note: "Over the hill in Napa. A smaller spa town.", query: "Calistoga CA", zoom: 13 },
+  { id: "barlow", list: "other", name: "The Barlow", note: "A market district in Sebastopol. Warehouses, food, a wander.", site: "https://thebarlow.net/", query: "The Barlow Sebastopol CA", zoom: 15 },
+  { id: "windsor", list: "other", name: "Windsor", note: "The next town south. A green, a few restaurants, an easy detour.", query: "Windsor Town Green CA", zoom: 14 }
 ];
 
 const MAP_FALLBACK = {
@@ -1555,7 +1582,34 @@ const MAP_FALLBACK = {
   "rock-point": { lat: 38.392, lng: -123.0865 },
   "sausalito": { lat: 37.85903, lng: -122.48547 },
   "calistoga": { lat: 38.5788, lng: -122.57971 },
-  "northwood": { lat: 38.47854, lng: -122.99403 }
+  "northwood": { lat: 38.47854, lng: -122.99403 },
+  "matrix": { lat: 38.57473, lng: -122.87729 },
+  "papapietro": { lat: 38.6896, lng: -122.9405 },
+  "fogbelt": { lat: 38.44915, lng: -122.72706 },
+  "lioco": { lat: 38.61095, lng: -122.8706 },
+  "williamson": { lat: 38.6107, lng: -122.8691 },
+  "portalupi": { lat: 38.6117, lng: -122.8702 },
+  "troubadour": { lat: 38.6079, lng: -122.8697 },
+  "single-thread": { lat: 38.61234, lng: -122.86969 },
+  "valette": { lat: 38.61206, lng: -122.86957 },
+  "barndiva": { lat: 38.60963, lng: -122.86947 },
+  "journeyman": { lat: 38.6105, lng: -122.8694 },
+  "guiso": { lat: 38.61219, lng: -122.87030 },
+  "baci": { lat: 38.61175, lng: -122.87063 },
+  "matheson": { lat: 38.61019, lng: -122.87004 },
+  "roof-106": { lat: 38.61022, lng: -122.87004 },
+  "marela": { lat: 38.6121, lng: -122.8716 },
+  "pizzano": { lat: 38.61043, lng: -122.87074 },
+  "bravas": { lat: 38.6100, lng: -122.8694 },
+  "otoro": { lat: 38.6114, lng: -122.8701 },
+  "costeaux": { lat: 38.6075, lng: -122.8696 },
+  "dukes": { lat: 38.6108, lng: -122.8689 },
+  "zekes": { lat: 38.6104, lng: -122.8699 },
+  "healdsburg-golf": { lat: 38.6182, lng: -122.8558 },
+  "windsor-golf": { lat: 38.52906, lng: -122.81041 },
+  "savor": { lat: 38.6106, lng: -122.8694 },
+  "barlow": { lat: 38.40418, lng: -122.82080 },
+  "windsor": { lat: 38.5471, lng: -122.8166 }
 };
 
 const ACCOMMODATION_SECTIONS = [

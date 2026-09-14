@@ -151,6 +151,7 @@
     align-items: start;
   }
   .note-grid > * { min-width: 0; }
+  .note-grid--thanks { align-items: center; }
   .note-thanks { max-width: var(--measure-md); }
   .note-form { display: flex; flex-direction: column; gap: var(--space-stack); }
   .note-field {
@@ -1295,13 +1296,13 @@
 
   <sc-if value="{{ showSiteEnd }}" hint-placeholder-val="{{ true }}">
   <div class="note-band">
-    <div class="note-grid">
+    <div class="note-grid {{ note.gridClass }}">
       <div>
         <div class="t-h2" style="color:var(--chocolate);">Can't make it?</div>
         <div class="t-body lede lede-md" style="color:var(--chocolate);">Formal RSVPs to come, but if you already know you won't be able to celebrate with us, kindly send a note ahead of time for our planning purposes. We will miss you dearly!!</div>
       </div>
       <sc-if value="{{ note.sent }}" hint-placeholder-val="{{ false }}">
-        <div class="t-body note-thanks" style="color:var(--chocolate);">Thank you so much for letting us know ahead of time. We will miss you dearly!!</div>
+        <div class="t-body note-thanks" style="color:var(--chocolate);">Thank you so much for letting us know ahead of time. We will miss you!</div>
       </sc-if>
       <sc-if value="{{ note.showForm }}" hint-placeholder-val="{{ true }}">
       <form class="note-form" action="https://api.web3forms.com/submit" method="POST" onSubmit="{{ note.send }}">
@@ -2248,6 +2249,7 @@ class Component extends DCLogic {
         sent: !!this.state.noteSent,
         showForm: !this.state.noteSent,
         hasError: !!this.state.noteError,
+        gridClass: this.state.noteSent ? "note-grid--thanks" : "",
         cta: this.state.noteSending ? "Sending →" : "Send →",
         send: e => this.sendNote(e)
       },

@@ -150,6 +150,8 @@
     gap: var(--space-block);
     align-items: start;
   }
+  .note-grid > * { min-width: 0; }
+  .note-thanks { max-width: var(--measure-md); }
   .note-form { display: flex; flex-direction: column; gap: var(--space-stack); }
   .note-field {
     width: 100%;
@@ -177,6 +179,7 @@
     color: var(--chocolate);
   }
   .note-submit:hover { color: var(--blue-700); }
+  .note-bot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .site-bar {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -1297,13 +1300,24 @@
         <div class="t-h2" style="color:var(--chocolate);">Can't make it?</div>
         <div class="t-body lede lede-md" style="color:var(--chocolate);">Formal RSVPs to come, but if you already know you won't be able to celebrate with us, kindly send a note ahead of time for our planning purposes. We will miss you dearly!!</div>
       </div>
-      <form class="note-form" action="#" method="post">
+      <sc-if value="{{ note.sent }}" hint-placeholder-val="{{ false }}">
+        <div class="t-body note-thanks" style="color:var(--chocolate);">Thank you so much for letting us know ahead of time. We will miss you dearly!!</div>
+      </sc-if>
+      <sc-if value="{{ note.showForm }}" hint-placeholder-val="{{ true }}">
+      <form class="note-form" action="https://api.web3forms.com/submit" method="POST" onSubmit="{{ note.send }}">
+        <input type="hidden" name="access_key" value="b1be9385-1833-4ab9-b731-672d6bc98717">
+        <input type="hidden" name="subject" value="Can't make it — Kyle &amp; Elizabeth">
+        <input type="checkbox" name="botcheck" class="note-bot" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div>
           <label class="t-label" for="guest-name" style="color:var(--chocolate);">Guest(s) who cannot attend:</label>
-          <input class="note-field" id="guest-name" type="text" name="name" placeholder="Name" autocomplete="name">
+          <input class="note-field" id="guest-name" type="text" name="name" placeholder="Name" autocomplete="name" required>
         </div>
-        <button class="clickable t-nav note-submit" type="button">Send →</button>
+        <button class="clickable t-nav note-submit" type="submit">{{ note.cta }}</button>
+        <sc-if value="{{ note.hasError }}" hint-placeholder-val="{{ false }}">
+          <div class="t-label" style="color:var(--orange-700);">Couldn't send — try again in a moment.</div>
+        </sc-if>
       </form>
+      </sc-if>
     </div>
   </div>
 
@@ -1710,7 +1724,7 @@ const FAQS = [
 ];
 
 class Component extends DCLogic {
-  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false };
+  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false, noteSent: false, noteSending: false, noteError: false };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -1739,6 +1753,21 @@ class Component extends DCLogic {
     this.destroyMap();
   }
 
+  sendNote(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (this.state.noteSending || this.state.noteSent) return;
+    const form = e.currentTarget || e.target;
+    const name = (form.querySelector('[name="name"]')?.value || "").trim();
+    if (!name) return;
+    this.setState({ noteSending: true, noteError: false });
+    fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) })
+      .then(r => r.json())
+      .then(json => {
+        if (json.success) this.setState({ noteSent: true, noteSending: false, noteError: false });
+        else this.setState({ noteSending: false, noteError: true });
+      })
+      .catch(() => this.setState({ noteSending: false, noteError: true }));
+  }
   visibleSpots() {
     const list = this.state.mapList || "all";
     return MAP_SPOTS.filter(s => list === "all" || s.list === list);
@@ -2215,6 +2244,13 @@ class Component extends DCLogic {
       isRegistry: p === "registry",
       isTodo: p === "todo",
       showSiteEnd: p !== "todo",
+      note: {
+        sent: !!this.state.noteSent,
+        showForm: !this.state.noteSent,
+        hasError: !!this.state.noteError,
+        cta: this.state.noteSending ? "Sending →" : "Send →",
+        send: e => this.sendNote(e)
+      },
       map: this.buildMap(),
       hasPageHero: !!pageHeroData,
       pageHero: pageHeroData ? {

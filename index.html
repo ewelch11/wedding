@@ -1475,7 +1475,7 @@ const MAP_ICONS = {
   weekend: '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>',
   travel: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
   stay: '<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M12 4v6"/><path d="M2 18h20"/>',
-  wine: '<path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/>',
+  wine: '<path d="M10 3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a6 6 0 0 0 1.2 3.6l.6.8A6 6 0 0 1 17 13v8a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-8a6 6 0 0 1 1.2-3.6l.6-.8A6 6 0 0 0 10 5z"/><path d="M17 13h-4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h4"/>',
   dine: '<path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/><path d="m2.1 21.8 6.4-6.3"/><path d="m19 5-7 7"/>',
   nature: '<path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/>',
   golf: '<path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/>',
@@ -1520,6 +1520,8 @@ const MAP_SPOTS = [
   { id: "bloodroot", list: "wine", name: "BloodRoot", note: "Downtown tasting room on North Street. Open daily 1–7.", site: "https://www.bloodrootwines.com/", query: "BloodRoot Wines Healdsburg", zoom: 16 },
   { id: "williamson", list: "wine", name: "Williamson", note: "A tasting room on the plaza.", site: "https://williamsonwines.com/", query: "Williamson Wines Healdsburg", zoom: 16 },
   { id: "portalupi", list: "wine", name: "Portalupi", note: "Italian-leaning tasting room on North Street.", site: "https://portalupiwine.com/", query: "Portalupi Wines Healdsburg", zoom: 16 },
+  { id: "dukes", list: "wine", name: "Duke's", note: "Cocktails on the plaza.", query: "Duke's Spirited Cocktails Healdsburg", zoom: 16 },
+  { id: "zekes", list: "wine", name: "John & Zeke's", note: "The dive. Pool, shuffleboard, a proper bar.", query: "John and Zeke's Bar Healdsburg", zoom: 16 },
   { id: "troubadour", list: "dine", name: "Troubadour", note: "French, a Michelin star. Bread by day, bistro at night.", site: "https://www.troubadourhbg.com/", query: "Troubadour Bread and Bistro Healdsburg", zoom: 16 },
   { id: "single-thread", list: "dine", name: "SingleThread", note: "Three Michelin stars. Book far ahead.", site: "https://singlethreadfarms.com/restaurant/", query: "SingleThread Restaurant Healdsburg", zoom: 16 },
   { id: "valette", list: "dine", name: "Valette", note: "Californian, from two brothers who grew up here.", site: "https://www.valettehealdsburg.com/", query: "Valette Healdsburg", zoom: 16 },
@@ -1537,8 +1539,6 @@ const MAP_SPOTS = [
   { id: "quail", list: "dine", name: "Quail & Condor", note: "Bakery and cafe at The Row. Bread, pastries, coffee — 7 to 3.", site: "https://www.quailandcondor.com/", query: "Quail & Condor Healdsburg", zoom: 16 },
   { id: "costeaux", list: "dine", name: "Costeaux", note: "Breakfast, and a bakery that's been here forever.", site: "https://www.costeaux.com/", query: "Costeaux French Bakery Healdsburg", zoom: 16 },
   { id: "black-oak", list: "dine", name: "Black Oak Coffee Roasters", note: "Just off the plaza on Center Street.", site: "https://blackoakcoffee.com/pages/healdsburg", query: "Black Oak Coffee Roasters Healdsburg", zoom: 16 },
-  { id: "dukes", list: "dine", name: "Duke's", note: "Cocktails on the plaza.", query: "Duke's Spirited Cocktails Healdsburg", zoom: 16 },
-  { id: "zekes", list: "dine", name: "John & Zeke's", note: "The dive. Pool, shuffleboard, a proper bar.", query: "John and Zeke's Bar Healdsburg", zoom: 16 },
   { id: "bodega", list: "nature", name: "Bodega Bay", note: "About an hour. Harbor, dunes, and the coast.", query: "Bodega Bay CA", zoom: 12 },
   { id: "muir", list: "nature", name: "Muir Woods", note: "Redwoods, about 90 minutes. Parking reservations required.", site: "https://www.nps.gov/muwo/", query: "Muir Woods National Monument", zoom: 14 },
   { id: "rodeo", list: "nature", name: "Rodeo Beach", note: "Marin Headlands. Cold water, big sky, the city across the water.", site: "https://www.nps.gov/goga/", query: "Rodeo Beach Marin Headlands", zoom: 14 },
@@ -1811,20 +1811,19 @@ class Component extends DCLogic {
       this.destroyMap();
       return;
     }
-    this.ensureGoogleMaps().then(async g => {
+    this.ensureGoogleMaps().then(g => {
       if (!g || this.state.page !== "todo") return;
       const el = document.getElementById("map-google");
       if (!el) return;
       if (!this._gmap) this.createGoogleMap(g, el);
-      await this.resolvePlaces(g);
-      if (!g || this.state.page !== "todo" || !this._gmap) return;
       this.refreshGoogleMap(g);
+      this.resolvePlaces();
     }).catch(() => {});
   }
   spotLoc(s) {
     return (this._placeCache && this._placeCache[s.id]) || MAP_FALLBACK[s.id] || null;
   }
-  resolvePlaces(g) {
+  resolvePlaces() {
     if (this._placesReady) return Promise.resolve();
     if (this._placesLoading) return this._placesLoading;
     this._placeCache = this._placeCache || {};
@@ -1851,20 +1850,27 @@ class Component extends DCLogic {
       const n = 3;
       for (let i = 0; i < pending.length; i += n) {
         await Promise.all(pending.slice(i, i + n).map(lookup));
-        this._markerKey = "";
-        this._fitKey = "";
-        if (this._gmap) this.refreshGoogleMap(g);
       }
       this._placesReady = true;
       this._placesLoading = null;
+      this.nudgeMarkers();
     };
     this._placesLoading = run();
     return this._placesLoading;
+  }
+  nudgeMarkers() {
+    if (!this._markers) return;
+    this._markers.forEach(m => {
+      const spot = MAP_SPOTS.find(s => s.id === m._id);
+      const loc = spot && this.spotLoc(spot);
+      if (loc) m.setPosition(loc);
+    });
   }
   createGoogleMap(g, el) {
     this._gmap = new g.Map(el, {
       center: { lat: 38.61055, lng: -122.8692 },
       zoom: 15,
+      backgroundColor: C.beige300,
       mapTypeControl: false,
       streetViewControl: true,
       fullscreenControl: false,
@@ -1878,42 +1884,53 @@ class Component extends DCLogic {
     this._fitKey = "";
     this._markerKey = "";
     if (typeof ResizeObserver !== "undefined") {
+      let resizeWait;
       this._mapResize = new ResizeObserver(() => {
-        if (this._gmap) g.event.trigger(this._gmap, "resize");
+        clearTimeout(resizeWait);
+        resizeWait = setTimeout(() => {
+          if (this._gmap) g.event.trigger(this._gmap, "resize");
+        }, 80);
       });
       this._mapResize.observe(el);
     }
-    setTimeout(() => {
-      if (this._gmap) g.event.trigger(this._gmap, "resize");
-    }, 80);
   }
   refreshGoogleMap(g) {
     const map = this._gmap;
     if (!g || !map) return;
     const pinId = this.state.mapPin || "";
     const spots = this.visibleSpots().filter(s => this.spotLoc(s));
-    const markerKey = (this.state.mapList || "all") + ":" + pinId + ":" + spots.map(s => s.id).join(",");
-    if (markerKey === this._markerKey && this._markers) return;
-    this._markerKey = markerKey;
-    if (this._markers) this._markers.forEach(m => m.setMap(null));
-    this._markers = spots.map(s => {
-      const loc = this.spotLoc(s);
-      const mark = new g.Marker({
-        position: loc,
-        map,
-        title: s.name,
-        icon: this.pinIcon(pinId === s.id, s.list),
-        optimized: false,
-        zIndex: pinId === s.id ? 8 : 4
+    const ids = spots.map(s => s.id).join(",");
+    const markerKey = (this.state.mapList || "all") + ":" + ids;
+    if (markerKey !== this._markerKey || !this._markers) {
+      this._markerKey = markerKey;
+      if (this._markers) this._markers.forEach(m => m.setMap(null));
+      this._markers = spots.map(s => {
+        const loc = this.spotLoc(s);
+        const mark = new g.Marker({
+          position: loc,
+          map,
+          title: s.name,
+          icon: this.pinIcon(pinId === s.id, s.list),
+          optimized: false,
+          zIndex: pinId === s.id ? 8 : 4
+        });
+        mark._id = s.id;
+        mark._list = s.list;
+        mark.addListener("click", () => this.pickMapPin(s.id));
+        return mark;
       });
-      mark._id = s.id;
-      mark._list = s.list;
-      mark.addListener("click", () => this.pickMapPin(s.id));
-      return mark;
-    });
+    } else {
+      this._markers.forEach(m => {
+        const on = pinId === m._id;
+        const loc = this.spotLoc({ id: m._id });
+        if (loc) m.setPosition(loc);
+        m.setIcon(this.pinIcon(on, m._list));
+        m.setZIndex(on ? 8 : 4);
+      });
+    }
     this._pinZoom = null;
     this.scalePins();
-    const key = (this.state.mapList || "all") + ":" + spots.map(s => s.id).join(",");
+    const key = (this.state.mapList || "all") + ":" + ids;
     if (key !== this._fitKey && spots.length) {
       this._fitKey = key;
       const b = new g.LatLngBounds();

@@ -1240,6 +1240,8 @@
     .switcher-tab { flex: 1 0 auto; }
 
     .grid-label { text-align: center; }
+    .weekend-grid .grid-label-dot { display: none; }
+    .weekend-grid .grid-label-extra { display: block; }
     .grid-cell { min-height: 0; }
     .weekend-grid .grid-cell:has(.cell-photo),
     .grid-cell:only-child:has(.cell-photo) {
@@ -1737,7 +1739,7 @@
           <div class="t-h1 agenda-title" style="color:var(--chocolate);">{{ agendaTitle }}</div>
         </sc-if>
         <sc-for list="{{ grid.groups }}" as="group" hint-placeholder-count="2">
-          <div class="t-label grid-label" style="color:{{ group.labelColor }}; border-top:{{ group.labelBorder }}; padding-top:{{ group.labelPad }};">{{ group.label }}</div>
+          <div class="t-label grid-label" style="color:{{ group.labelColor }}; border-top:{{ group.labelBorder }}; padding-top:{{ group.labelPad }};">{{ group.label }}<sc-if value="{{ group.hasLabelNote }}" hint-placeholder-val="{{ false }}"><span class="grid-label-dot"> · </span><span class="grid-label-extra">{{ group.labelNote }}</span></sc-if></div>
           <div class="grid-group">
             <sc-for list="{{ group.rows }}" as="row" hint-placeholder-count="3">
               <div class="grid-row" style="--row-cols:{{ row.cols }};">
@@ -2284,7 +2286,7 @@ const ACCOMMODATION_SECTIONS = [
 const WEEKEND_GRID = {
   groups: [
     { label: "Friday, April 30, 2027", rows: [[{ idx: 1 }]] },
-    { label: "Saturday, May 01, 2027 · the day!", rows: [[{ idx: 2 }], [{ idx: 3 }, { idx: 4 }], [{ idx: 5 }, { idx: 6 }]] }
+    { label: "Saturday, May 01, 2027", labelNote: "the day!", rows: [[{ idx: 2 }], [{ idx: 3 }, { idx: 4 }], [{ idx: 5 }, { idx: 6 }]] }
   ]
 };
 
@@ -2312,12 +2314,11 @@ const FAQS = [
 ];
 
 class Component extends DCLogic {
-  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false, noteSent: false, noteSending: false, noteError: false, navOpen: false, homeSlide: 0, weekendSlide: 0 };
+  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false, noteSent: false, noteSending: false, noteError: false, navOpen: false, homeSlide: 0, weekendSlide: 0, isMobile: false };
 
   componentDidMount() {
     this._onScroll = () => {
-      const y = window.scrollY || 0;
-      const past = y > 1;
+      const past = this.pastTopStage();
       if (past !== this.state.scrolled) this.setState({ scrolled: past });
     };
     this._onKey = (e) => {
@@ -2328,11 +2329,18 @@ class Component extends DCLogic {
       else if (this.state.mapPin) this.setState({ mapPin: "" });
     };
     this._onResize = () => {
-      if (window.innerWidth > 768 && this.state.navOpen) this.setState({ navOpen: false });
+      const isMobile = window.innerWidth <= 768;
+      const next = {};
+      if (isMobile !== this.state.isMobile) next.isMobile = isMobile;
+      if (!isMobile && this.state.navOpen) next.navOpen = false;
+      if (Object.keys(next).length) this.setState(next);
     };
-    window.addEventListener("scroll", this._onScroll, { passive: true });
+    window.addEventListener("scroll", this._onScroll, { passive: true, capture: true });
+    document.addEventListener("scroll", this._onScroll, { passive: true, capture: true });
+    document.body.addEventListener("scroll", this._onScroll, { passive: true });
     window.addEventListener("keydown", this._onKey);
     window.addEventListener("resize", this._onResize);
+    this._onResize();
     this._onScroll();
     this.syncMap();
   }
@@ -2342,7 +2350,9 @@ class Component extends DCLogic {
     this.syncOverflow();
   }
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._onScroll);
+    window.removeEventListener("scroll", this._onScroll, { capture: true });
+    document.removeEventListener("scroll", this._onScroll, { capture: true });
+    document.body.removeEventListener("scroll", this._onScroll);
     window.removeEventListener("keydown", this._onKey);
     window.removeEventListener("resize", this._onResize);
     this.destroyMap();
@@ -2648,6 +2658,15 @@ class Component extends DCLogic {
     this.syncOverflow();
   }
 
+  weekendSlideBg(s) {
+    if (!s) return C.beige300;
+    return s.short === "Ceremony" ? C.white : s.bg;
+  }
+  pastTopStage() {
+    if (typeof window === "undefined") return false;
+    return Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0, document.body.scrollTop || 0) > 1;
+  }
+
   goHomeSlide(i) {
     const track = typeof document !== "undefined" && document.getElementById("home-strip-track");
     const photos = track && track.querySelectorAll(".home-strip-photo");
@@ -2793,6 +2812,8 @@ class Component extends DCLogic {
     return {
       groups: gridConfig.groups.map((g, gi) => ({
         label: g.label,
+        labelNote: g.labelNote || "",
+        hasLabelNote: !!g.labelNote,
         labelColor: opts.labelColor || "var(--chocolate)",
         labelBorder: opts.labelBorder != null ? opts.labelBorder : (gi === 0 ? "none" : "1px solid color-mix(in srgb, var(--black-700) 12%, transparent)"),
         labelPad: gi === 0 ? "0px" : (opts.groupGap || "var(--space-stack)"),
@@ -2880,7 +2901,10 @@ class Component extends DCLogic {
     let barBorder = this.hexAlpha(C.black700, 0.14);
     let barAccent = C.orange700;
     if (onWeekendSlide) {
-      barBg = this.hexAlpha(sw.bg, darkSlide ? 0.84 : 0.7);
+      const slideBg = this.state.isMobile
+        ? this.weekendSlideBg(WEEKEND_SECTIONS[this.state.weekendIdx])
+        : sw.bg;
+      barBg = this.hexAlpha(slideBg, darkSlide ? 0.84 : 0.7);
       barInk = darkSlide ? C.white : C.blue700;
       barBorder = this.hexAlpha(darkSlide ? C.white : C.black700, darkSlide ? 0.16 : 0.12);
       barAccent = darkSlide ? C.white : C.orange700;
@@ -2977,7 +3001,7 @@ class Component extends DCLogic {
         scroll: e => this.scrollWeekendStrip(e),
         slides: WEEKEND_SECTIONS.map(s => ({
           heroClass: s.hero ? "is-hero" : "",
-          bg: s.short === "Ceremony" ? C.white : s.bg,
+          bg: this.weekendSlideBg(s),
           ink: s.ink,
           noteInk: s.noteInk || s.ink,
           metaInk: s.metaInk || s.ink,

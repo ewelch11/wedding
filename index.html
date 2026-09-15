@@ -967,8 +967,11 @@
     }
     .cell-photo { order: -1; max-width: 16rem; }
     .note-grid,
-    .home-recap-grid,
     .todo-blurb-grid { grid-template-columns: 1fr; }
+    .home-recap-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-stack);
+    }
     .map-stage {
       grid-template-columns: 1fr;
       grid-template-rows: minmax(16rem, 42%) 1fr;
@@ -1278,6 +1281,7 @@
       justify-items: start;
       gap: var(--space-stack-sm);
     }
+    .site-footer-copy { order: 1; }
     .site-footer-copy,
     .site-footer-place { justify-self: start; white-space: normal; }
   }
@@ -2973,7 +2977,7 @@ class Component extends DCLogic {
         scroll: e => this.scrollWeekendStrip(e),
         slides: WEEKEND_SECTIONS.map(s => ({
           heroClass: s.hero ? "is-hero" : "",
-          bg: s.bg,
+          bg: s.short === "Ceremony" ? C.white : s.bg,
           ink: s.ink,
           noteInk: s.noteInk || s.ink,
           metaInk: s.metaInk || s.ink,

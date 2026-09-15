@@ -193,6 +193,33 @@
     padding: var(--space-stack-sm) var(--space-gutter);
   }
   .site-bar-links { display: flex; gap: var(--space-stack); align-items: center; }
+  .nav-burger {
+    display: none;
+    position: relative;
+    z-index: 51;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+  }
+  .nav-burger span {
+    display: block;
+    width: 1.2rem;
+    height: 1.5px;
+    margin: 0 auto;
+    background: currentColor;
+    transform-origin: center;
+    transition: transform .22s ease, opacity .18s ease;
+  }
+  .nav-burger.is-open span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .nav-burger.is-open span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+  .nav-sheet { display: none; }
   .site-bar-mark {
     font-family: var(--font-hand);
     font-size: 1.375rem;
@@ -229,6 +256,9 @@
     align-items: end;
     background: var(--beige-300);
   }
+  .home-strip-track { display: contents; }
+  .home-strip-dots { display: none; }
+  .home-strip-est { grid-column: 12 / span 1; }
   .home-strip-photo { overflow: hidden; }
   .home-strip-photo img {
     display: block;
@@ -737,6 +767,113 @@
     pointer-events: none;
   }
   .switcher-detail { margin-top: var(--space-stack); }
+  .weekend-m { display: none; }
+  .weekend-m-track {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
+    padding: 0;
+    height: 100svh;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .weekend-m-track::-webkit-scrollbar { display: none; }
+  .weekend-m-slide,
+  .weekend-m-slide.is-hero {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100svh;
+    min-height: 100svh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    box-sizing: border-box;
+    padding: calc(var(--nav-h) + var(--space-cluster)) var(--space-gutter) var(--space-cluster);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .weekend-m-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 0;
+  }
+  .weekend-m-slide.is-hero {
+    display: grid;
+    grid-template-rows: 1fr 54svh;
+    justify-content: stretch;
+    padding: 0;
+  }
+  .weekend-m-slide.is-hero .weekend-m-copy {
+    grid-row: 1;
+    padding: var(--nav-h) var(--space-gutter) 0;
+  }
+  .weekend-m-slide.is-hero .lede { margin-top: var(--space-stack); }
+  .weekend-m-hero {
+    grid-row: 2;
+    width: 100%;
+    flex: none;
+    height: 54svh;
+    min-height: 54svh;
+    max-height: 54svh;
+    overflow: hidden;
+    margin-top: 0;
+    background: var(--beige-300);
+  }
+  .weekend-m-hero img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+  }
+  .weekend-m-art {
+    width: min(78%, 18rem);
+    flex: 1 1 auto;
+    max-height: 52%;
+    min-height: 9rem;
+    aspect-ratio: 1;
+    margin: 0 auto var(--space-stack);
+    background: currentColor;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    order: -1;
+  }
+  .weekend-m-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.35rem;
+    z-index: 4;
+    padding: 0;
+    pointer-events: none;
+  }
+  .weekend-m-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    pointer-events: auto;
+    background: var(--white);
+    opacity: 0.55;
+    box-shadow: 0 1px 8px color-mix(in srgb, var(--chocolate) 40%, transparent);
+  }
+  .weekend-m-dot.is-on {
+    opacity: 1;
+    background: var(--orange-700);
+    box-shadow: 0 0 0 2px var(--white), 0 1px 8px color-mix(in srgb, var(--chocolate) 40%, transparent);
+  }
   .switcher-tabs {
     display: flex;
     flex-shrink: 0;
@@ -841,6 +978,307 @@
       border-right: none;
       border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
     }
+  }
+  @media (max-width: 768px) {
+    html, body { overflow-x: hidden; }
+    .nav-burger { display: flex; }
+    .site-bar { z-index: 70; }
+    .site-bar-mark { opacity: 1; }
+    .site-bar-links { display: none; }
+    .nav-sheet {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 0;
+      padding: calc(var(--nav-h) + var(--space-cluster)) var(--space-gutter) var(--space-section-sm);
+      background: var(--beige-300);
+      overflow: auto;
+    }
+    .nav-sheet.is-open { display: flex; }
+    .nav-sheet .nav-link {
+      width: 100%;
+      padding: var(--space-stack-sm) 0;
+      font-size: 1.0625rem;
+      letter-spacing: 0.14em;
+      color: var(--chocolate) !important;
+      border-bottom: 1px solid color-mix(in srgb, var(--black-700) 12%, transparent);
+    }
+    .nav-sheet .nav-link.is-current,
+    .nav-sheet .nav-link:hover {
+      color: var(--orange-700) !important;
+      border-bottom-color: var(--orange-700);
+    }
+
+    .hero {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .hero-text {
+      position: relative;
+      left: auto;
+      top: auto;
+      transform: none;
+      order: 1;
+      max-width: none;
+      padding: calc(var(--nav-h) + var(--space-cluster)) var(--space-gutter) var(--space-cluster);
+      text-shadow: none;
+    }
+    .hero-name { font-size: clamp(3.25rem, 16vw, 4.5rem); }
+    .hero-art {
+      position: relative;
+      order: 2;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      overflow: hidden;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .hero-art > img {
+      position: relative;
+      right: auto;
+      top: auto;
+      width: 100%;
+      height: auto;
+      min-width: 0;
+      max-width: none;
+      object-fit: cover;
+      object-position: center 20%;
+      aspect-ratio: 3 / 4;
+      min-height: 50svh;
+      opacity: 0.55;
+    }
+    .hero-art-blur,
+    .hero-art-fade { display: none; }
+    .hero-credit {
+      position: relative;
+      order: 3;
+      right: auto;
+      bottom: auto;
+      align-self: flex-end;
+      padding: var(--space-stack-sm) var(--space-gutter) var(--space-stack);
+      white-space: normal;
+      text-align: right;
+    }
+
+    .home-strip {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: var(--space-stack-lg) 0 var(--space-stack);
+      overflow: visible;
+    }
+    .home-strip-track {
+      display: flex;
+      gap: var(--space-inset);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--space-gutter);
+      padding: 0 var(--space-gutter);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      overscroll-behavior-x: contain;
+    }
+    .home-strip-track::-webkit-scrollbar { display: none; }
+    .home-strip-photo {
+      flex: 0 0 82%;
+      scroll-snap-align: start;
+      grid-column: auto !important;
+      margin-bottom: 0 !important;
+      aspect-ratio: 4 / 5 !important;
+    }
+    .home-strip-est {
+      order: 3;
+      grid-column: auto !important;
+      padding: var(--space-stack-sm) var(--space-gutter) 0 !important;
+    }
+    .home-strip-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      order: 2;
+      padding: var(--space-stack-sm) 0 0;
+    }
+    .home-strip-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--chocolate) 22%, transparent);
+    }
+    .home-strip-dot.is-on { background: var(--orange-700); }
+
+    .page-hero-stage {
+      display: grid;
+      grid-template-rows: 1fr 54svh;
+      height: 100svh;
+      min-height: 100svh;
+      max-height: 100svh;
+      overflow: hidden;
+    }
+    .page-hero-stage > .switcher-inner {
+      grid-row: 1;
+      order: 0;
+      flex: none;
+      min-height: 0;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--nav-h) var(--space-gutter) 0;
+    }
+    .page-hero-stage .switcher-panel--hero {
+      justify-content: center;
+      flex: none;
+      gap: var(--space-stack);
+      padding-bottom: 0;
+    }
+    .page-hero-copy,
+    .page-hero-copy--todo {
+      align-self: stretch;
+      width: auto;
+      max-width: none;
+    }
+    .page-hero-copy .page-hero-title,
+    .page-hero-copy--todo .page-hero-title { max-width: none; }
+    .page-hero-copy--oneline .page-hero-title { white-space: normal; }
+    .page-hero-copy .lede {
+      width: auto;
+      min-width: 0;
+      max-width: var(--measure);
+    }
+    .hero-strike::after { right: -0.12em; }
+    .page-hero-fade { display: none; }
+    .page-hero-stage > .page-hero-art,
+    .page-hero-stage > .page-hero-art--bloom,
+    .page-hero-stage > .page-hero-art--travel,
+    .page-hero-stage > .page-hero-art--stay,
+    .page-hero-stage > .page-hero-art--todo,
+    .page-hero-stage > .page-hero-art--faq,
+    .page-hero-stage > .page-hero-art--gallery,
+    .page-hero-stage > .page-hero-art--registry {
+      grid-row: 2;
+      position: relative;
+      order: 0;
+      inset: auto;
+      left: auto;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      width: 100%;
+      max-width: none;
+      flex: none;
+      height: 54svh;
+      min-height: 54svh;
+      max-height: 54svh;
+      overflow: hidden;
+      -webkit-mask-image: none;
+      mask-image: none;
+      mask: none;
+    }
+    .page-hero-stage > .page-hero-art img,
+    .page-hero-stage > .page-hero-art--travel img,
+    .page-hero-stage > .page-hero-art--stay img,
+    .page-hero-stage > .page-hero-art--todo img,
+    .page-hero-stage > .page-hero-art--faq img,
+    .page-hero-stage > .page-hero-art--gallery img,
+    .page-hero-stage > .page-hero-art--registry img {
+      position: absolute;
+      inset: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+    }
+
+    .switcher-stage:not(.page-hero-stage) { min-height: 0; }
+    .switcher-inner {
+      min-height: 0;
+      flex: none;
+      padding-top: calc(var(--nav-h) + var(--space-block));
+      padding-bottom: var(--space-stack);
+    }
+    .switcher-panel {
+      justify-content: flex-start;
+      flex: none;
+      padding-bottom: var(--space-cluster);
+    }
+    .switcher-panel .lede { max-width: var(--measure); }
+    .switcher-photo,
+    .switcher-photo--lineart {
+      position: relative;
+      order: 2;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      transform: none;
+      width: min(100%, 22rem);
+      margin: 0 auto var(--space-stack-lg);
+    }
+    .switcher-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .switcher-tab { flex: 1 0 auto; }
+
+    .grid-cell { min-height: 0; }
+    .weekend-grid .grid-cell:has(.cell-photo),
+    .grid-cell:only-child:has(.cell-photo) {
+      grid-template-columns: 1fr;
+    }
+    .cell-photo { order: 0; max-width: none; }
+
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-ph { grid-column: auto !important; }
+
+    .map-band { min-height: 0; }
+    .map-stage {
+      position: relative;
+      top: auto;
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+      grid-template-columns: 1fr;
+      grid-template-rows: 42svh auto;
+    }
+    .map-canvas {
+      order: -1;
+      height: 42svh;
+      min-height: 16rem;
+    }
+    .map-rail {
+      height: auto;
+      overflow: visible;
+      border-right: none;
+      border-bottom: none;
+    }
+    .map-places {
+      overflow: visible;
+      flex: none;
+    }
+
+    .site-footer {
+      grid-template-columns: 1fr;
+      justify-items: start;
+      gap: var(--space-stack-sm);
+    }
+    .site-footer-copy,
+    .site-footer-place { justify-self: start; white-space: normal; }
   }
   .todo-blurb {
     padding: 76px var(--space-gutter);
@@ -1004,6 +1442,98 @@
     line-height: 1.5;
     color: var(--chocolate);
   }
+  @media (max-width: 768px) {
+    .todo-blurb-grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: var(--space-stack-lg);
+    }
+    .map-band { min-height: 0; }
+    .map-stage {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(18rem, 46svh) auto;
+      position: relative;
+      top: auto;
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+    }
+    .map-canvas {
+      order: -1;
+      height: 46svh;
+      min-height: 18rem;
+    }
+    .map-rail {
+      height: auto;
+      overflow: visible;
+      border-right: none;
+      border-bottom: none;
+      padding-top: var(--space-stack);
+    }
+    .map-places {
+      overflow: visible;
+      flex: none;
+    }
+    .todo-blurb-place,
+    .todo-blurb-place a {
+      display: block;
+      width: 100%;
+    }
+    .todo-blurb-place {
+      font-size: clamp(2.35rem, 11vw, 3.4rem);
+    }
+    .switcher-stage:not(.page-hero-stage) { display: none; }
+    .weekend-m {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      min-height: 100svh;
+      height: 100svh;
+    }
+    .page-hero-stage {
+      display: grid;
+      grid-template-rows: 1fr 54svh;
+      height: 100svh;
+      max-height: 100svh;
+      overflow: hidden;
+    }
+    .page-hero-stage > .switcher-inner {
+      grid-row: 1;
+      min-height: 0;
+      height: auto;
+      flex: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--nav-h) var(--space-gutter) 0;
+    }
+    .page-hero-stage .switcher-panel {
+      padding-bottom: 0;
+    }
+    .page-hero-stage > .page-hero-art {
+      grid-row: 2;
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: 54svh;
+      min-height: 54svh;
+      max-height: 54svh;
+      overflow: hidden;
+      -webkit-mask-image: none;
+      mask-image: none;
+      mask: none;
+    }
+    .page-hero-stage > .page-hero-art img {
+      position: absolute;
+      inset: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 </style>
 </helmet>
 
@@ -1011,11 +1541,20 @@
 
   <div class="site-bar" style="background:{{ barBg }}; border-bottom:1px solid {{ barBorder }}; backdrop-filter:{{ barBlur }}; -webkit-backdrop-filter:{{ barBlur }}; transform:{{ barT }}; opacity:{{ barO }}; pointer-events:{{ barPE }}; --nav-accent:{{ barAccent }}; transition:background .6s ease, border-color .6s ease, color .5s ease, backdrop-filter .6s ease;">
     <div onClick="{{ goHome }}" class="clickable site-bar-mark {{ markClass }}" style="color:{{ barInk }};">Kyle &amp; Elizabeth</div>
+    <button type="button" class="nav-burger {{ burgerClass }}" onClick="{{ toggleNav }}" aria-label="{{ menuLabel }}" aria-expanded="{{ menuOpen }}" style="color:{{ barInk }};">
+      <span></span>
+      <span></span>
+    </button>
     <div class="site-bar-links">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
         <div onClick="{{ n.go }}" class="clickable t-nav nav-link {{ n.currentClass }}" style="color:{{ n.color }};">{{ n.label }}</div>
       </sc-for>
     </div>
+  </div>
+  <div class="nav-sheet {{ menuClass }}">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+      <div onClick="{{ n.go }}" class="clickable t-nav nav-link {{ n.currentClass }}" style="color:{{ n.color }};">{{ n.label }}</div>
+    </sc-for>
   </div>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -1042,16 +1581,23 @@
       </div>
 
       <div class="home-strip">
-        <div onClick="{{ openHill }}" class="clickable home-strip-photo" style="grid-column:1 / span 5; aspect-ratio:3/2;">
-          <img src="art/home-hill.jpg" alt="" style="object-position:center 42%;">
+        <div class="home-strip-track" id="home-strip-track" onScroll="{{ homeCarousel.scroll }}">
+          <div onClick="{{ openHill }}" class="clickable home-strip-photo" style="grid-column:1 / span 5; aspect-ratio:3/2;">
+            <img src="art/home-hill.jpg" alt="" style="object-position:center 42%;">
+          </div>
+          <div onClick="{{ openEmbrace }}" class="clickable home-strip-photo" style="grid-column:7 / span 3; aspect-ratio:2/3; margin-bottom:var(--space-block);">
+            <img src="art/home-embrace.jpg" alt="" style="object-position:center 38%;">
+          </div>
+          <div onClick="{{ openHands }}" class="clickable home-strip-photo" style="grid-column:10 / span 2; aspect-ratio:2/3;">
+            <img src="art/home-hands.jpg" alt="" style="object-position:center 42%;">
+          </div>
         </div>
-        <div onClick="{{ openEmbrace }}" class="clickable home-strip-photo" style="grid-column:7 / span 3; aspect-ratio:2/3; margin-bottom:var(--space-block);">
-          <img src="art/home-embrace.jpg" alt="" style="object-position:center 38%;">
+        <div class="home-strip-dots">
+          <sc-for list="{{ homeCarousel.dots }}" as="dot" hint-placeholder-count="3">
+            <button type="button" class="home-strip-dot {{ dot.onClass }}" onClick="{{ dot.go }}" aria-label="{{ dot.label }}"></button>
+          </sc-for>
         </div>
-        <div onClick="{{ openHands }}" class="clickable home-strip-photo" style="grid-column:10 / span 2; aspect-ratio:2/3;">
-          <img src="art/home-hands.jpg" alt="" style="object-position:center 42%;">
-        </div>
-        <div class="t-hand-sm" style="grid-column:12 / span 1; color:var(--blue-700); padding-bottom:var(--space-stack-lg);">est.<br>2020</div>
+        <div class="t-hand-sm home-strip-est" style="color:var(--blue-700); padding-bottom:var(--space-stack-lg);">est.<br>2020</div>
       </div>
 
       <div class="home-recap">
@@ -1144,6 +1690,40 @@
           </div>
         </div>
       </div>
+  </sc-if>
+
+  <sc-if value="{{ isWeekend }}" hint-placeholder-val="{{ false }}">
+    <div class="weekend-m">
+      <div class="weekend-m-track" id="weekend-m-track" onScroll="{{ weekendM.scroll }}">
+        <sc-for list="{{ weekendM.slides }}" as="slide" hint-placeholder-count="7">
+          <div class="weekend-m-slide {{ slide.heroClass }}" style="background:{{ slide.bg }};">
+            <div class="weekend-m-copy">
+              <sc-if value="{{ slide.hasArt }}" hint-placeholder-val="{{ false }}">
+                <div class="weekend-m-art" style="{{ slide.artStyle }}"></div>
+              </sc-if>
+              <sc-if value="{{ slide.hasKicker }}" hint-placeholder-val="{{ false }}">
+                <div class="t-label kicker" style="color:{{ slide.kickerInk }};">{{ slide.when }}</div>
+              </sc-if>
+              <div class="{{ slide.titleClass }}" style="color:{{ slide.ink }};">{{ slide.title }}</div>
+              <div class="t-body lede lede-md" style="color:{{ slide.noteInk }};">{{ slide.note }}</div>
+              <sc-if value="{{ slide.hasMeta }}" hint-placeholder-val="{{ false }}">
+                <div class="switcher-detail t-label" style="color:{{ slide.metaInk }};">{{ slide.time }}<sc-if value="{{ slide.hasPlace }}" hint-placeholder-val="{{ false }}"> · <a href="{{ slide.placeUrl }}" target="_blank" rel="noopener noreferrer" class="text-link">{{ slide.place }}</a></sc-if></div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ slide.hasHeroImg }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ slide.openHero }}" class="clickable weekend-m-hero">
+                <img src="{{ slide.heroSrc }}" alt="">
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <div class="weekend-m-dots">
+        <sc-for list="{{ weekendM.dots }}" as="dot" hint-placeholder-count="7">
+          <button type="button" class="weekend-m-dot {{ dot.onClass }}" onClick="{{ dot.go }}" aria-label="{{ dot.label }}"></button>
+        </sc-for>
+      </div>
+    </div>
   </sc-if>
 
   <sc-if value="{{ hasAgenda }}" hint-placeholder-val="{{ false }}">
@@ -1727,7 +2307,7 @@ const FAQS = [
 ];
 
 class Component extends DCLogic {
-  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false, noteSent: false, noteSending: false, noteError: false };
+  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false, noteSent: false, noteSending: false, noteError: false, navOpen: false, homeSlide: 0, weekendSlide: 0 };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -1738,22 +2318,34 @@ class Component extends DCLogic {
     this._onKey = (e) => {
       if (e.key !== "Escape") return;
       if (this.state.lightbox) this.closeLightbox();
+      else if (this.state.navOpen) this.setState({ navOpen: false });
       else if (this.state.mapMenu) this.setState({ mapMenu: false });
       else if (this.state.mapPin) this.setState({ mapPin: "" });
     };
+    this._onResize = () => {
+      if (window.innerWidth > 768 && this.state.navOpen) this.setState({ navOpen: false });
+    };
     window.addEventListener("scroll", this._onScroll, { passive: true });
     window.addEventListener("keydown", this._onKey);
+    window.addEventListener("resize", this._onResize);
     this._onScroll();
     this.syncMap();
   }
   componentDidUpdate() {
     this.syncMap();
     this.revealMapPlace();
+    this.syncOverflow();
   }
   componentWillUnmount() {
     window.removeEventListener("scroll", this._onScroll);
     window.removeEventListener("keydown", this._onKey);
+    window.removeEventListener("resize", this._onResize);
     this.destroyMap();
+    if (typeof document !== "undefined") document.body.style.overflow = "";
+  }
+  syncOverflow() {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = (this.state.navOpen || this.state.lightbox) ? "hidden" : "";
   }
 
   sendNote(e) {
@@ -2048,23 +2640,77 @@ class Component extends DCLogic {
   }
   closeLightbox() {
     this.setState({ lightbox: "" });
-    if (typeof document !== "undefined") document.body.style.overflow = "";
+    this.syncOverflow();
+  }
+
+  goHomeSlide(i) {
+    const track = typeof document !== "undefined" && document.getElementById("home-strip-track");
+    const photos = track && track.querySelectorAll(".home-strip-photo");
+    if (photos && photos[i]) photos[i].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    this.setState({ homeSlide: i });
+  }
+  scrollHomeStrip(e) {
+    const el = e.currentTarget || e.target;
+    const photos = el && el.querySelectorAll ? [...el.querySelectorAll(".home-strip-photo")] : [];
+    if (!photos.length) return;
+    const mid = el.scrollLeft + el.clientWidth * 0.4;
+    let i = 0;
+    photos.forEach((p, n) => { if (p.offsetLeft <= mid) i = n; });
+    if (i !== this.state.homeSlide) this.setState({ homeSlide: i });
+  }
+  goWeekendSlide(i) {
+    const track = typeof document !== "undefined" && document.getElementById("weekend-m-track");
+    const slides = track && track.querySelectorAll(".weekend-m-slide");
+    if (slides && slides[i]) slides[i].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    this.setState({ weekendSlide: i, weekendIdx: i });
+  }
+  scrollWeekendStrip(e) {
+    const el = e.currentTarget || e.target;
+    const slides = el && el.querySelectorAll ? [...el.querySelectorAll(".weekend-m-slide")] : [];
+    if (!slides.length) return;
+    const mid = el.scrollLeft + el.clientWidth * 0.4;
+    let i = 0;
+    slides.forEach((p, n) => { if (p.offsetLeft <= mid) i = n; });
+    if (i !== this.state.weekendSlide) this.setState({ weekendSlide: i, weekendIdx: i });
   }
 
   go(id) {
     if (PAGES.find(x => x.id === id)?.hidden) id = "home";
-    const next = { page: id, scrolled: false };
-    if (id === "weekend") next.weekendIdx = 0;
+    const next = { page: id, scrolled: false, navOpen: false };
+    if (id === "weekend") {
+      next.weekendIdx = 0;
+      next.weekendSlide = 0;
+    }
+    if (id === "home") next.homeSlide = 0;
     if (id === "todo") {
       next.mapList = "all";
       next.mapPin = "";
       next.mapMenu = false;
     }
-    this.setState(next);
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "instant" });
-      setTimeout(() => this._onScroll?.(), 0);
-    }
+    this.setState(next, () => {
+      this.syncOverflow();
+      this.scrollToTop();
+      this._onScroll?.();
+    });
+  }
+  goHome() {
+    this.go("home");
+    this.scrollToTop();
+  }
+  scrollToTop() {
+    if (typeof window === "undefined") return;
+    const jump = () => {
+      window.scrollTo(0, 0);
+      if (typeof document !== "undefined") {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+    };
+    jump();
+    requestAnimationFrame(() => {
+      jump();
+      requestAnimationFrame(jump);
+    });
   }
 
   hexAlpha(hex, alpha) {
@@ -2294,8 +2940,13 @@ class Component extends DCLogic {
       barT: "translateY(0)",
       barO: "1",
       barPE: "auto",
-      goHome: () => this.go("home"),
+      goHome: () => this.goHome(),
       goWeekend: () => this.go("weekend"),
+      toggleNav: () => this.setState(st => ({ navOpen: !st.navOpen })),
+      menuClass: this.state.navOpen ? "is-open" : "",
+      burgerClass: this.state.navOpen ? "is-open" : "",
+      menuLabel: this.state.navOpen ? "Close menu" : "Open menu",
+      menuOpen: this.state.navOpen ? "true" : "false",
       nav: PAGES.filter(x => !x.hidden).map(x => ({
         label: x.label,
         go: () => this.go(x.id),
@@ -2309,6 +2960,47 @@ class Component extends DCLogic {
       openHill: () => this.openLightbox("art/home-hill.jpg"),
       openEmbrace: () => this.openLightbox("art/home-embrace.jpg"),
       openHands: () => this.openLightbox("art/home-hands.jpg"),
+      homeCarousel: {
+        scroll: e => this.scrollHomeStrip(e),
+        dots: [0, 1, 2].map(i => ({
+          onClass: this.state.homeSlide === i ? "is-on" : "",
+          go: () => this.goHomeSlide(i),
+          label: "Photo " + (i + 1)
+        }))
+      },
+      weekendM: {
+        scroll: e => this.scrollWeekendStrip(e),
+        slides: WEEKEND_SECTIONS.map(s => ({
+          heroClass: s.hero ? "is-hero" : "",
+          bg: s.bg,
+          ink: s.ink,
+          noteInk: s.noteInk || s.ink,
+          metaInk: s.metaInk || s.ink,
+          kickerInk: s.kickerInk || s.accent,
+          when: s.day || s.when || "",
+          hasKicker: !!(s.day || s.when),
+          title: s.title,
+          titleClass: s.hero ? "page-hero-title" : "t-h1",
+          note: s.note,
+          time: s.time || "",
+          place: s.place || "",
+          placeUrl: s.placeUrl || "",
+          hasPlace: !!s.place,
+          hasMeta: !!(s.time || s.place),
+          hasHeroImg: !!s.heroArt,
+          heroSrc: s.heroArt || "",
+          openHero: s.heroArt ? () => this.openLightbox(s.heroArt) : () => {},
+          hasArt: !!(s.photo && (s.photoClass || "").includes("lineart")),
+          artStyle: (s.photoClass || "").includes("lineart")
+            ? `color:${s.photoInk || s.noteInk || s.ink};-webkit-mask-image:url("${s.photo}");mask-image:url("${s.photo}")`
+            : ""
+        })),
+        dots: WEEKEND_SECTIONS.map((s, i) => ({
+          onClass: this.state.weekendSlide === i ? "is-on" : "",
+          go: () => this.goWeekendSlide(i),
+          label: s.hero ? "Let's celebrate" : s.short
+        }))
+      },
 
       homeNavTabs: PAGES.filter(x => x.id !== "home" && !x.hidden).map(item => ({
         label: item.label,

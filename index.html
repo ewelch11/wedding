@@ -589,6 +589,18 @@
     width: 0;
     min-width: 100%;
   }
+  .page-hero-cta {
+    color: var(--blue-700);
+    text-decoration: none;
+    border-bottom: 2px solid var(--blue-700);
+    padding-bottom: var(--space-hair);
+    width: max-content;
+  }
+  .page-hero-cta:visited { color: var(--blue-700); }
+  .page-hero-cta:hover {
+    color: var(--orange-700);
+    border-bottom-color: var(--orange-700);
+  }
   .page-hero-art {
     position: absolute;
     right: 0;
@@ -1643,6 +1655,9 @@
         <div class="switcher-panel switcher-panel--hero page-hero-copy {{ pageHero.copyClass }}">
           <div class="page-hero-title" style="color:var(--orange-700);">{{ pageHero.titleBefore }}<sc-if value="{{ pageHero.hasStrike }}" hint-placeholder-val="{{ false }}"><span class="hero-strike">{{ pageHero.titleStrike }}</span></sc-if>{{ pageHero.titleAfter }}</div>
           <div class="t-body lede lede-md" style="color:var(--chocolate);">{{ pageHero.note }}</div>
+          <sc-if value="{{ pageHero.hasCta }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ pageHero.ctaHref }}" target="_blank" rel="noopener noreferrer" class="t-nav page-hero-cta">{{ pageHero.ctaLabel }}</a>
+          </sc-if>
         </div>
       </div>
     </div>
@@ -1816,12 +1831,6 @@
     </div>
   </sc-if>
 
-  <sc-if value="{{ isRegistry }}" hint-placeholder-val="{{ false }}">
-    <div class="page" style="background:var(--beige-300);">
-      <div class="t-label caption" style="color:var(--chocolate);">Coming in early 2027</div>
-    </div>
-  </sc-if>
-
   <sc-if value="{{ isTodo }}" hint-placeholder-val="{{ false }}">
     <div class="todo-blurb">
       <div class="todo-blurb-grid">
@@ -1952,8 +1961,8 @@ const PAGES = [
   { id: "accommodations", label: "Stay" },
   { id: "todo", label: "Things to Do" },
   { id: "gallery", label: "Gallery" },
-  { id: "qa", label: "FAQ" },
-  { id: "registry", label: "Registry", hidden: true }
+  { id: "qa", label: "FAQ", hidden: true },
+  { id: "registry", label: "Registry" }
 ];
 
 const SWITCHER_PAGES = ["weekend"];
@@ -2033,7 +2042,9 @@ const PAGE_HEROES = {
     art: "art/registry-hero.jpg",
     pos: "18% 62%",
     blob: "f",
-    artClass: "page-hero-art--registry"
+    artClass: "page-hero-art--registry",
+    ctaLabel: "Open registry in Zola →",
+    ctaHref: "https://www.zola.com/registry/elizabethandkylemay1"
   }
 };
 
@@ -2943,6 +2954,9 @@ class Component extends DCLogic {
         blobClass: pageHeroData.blob ? `page-hero-art--blob-${pageHeroData.blob}` : "page-hero-art--blob-a",
         artClass: pageHeroData.artClass || "",
         copyClass: pageHeroData.copyClass || "",
+        hasCta: !!pageHeroData.ctaHref,
+        ctaHref: pageHeroData.ctaHref || "",
+        ctaLabel: pageHeroData.ctaLabel || "",
         open: () => this.openLightbox(pageHeroData.art)
       } : {
         titleBefore: "",
@@ -2955,6 +2969,9 @@ class Component extends DCLogic {
         blobClass: "page-hero-art--blob-a",
         artClass: "",
         copyClass: "",
+        hasCta: false,
+        ctaHref: "",
+        ctaLabel: "",
         open: () => {}
       },
       sw,

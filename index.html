@@ -1089,24 +1089,26 @@
       top: auto;
       bottom: auto;
       width: 100%;
-      height: auto;
+      height: calc(88vw - 16px);
       min-height: 0;
       overflow: hidden;
       -webkit-mask-image: none;
       mask-image: none;
     }
     .hero-art > img {
-      position: relative;
+      position: absolute;
       right: auto;
-      top: auto;
-      width: 100%;
+      top: 0;
+      left: 50%;
+      width: 118%;
       height: auto;
       min-width: 0;
       max-width: none;
+      aspect-ratio: auto;
+      min-height: 0;
       object-fit: cover;
-      object-position: center 20%;
-      aspect-ratio: 3 / 4;
-      min-height: 50svh;
+      object-position: center center;
+      transform: translate(-50%, calc(-14% - 16px));
       opacity: 0.55;
     }
     .hero-art-blur,

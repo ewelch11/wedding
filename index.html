@@ -119,8 +119,20 @@
     padding-bottom: var(--space-panel);
     background: var(--beige-300);
   }
-  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-inset); align-items: end; }
-  .gallery-ph { background: color-mix(in srgb, var(--chocolate) 8%, var(--beige-300)); }
+  .gallery-grid {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.375rem;
+  }
+  .gallery-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .gallery-photo { display: block; width: 100%; }
+  .gallery-photo img { display: block; width: 100%; height: auto; }
   .site-footer {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -304,6 +316,22 @@
     transform: translateY(calc(100% + var(--space-tight)));
     color: var(--chocolate);
   }
+  .lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--beige-300);
+    color: var(--chocolate);
+  }
+  .lightbox-arrow--prev { left: var(--space-gutter); }
+  .lightbox-arrow--next { right: var(--space-gutter); }
   .home-recap {
     padding: 0 var(--space-gutter) var(--space-section-sm);
     background: var(--beige-300);
@@ -665,11 +693,11 @@
     left: 0;
     top: 0;
     object-fit: cover;
-    object-position: 40% 42%;
+    object-position: center 38%;
   }
   .page-hero-art--gallery.page-hero-art--bloom {
-    width: calc(68% + 40px);
-    right: -90px;
+    width: calc(36% + 80px);
+    right: 0;
     -webkit-mask-position: left center;
     mask-position: left center;
   }
@@ -680,7 +708,7 @@
     left: 0;
     top: 0;
     object-fit: cover;
-    object-position: 36% 78%;
+    object-position: center 42%;
   }
   .page-hero-art--faq {
     width: calc(56% + 40px);
@@ -712,7 +740,7 @@
     width: 44%;
   }
   .switcher-stage:has(.page-hero-art--gallery) .page-hero-fade--bloom {
-    width: 30%;
+    width: 28%;
   }
   .switcher-stage:has(.page-hero-art--faq) .page-hero-fade--bloom {
     width: 34%;
@@ -960,7 +988,7 @@
     .page-hero-art--travel { width: 68%; }
     .page-hero-art--todo { width: calc(58% + 80px); max-width: none; }
     .page-hero-art--faq { width: 70%; }
-    .page-hero-art--gallery { width: 82%; }
+    .page-hero-art--gallery { width: calc(58% + 80px); max-width: none; }
     .page-hero-art--registry { width: 82%; max-width: none; }
     .page-hero-fade--bloom { width: 86%; }
     .cell-facts { grid-template-columns: 1fr; }
@@ -1261,8 +1289,6 @@
     }
     .cell-photo { order: 0; max-width: none; }
 
-    .gallery-grid { grid-template-columns: 1fr 1fr; }
-    .gallery-ph { grid-column: auto !important; }
 
     .map-band { min-height: 0; }
     .map-stage {
@@ -1821,12 +1847,15 @@
   <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
     <div class="gutter gallery-page">
       <div class="gallery-grid">
-        <div class="gallery-ph" style="grid-column:1 / span 5; aspect-ratio:3/2;"></div>
-        <div class="gallery-ph" style="grid-column:7 / span 3; aspect-ratio:2/3;"></div>
-        <div class="gallery-ph" style="grid-column:10 / span 2; aspect-ratio:2/3;"></div>
-        <div class="gallery-ph" style="grid-column:1 / span 3; aspect-ratio:4/5;"></div>
-        <div class="gallery-ph" style="grid-column:5 / span 4; aspect-ratio:3/2;"></div>
-        <div class="gallery-ph" style="grid-column:10 / span 3; aspect-ratio:3/4;"></div>
+        <sc-for list="{{ galleryColumns }}" as="col" hint-placeholder-count="4">
+          <div class="gallery-col">
+            <sc-for list="{{ col.photos }}" as="photo" hint-placeholder-count="3">
+              <div onClick="{{ photo.open }}" class="clickable gallery-photo">
+                <img src="{{ photo.src }}" alt="">
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
       </div>
     </div>
   </sc-if>
@@ -1836,9 +1865,9 @@
       <div class="todo-blurb-grid">
         <div class="t-poster todo-blurb-place" style="color:var(--orange-700);"><a href="https://www.google.com/maps/search/?api=1&query=Healdsburg%20Plaza%2C%20Healdsburg%2C%20CA" target="_blank" rel="noopener noreferrer" class="text-link">Healdsburg,<br>Sonoma County,<br>California</a></div>
         <div class="t-body todo-blurb-copy" style="color:var(--chocolate);">
-          <p>We love Healdsburg for more than the wine, if you can believe it! This small but mighty town is oriented around a lovely square, with incredible restaurants pulling from local farming and flavors, art galleries, and even a few dive bars, worry not!</p>
+          <p>We love Healdsburg for more than the wine, if you can believe it! Oriented around a lovely town plaza, Healdsburg boasts incredible restaurants, art galleries, and even a few dive bars, worry not!</p>
           <p>Nestled in Northern California, Healdsburg is also a great jumping off point to the redwoods and coastline, with countless scenic walks, hikes, and golf courses. And yes, you can (and should) also go to the dozens of vineyards and tasting rooms dotting the area.</p>
-          <p>If you are flying in to SFO and renting a car, we'd suggest exploring some stops on the way up, like Chrissy Field in San Francisco (our stomping grounds!) or Rodeo Beach and Point Reyes across the bridge.</p>
+          <p>If you are flying in to SFO and renting a car, we'd suggest exploring some stops on the way up, like Chrissy Field in San Francisco (our stomping grounds!) or Rodeo Beach and Point Reyes across the bridge. Please reach out if you need any recommendations!</p>
         </div>
       </div>
     </div>
@@ -1930,6 +1959,10 @@
   <sc-if value="{{ hasLightbox }}" hint-placeholder-val="{{ false }}">
     <div class="lightbox">
       <div onClick="{{ closeLightbox }}" class="clickable lightbox-scrim"></div>
+      <sc-if value="{{ lightboxNav }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ lightboxPrev }}" class="clickable t-nav lightbox-arrow lightbox-arrow--prev" aria-label="Previous photo">←</div>
+        <div onClick="{{ lightboxNext }}" class="clickable t-nav lightbox-arrow lightbox-arrow--next" aria-label="Next photo">→</div>
+      </sc-if>
       <div class="lightbox-frame">
         <div onClick="{{ closeLightbox }}" class="clickable t-nav lightbox-close">Close</div>
         <img src="{{ lightboxSrc }}" alt="">
@@ -2005,8 +2038,8 @@ const PAGE_HEROES = {
     titleAfter: "",
     hasStrike: false,
     note: "There's no shortage of activities in the area, like playing golf, exploring nature, or, inevitably, drinking wine all day.",
-    art: "art/todo-hero.jpg",
-    pos: "40% 42%",
+    art: "art/home-embrace.jpg",
+    pos: "center 38%",
     blob: "c",
     artClass: "page-hero-art--todo",
     copyClass: "page-hero-copy--todo"
@@ -2017,8 +2050,8 @@ const PAGE_HEROES = {
     titleAfter: "",
     hasStrike: false,
     note: "As our parents say, it's been YEARS!",
-    art: "art/gallery-hero.jpg",
-    pos: "36% 78%",
+    art: "art/gallery-5967.jpg",
+    pos: "center 42%",
     blob: "d",
     artClass: "page-hero-art--gallery"
   },
@@ -2116,59 +2149,65 @@ const MAP_LISTS = [
 ];
 
 const MAP_SPOTS = [
-  { id: "little-saint", list: "weekend", name: "Little Saint", note: "Welcome drinks live here. Plant-based, music, a very Ken Fulk room — right by the square.", site: "https://www.littlesainthealdsburg.com/", query: "Little Saint Healdsburg CA", zoom: 16 },
-  { id: "church", list: "weekend", name: "St. Paul's", note: "The ceremony. A short walk from the square; then we all go on to The Madrona.", site: "https://www.stpauls-healdsburg.org/", query: "St. Paul's Episcopal Church Healdsburg CA", zoom: 16 },
-  { id: "madrona", list: "weekend", name: "The Madrona", note: "Ceremony's in town; this is where we go after. Oak Terrace, the citrus grove, dancing on the Palm Terrace.", site: "https://themadronahotel.com/", query: "The Madrona Hotel Healdsburg CA", zoom: 16 },
-  { id: "sfo", list: "travel", name: "SFO", note: "Then a beautiful drive north — about an hour and a half, traffic depending.", site: "https://www.flysfo.com/", query: "San Francisco International Airport", zoom: 12 },
-  { id: "sts", list: "travel", name: "Sonoma Airport", note: "Charles M. Schulz, twelve minutes from town. If you can land here, do.", site: "https://sonomacountyairport.org/", query: "Charles M. Schulz Sonoma County Airport", zoom: 13 },
-  { id: "hotel", list: "stay", name: "Hotel Healdsburg", note: "Our personal favorite. On the plaza, if you want to walk everywhere.", site: "http://www.hotelhealdsburg.com/", query: "Hotel Healdsburg", zoom: 16 },
-  { id: "harmon", list: "stay", name: "Harmon Guest House", note: "Modern, with a rooftop bar and a pool — still an easy stroll to the square.", site: "https://harmonguesthouse.com/", query: "Harmon Guest House Healdsburg", zoom: 16 },
-  { id: "h2", list: "stay", name: "H2hotel", note: "Cool decor, attached restaurant, outdoor pool. Right on Healdsburg Ave.", site: "https://h2hotel.com/", query: "H2hotel Healdsburg", zoom: 16 },
-  { id: "liora", list: "stay", name: "Liora Estate", note: "More classical, and right next door to Friday night.", site: "https://www.lioraestatehotel.com/", query: "Liora Estate Healdsburg", zoom: 16 },
-  { id: "montage", list: "stay", name: "Montage Healdsburg", note: "Out in the vines. A little removed from town; they run an area shuttle.", site: "https://www.montage.com/", query: "Montage Healdsburg", zoom: 15 },
+  { id: "little-saint", list: "weekend", name: "Little Saint", note: "Join us for the Welcome Party on Friday.", site: "https://www.littlesainthealdsburg.com/", query: "Little Saint Healdsburg CA", zoom: 16 },
+  { id: "church", list: "weekend", name: "St. Paul's", note: "Join us for the wedding ceremony.", site: "https://www.stpauls-healdsburg.org/", query: "St. Paul's Episcopal Church Healdsburg CA", zoom: 16 },
+  { id: "madrona", list: "weekend", name: "The Madrona", note: "Our wedding reception venue.", site: "https://themadronahotel.com/", query: "The Madrona Hotel Healdsburg CA", zoom: 16 },
+  { id: "sfo", list: "travel", name: "San Francisco Airport (SFO)", note: "International airport 90 miles from Healdsburg.", site: "https://www.flysfo.com/", query: "San Francisco International Airport", zoom: 12 },
+  { id: "sts", list: "travel", name: "Sonoma County Airport (STS)", note: "Regional airport only 9 miles from Healdsburg.", site: "https://sonomacountyairport.org/", query: "Charles M. Schulz Sonoma County Airport", zoom: 13 },
+  { id: "hotel", list: "stay", name: "Hotel Healdsburg", note: "Our personal favorite! Right in the action, with a chic outdoor pool and a lovely atmosphere.", site: "http://www.hotelhealdsburg.com/", query: "Hotel Healdsburg", zoom: 16 },
+  { id: "harmon", list: "stay", name: "Harmon Guest House", note: "Modern decor, with a rooftop bar and an outdoor pool.", site: "https://harmonguesthouse.com/", query: "Harmon Guest House Healdsburg", zoom: 16 },
+  { id: "h2", list: "stay", name: "H2hotel", note: "Cool decor, with an attached restaurant, and an outdoor pool.", site: "https://h2hotel.com/", query: "H2hotel Healdsburg", zoom: 16 },
+  { id: "liora", list: "stay", name: "Liora Estate", note: "More classically decorated, and right next door to our welcome party!", site: "https://www.lioraestatehotel.com/", query: "Liora Estate Healdsburg", zoom: 16 },
+  { id: "montage", list: "stay", name: "Montage Healdsburg", note: "A newly built luxury resort nestled in the vineyards. Located outside of town, but their website says they run a free area shuttle.", site: "https://www.montage.com/", query: "Montage Healdsburg", zoom: 15 },
   { id: "fairview", list: "stay", name: "Fairview Inn & Suites", note: "A comfortable stay a bit outside of town.", site: "https://www.fairviewinnandsuites.com/", query: "Fairview Inn and Suites Healdsburg", zoom: 16 },
-  { id: "bella", list: "wine", name: "Bella Vineyards", note: "Wine caves and a lawn in Dry Creek. Reservations recommended.", site: "https://www.bellawinery.com/", query: "Bella Vineyards Healdsburg", zoom: 15 },
-  { id: "matrix", list: "wine", name: "Matrix Winery", note: "Outdoors, overlooking a pond. Russian River Valley.", site: "https://matrixwinery.com/", query: "Matrix Winery Healdsburg", zoom: 15 },
-  { id: "papapietro", list: "wine", name: "Papapietro Perry", note: "Dry Creek. Pinot and zin, small lots.", site: "https://www.papapietro-perry.com/", query: "Papapietro Perry Winery Healdsburg", zoom: 15 },
-  { id: "fogbelt", list: "wine", name: "Fogbelt Brewing", note: "A brewery stop, if wine isn't the assignment that hour.", site: "https://fogbeltbrewing.com/", query: "Fogbelt Brewing Santa Rosa CA", zoom: 15 },
-  { id: "lioco", list: "wine", name: "LIOCO", note: "Downtown tasting room. Chardonnay and pinot, mostly.", site: "https://www.liocowine.com/", query: "LIOCO tasting room Healdsburg", zoom: 16 },
-  { id: "bloodroot", list: "wine", name: "BloodRoot", note: "Downtown tasting room on North Street. Open daily 1–7.", site: "https://www.bloodrootwines.com/", query: "BloodRoot Wines Healdsburg", zoom: 16 },
-  { id: "williamson", list: "wine", name: "Williamson", note: "A tasting room on the plaza.", site: "https://williamsonwines.com/", query: "Williamson Wines Healdsburg", zoom: 16 },
-  { id: "portalupi", list: "wine", name: "Portalupi", note: "Italian-leaning tasting room on North Street.", site: "https://portalupiwine.com/", query: "Portalupi Wines Healdsburg", zoom: 16 },
-  { id: "dukes", list: "wine", name: "Duke's", note: "Cocktails on the plaza.", query: "Duke's Spirited Cocktails Healdsburg", zoom: 16 },
-  { id: "zekes", list: "wine", name: "John & Zeke's", note: "The dive. Pool, shuffleboard, a proper bar.", query: "John and Zeke's Bar Healdsburg", zoom: 16 },
-  { id: "troubadour", list: "dine", name: "Troubadour", note: "French, a Michelin star. Bread by day, bistro at night.", site: "https://www.troubadourhbg.com/", query: "Troubadour Bread and Bistro Healdsburg", zoom: 16 },
-  { id: "single-thread", list: "dine", name: "SingleThread", note: "Three Michelin stars. Book far ahead.", site: "https://singlethreadfarms.com/restaurant/", query: "SingleThread Restaurant Healdsburg", zoom: 16 },
-  { id: "valette", list: "dine", name: "Valette", note: "Californian, from two brothers who grew up here.", site: "https://www.valettehealdsburg.com/", query: "Valette Healdsburg", zoom: 16 },
-  { id: "barndiva", list: "dine", name: "Barndiva", note: "Californian, in a barn and garden off the plaza.", site: "https://www.barndiva.com/", query: "Barndiva Healdsburg", zoom: 16 },
-  { id: "lo-behold", list: "dine", name: "Lo & Behold", note: "Bar and kitchen on Healdsburg Ave. Lunch, dinner, drinks.", site: "https://www.loandbeholdca.com/", query: "Lo & Behold Healdsburg", zoom: 16 },
-  { id: "journeyman", list: "dine", name: "Journeyman Meat Co.", note: "Butcher shop and a place to sit down for it.", site: "https://www.journeymanmeat.com/", query: "Journeyman Meat Co Healdsburg", zoom: 16 },
-  { id: "guiso", list: "dine", name: "Guiso", note: "Latin fusion, a short walk from the square.", query: "Guiso Latin Fusion Healdsburg", zoom: 16 },
-  { id: "baci", list: "dine", name: "Baci", note: "Italian, downtown.", query: "Baci Healdsburg CA", zoom: 16 },
-  { id: "matheson", list: "dine", name: "The Matheson", note: "A big, lively room on Matheson Street.", site: "https://thematheson.com/", query: "The Matheson Healdsburg", zoom: 16 },
-  { id: "roof-106", list: "dine", name: "Roof 106", note: "Pizza and small plates, up on the roof.", site: "https://thematheson.com/", query: "Roof 106 Healdsburg", zoom: 16 },
-  { id: "marela", list: "dine", name: "Maréla", note: "Coastal European, right next door to Friday night.", query: "Marela Healdsburg CA", zoom: 16 },
-  { id: "pizzando", list: "dine", name: "PizZando", note: "Pizza, on the parklet.", query: "PizZando Healdsburg", zoom: 16 },
-  { id: "bravas", list: "dine", name: "Bravas", note: "Spanish. Paella on Friday nights.", query: "Bravas Bar de Tapas Healdsburg", zoom: 16 },
-  { id: "otoro", list: "dine", name: "Otoro Sushi", note: "Sushi in town.", query: "Otoro Sushi Healdsburg", zoom: 16 },
-  { id: "quail", list: "dine", name: "Quail & Condor", note: "Bakery and cafe at The Row. Bread, pastries, coffee — 7 to 3.", site: "https://www.quailandcondor.com/", query: "Quail & Condor Healdsburg", zoom: 16 },
-  { id: "costeaux", list: "dine", name: "Costeaux", note: "Breakfast, and a bakery that's been here forever.", site: "https://www.costeaux.com/", query: "Costeaux French Bakery Healdsburg", zoom: 16 },
-  { id: "black-oak", list: "dine", name: "Black Oak Coffee Roasters", note: "Just off the plaza on Center Street.", site: "https://blackoakcoffee.com/pages/healdsburg", query: "Black Oak Coffee Roasters Healdsburg", zoom: 16 },
-  { id: "bodega", list: "nature", name: "Bodega Bay", note: "About an hour. Harbor, dunes, and the coast.", query: "Bodega Bay CA", zoom: 12 },
-  { id: "muir", list: "nature", name: "Muir Woods", note: "Redwoods, about 90 minutes. Parking reservations required.", site: "https://www.nps.gov/muwo/", query: "Muir Woods National Monument", zoom: 14 },
-  { id: "rodeo", list: "nature", name: "Rodeo Beach", note: "Marin Headlands. Cold water, big sky, the city across the water.", site: "https://www.nps.gov/goga/", query: "Rodeo Beach Marin Headlands", zoom: 14 },
-  { id: "crissy", list: "nature", name: "Crissy Field", note: "Presidio shoreline, right under the bridge. Walk, picnic, the city and the Gate.", site: "https://www.nps.gov/goga/planyourvisit/crissyfield.htm", query: "Crissy Field San Francisco", zoom: 14 },
-  { id: "tubes", list: "nature", name: "Russian River Tubes & Kayaks", note: "Rent in Guerneville. Float, paddle, sit in the sun.", site: "https://www.russianrivertubes.com/", query: "Russian River Tubes and Kayaks Guerneville", zoom: 14 },
-  { id: "reyes", list: "nature", name: "Point Reyes", note: "National seashore. Elk, estuary, a long walk if you want one.", site: "https://www.nps.gov/pore/", query: "Point Reyes National Seashore", zoom: 12 },
-  { id: "rock-point", list: "nature", name: "Rock Point Beach", note: "A pull-out on Highway 1, just south of Duncan's Landing.", query: "Rock Point Beach Bodega Bay CA", zoom: 14 },
-  { id: "healdsburg-golf", list: "golf", name: "Healdsburg Golf Club", note: "Nine holes at Tayman Park, just above town.", query: "Healdsburg Golf Club Tayman Park", zoom: 15 },
-  { id: "windsor-golf", list: "golf", name: "Windsor Golf Club", note: "An 18-hole course in Windsor, a short drive south.", site: "https://www.windsorgolf.com/", query: "Windsor Golf Club CA", zoom: 15 },
-  { id: "northwood", list: "golf", name: "Northwood Golf Club", note: "A nine-hole course in the redwoods, Monte Rio.", site: "https://www.northwoodgolf.com/", query: "Northwood Golf Club Monte Rio", zoom: 15 },
-  { id: "savor", list: "other", name: "Savor Healdsburg", note: "A walking food tour of town. Good if you want someone else to pick.", site: "https://savorhealdsburgfoodtours.com/", query: "Savor Healdsburg Food Tours", zoom: 16 },
-  { id: "sausalito", list: "other", name: "Sausalito", note: "On the way up from the city. Harbor, bikes, the bay.", query: "Sausalito CA", zoom: 13 },
-  { id: "calistoga", list: "other", name: "Calistoga", note: "Over the hill in Napa. A smaller spa town.", query: "Calistoga CA", zoom: 13 },
-  { id: "barlow", list: "other", name: "The Barlow", note: "A market district in Sebastopol. Warehouses, food, a wander.", site: "https://thebarlow.net/", query: "The Barlow Sebastopol CA", zoom: 15 },
-  { id: "windsor", list: "other", name: "Windsor", note: "The next town south. A green, a few restaurants, an easy detour.", query: "Windsor Town Green CA", zoom: 14 }
+  { id: "bella", list: "wine", name: "Bella Vineyards", note: "Family run winery specializing in zinfandel. Tastings in their iconic wine cave or on the lawn.", site: "https://www.bellawinery.com/", query: "Bella Vineyards Healdsburg", zoom: 15 },
+  { id: "matrix", list: "wine", name: "Matrix Winery", note: "Russian River Valley winery. Pinot noir, zinfandel, and chardonnay tastings on a veranda overlooking the valley.", site: "https://matrixwinery.com/", query: "Matrix Winery Healdsburg", zoom: 15 },
+  { id: "papapietro", list: "wine", name: "Papapietro Perry", note: "Dry Creek Valley winery specializing in small-lot pinot noir and zinfandel. Seated tastings on a patio overlooking the valley.", site: "https://www.papapietro-perry.com/", query: "Papapietro Perry Winery Healdsburg", zoom: 15 },
+  { id: "fogbelt", list: "wine", name: "Fogbelt Brewing", note: "Brewery with a beer garden in Healdsburg, next to the train station.", site: "https://www.fogbeltbrewing.com/healdsburg", query: "Fogbelt Station 410 Hudson Street Healdsburg CA", zoom: 16 },
+  { id: "lioco", list: "wine", name: "LIOCO", note: "Tasting room on the plaza. Chardonnay and pinot noir, with wines by the glass and small bites.", site: "https://www.liocowine.com/", query: "LIOCO tasting room Healdsburg", zoom: 16 },
+  { id: "bloodroot", list: "wine", name: "BloodRoot", note: "Small-production winery with a downtown tasting room.", site: "https://www.bloodrootwines.com/", query: "BloodRoot Wines Healdsburg", zoom: 16 },
+  { id: "williamson", list: "wine", name: "Williamson", note: "Family-owned winery with vineyards in Napa and Sonoma and a tasting room near the plaza with small bites.", site: "https://williamsonwines.com/", query: "Williamson Wines 18 Matheson Street Healdsburg", zoom: 16 },
+  { id: "portalupi", list: "wine", name: "Portalupi", note: "Family-owned tasting room on North Street. California wines made in an Italian style.", site: "https://portalupiwine.com/", query: "Portalupi Wines Healdsburg", zoom: 16 },
+  { id: "dukes", list: "wine", name: "Duke's", note: "Dive bar on the plaza.", query: "Duke's Spirited Cocktails Healdsburg", zoom: 16 },
+  { id: "zekes", list: "wine", name: "John & Zeke's", note: "Dive bar with a pool table and shuffleboard.", query: "John and Zeke's Bar Healdsburg", zoom: 16 },
+  { id: "sonoma-coast", list: "wine", name: "Sonoma Coast Vineyards", note: "Tasting room on Bodega Bay.", site: "https://www.sonomacoastvineyards.com/visit/", query: "Sonoma Coast Vineyards 555 Highway 1 Bodega Bay CA", zoom: 15 },
+  { id: "troubadour", list: "dine", name: "Troubadour", note: "Bakery and sandwich shop by day, with a one-Michelin-star French tasting menu at night.", site: "https://www.troubadourhbg.com/", query: "Troubadour Bread and Bistro Healdsburg", zoom: 16 },
+  { id: "single-thread", list: "dine", name: "SingleThread", note: "Three-Michelin-star restaurant in downtown with a ten-course tasting menu.", site: "https://singlethreadfarms.com/restaurant/", query: "SingleThread Restaurant Healdsburg", zoom: 16 },
+  { id: "valette", list: "dine", name: "Valette", note: "California restaurant from two brothers who grew up nearby.", site: "https://www.valettehealdsburg.com/", query: "Valette Healdsburg", zoom: 16 },
+  { id: "barndiva", list: "dine", name: "Barndiva", note: "Farm-to-table restaurant in a barn and garden off Center Street.", site: "https://www.barndiva.com/", query: "Barndiva Healdsburg", zoom: 16 },
+  { id: "lo-behold", list: "dine", name: "Lo & Behold", note: "Restaurant and bar with a garden patio.", site: "https://www.loandbeholdca.com/", query: "Lo & Behold Healdsburg", zoom: 16 },
+  { id: "journeyman", list: "dine", name: "Journeyman Meat Co.", note: "Butcher shop and salumeria with boards, sandwiches, and wine. No reservations.", site: "https://www.journeymanmeat.com/", query: "Journeyman Meat Co Healdsburg", zoom: 16 },
+  { id: "guiso", list: "dine", name: "Guiso", note: "Family-owned Latin American and Caribbean restaurant.", query: "Guiso Latin Fusion Healdsburg", zoom: 16 },
+  { id: "baci", list: "dine", name: "Baci", note: "Family-owned Italian cafe and wine bar.", query: "Baci Healdsburg CA", zoom: 16 },
+  { id: "matheson", list: "dine", name: "The Matheson", note: "Fine dining restaurant with a seasonal menu.", site: "https://thematheson.com/", query: "The Matheson Healdsburg", zoom: 16 },
+  { id: "roof-106", list: "dine", name: "Roof 106", note: "Rooftop bar above The Matheson with wood-fired pizza, small plates, and cocktails overlooking the plaza.", site: "https://thematheson.com/", query: "Roof 106 Healdsburg", zoom: 16 },
+  { id: "marela", list: "dine", name: "Maréla", note: "Coastal European restaurant at Liora Estate, next door to the welcome party.", query: "Marela Healdsburg CA", zoom: 16 },
+  { id: "pizzando", list: "dine", name: "PizZando", note: "Wood-fired pizza and house-made pasta on the plaza.", query: "PizZando Healdsburg", zoom: 16 },
+  { id: "bravas", list: "dine", name: "Bravas", note: "Spanish tapas bar with small plates, sangria, and paella.", query: "Bravas Bar de Tapas Healdsburg", zoom: 16 },
+  { id: "otoro", list: "dine", name: "Otoro Sushi", note: "Sushi and sashimi on Healdsburg Avenue.", query: "Otoro Sushi Healdsburg", zoom: 16 },
+  { id: "quail", list: "dine", name: "Quail & Condor", note: "Bakery and cafe with bread, pastries, and coffee, open daily 7 to 3.", site: "https://www.quailandcondor.com/", query: "Quail & Condor Healdsburg", zoom: 16 },
+  { id: "costeaux", list: "dine", name: "Costeaux", note: "French bakery and cafe open since 1923 for breakfast and lunch.", site: "https://www.costeaux.com/", query: "Costeaux French Bakery 417 Healdsburg Avenue Healdsburg CA", zoom: 16 },
+  { id: "black-oak", list: "dine", name: "Black Oak Coffee Roasters", note: "Favorite coffee shop with coffee, breakfast, and lunch, open daily 7 to 5.", site: "https://blackoakcoffee.com/pages/healdsburg", query: "Black Oak Coffee Roasters 324 Center Street Healdsburg", zoom: 16 },
+  { id: "fishetarian", list: "dine", name: "Fishetarian", note: "Casual fish market on Bodega Bay; perfect for lunch.", site: "https://www.fishetarianfishmarket.com/", query: "Fishetarian Fish Market 599 Highway 1 Bodega Bay CA", zoom: 15 },
+  { id: "hook-fish", list: "dine", name: "Hook Fish Co.", note: "A seemingly unanimous favorite! Casual seafood spot at the Proof Lab beer garden.", site: "https://www.hookfishco.com/", query: "Hook Fish Co 254 Shoreline Highway Mill Valley CA", zoom: 15 },
+  { id: "bodega", list: "nature", name: "Bodega Bay", note: "Harbor and beaches on the Sonoma Coast, about an hour from Healdsburg. See Fishetarian and Sonoma Coast Vineyards for wining and dining.", query: "Bodega Bay CA", zoom: 12 },
+  { id: "muir", list: "nature", name: "Muir Woods", note: "Old-growth coast redwoods about 90 minutes away. Parking reservations required.", site: "https://www.nps.gov/muwo/", query: "Muir Woods National Monument", zoom: 14 },
+  { id: "rodeo", list: "nature", name: "Rodeo Beach", note: "One of our favorite beaches in the Marin Headlands, across the water from San Francisco, with great hiking trails.", site: "https://www.nps.gov/goga/", query: "Rodeo Beach Marin Headlands", zoom: 14 },
+  { id: "crissy", list: "nature", name: "Crissy Field", note: "Our stomping grounds! Bayfront field in the Presidio, adjacent to the Golden Gate Bridge.", site: "https://www.nps.gov/goga/planyourvisit/crissyfield.htm", query: "Crissy Field San Francisco", zoom: 14 },
+  { id: "tubes", list: "nature", name: "Russian River Tubes & Kayaks", note: "Tube and kayak rentals on the Russian River in Guerneville.", site: "https://www.russianrivertubes.com/", query: "Russian River Tubes and Kayaks Guerneville", zoom: 14 },
+  { id: "reyes", list: "nature", name: "Point Reyes", note: "National seashore with beaches, hiking trails, and a lighthouse.", site: "https://www.nps.gov/pore/", query: "Point Reyes National Seashore", zoom: 12 },
+  { id: "rock-point", list: "nature", name: "Rock Point Beach", note: "Small beach pullout on Highway 1, just south of Duncan's Landing.", query: "Rock Point Beach Bodega Bay CA", zoom: 14 },
+  { id: "stinson", list: "nature", name: "Stinson Beach", note: "Beautiful stretch of beach on Highway 1 in Marin, at the base of Mount Tamalpais. Neighboring street has great stops for lunch.", site: "https://www.nps.gov/goga/planyourvisit/stinsonbeach.htm", query: "Stinson Beach CA", zoom: 14 },
+  { id: "tam", list: "nature", name: "Mount Tamalpais", note: "State park in Marin. Hiking trails with views of the bay and the Pacific.", site: "https://www.parks.ca.gov/?page_id=471", query: "Mount Tamalpais State Park CA", zoom: 13 },
+  { id: "healdsburg-golf", list: "golf", name: "Healdsburg Golf Club", note: "Public 9-hole course at Tayman Park, just above town.", query: "Healdsburg Golf Club Tayman Park", zoom: 15 },
+  { id: "windsor-golf", list: "golf", name: "Windsor Golf Club", note: "Public 18-hole course in Windsor, a short drive south.", site: "https://www.windsorgolf.com/", query: "Windsor Golf Club CA", zoom: 15 },
+  { id: "northwood", list: "golf", name: "Northwood Golf Club", note: "Public 9-hole course in the redwoods in Monte Rio, designed by Alister MacKenzie.", site: "https://www.northwoodgolf.com/", query: "Northwood Golf Club Monte Rio", zoom: 15 },
+  { id: "savor", list: "other", name: "Savor Healdsburg", note: "Guided walking tour of local food, wine, and cocktails. About 3.5 hours.", site: "https://savorhealdsburgfoodtours.com/", query: "Savor Healdsburg Food Tours", zoom: 16 },
+  { id: "sausalito", list: "other", name: "Sausalito", note: "Waterfront town just north of the Golden Gate, on the drive up from San Francisco.", query: "Sausalito CA", zoom: 13 },
+  { id: "calistoga", list: "other", name: "Calistoga", note: "Vineyard town at the north end of Napa Valley, also known for hot springs and mud baths.", query: "Calistoga CA", zoom: 13 },
+  { id: "st-helena", list: "other", name: "St. Helena", note: "Town in the Napa Valley, just south of Calistoga, with restaurants and tasting rooms on Main Street.", query: "St. Helena CA", zoom: 13 },
+  { id: "barlow", list: "other", name: "The Barlow", note: "Market district in Sebastopol, in old apple-packing warehouses. Food, wine, beer, and shops.", site: "https://thebarlow.net/", query: "The Barlow Sebastopol CA", zoom: 15 },
+  { id: "windsor", list: "other", name: "Windsor", note: "The next town south of Healdsburg, with a town green and restaurants.", query: "Windsor Town Green CA", zoom: 14 }
 ];
 
 const MAP_FALLBACK = {
@@ -2195,12 +2234,18 @@ const MAP_FALLBACK = {
   "tubes": { lat: 38.5018, lng: -122.99854 },
   "reyes": { lat: 38.04112, lng: -122.80034 },
   "rock-point": { lat: 38.392, lng: -123.0865 },
+  "stinson": { lat: 37.89721, lng: -122.63981 },
+  "tam": { lat: 37.92904, lng: -122.57772 },
   "sausalito": { lat: 37.85903, lng: -122.48547 },
   "calistoga": { lat: 38.5788, lng: -122.57971 },
+  "st-helena": { lat: 38.50523, lng: -122.47004 },
+  "sonoma-coast": { lat: 38.32444, lng: -123.03856 },
+  "fishetarian": { lat: 38.32637, lng: -123.0411 },
+  "hook-fish": { lat: 37.88202, lng: -122.52449 },
   "northwood": { lat: 38.47854, lng: -122.99403 },
   "matrix": { lat: 38.57473, lng: -122.87729 },
   "papapietro": { lat: 38.6896, lng: -122.9405 },
-  "fogbelt": { lat: 38.44915, lng: -122.72706 },
+  "fogbelt": { lat: 38.60632, lng: -122.86316 },
   "lioco": { lat: 38.61095, lng: -122.8706 },
   "williamson": { lat: 38.6107, lng: -122.8691 },
   "portalupi": { lat: 38.6117, lng: -122.8702 },
@@ -2316,6 +2361,43 @@ const ACCOMMODATIONS_GRID = {
   ]
 };
 
+const GALLERY = [
+  { src: "images/gallery/37.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/43.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/02.jpg", w: 1800, h: 1352 },
+  { src: "images/gallery/05.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/16.jpg", w: 1200, h: 1800 },
+  { src: "images/gallery/14.jpg", w: 1155, h: 1800 },
+  { src: "images/gallery/08.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/12.jpg", w: 1800, h: 1549 },
+  { src: "images/gallery/01.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/21.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/13.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/20.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/26.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/17.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/09.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/33.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/27.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/41.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/15.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/32.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/30.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/31.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/28.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/42.jpg", w: 1200, h: 1800 },
+  { src: "images/gallery/24.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/36.jpg", w: 1200, h: 1800 },
+  { src: "images/gallery/07.jpg", w: 1800, h: 1350 },
+  { src: "images/gallery/45.jpg", w: 1800, h: 1013 },
+  { src: "images/gallery/19.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/22.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/34.jpg", w: 1200, h: 1800 },
+  { src: "images/gallery/44.jpg", w: 1350, h: 1800 },
+  { src: "images/gallery/40.jpg", w: 1200, h: 1800 },
+  { src: "images/gallery/47.jpg", w: 1193, h: 1800 }
+];
+
 const FAQS = [
   { q: "Lorem ipsum dolor sit amet?", a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
   { q: "Consectetur adipiscing elit?", a: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." },
@@ -2325,7 +2407,7 @@ const FAQS = [
 ];
 
 class Component extends DCLogic {
-  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", mapList: "all", mapPin: "", mapMenu: false, noteSent: false, noteSending: false, noteError: false, navOpen: false, homeSlide: 0, weekendSlide: 0, isMobile: false };
+  state = { page: "home", weekendIdx: 0, travelIdx: 0, accIdx: 0, open: 0, scrolled: false, lightbox: "", lightboxIdx: -1, mapList: "all", mapPin: "", mapMenu: false, noteSent: false, noteSending: false, noteError: false, navOpen: false, homeSlide: 0, weekendSlide: 0, isMobile: false };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -2333,9 +2415,14 @@ class Component extends DCLogic {
       if (past !== this.state.scrolled) this.setState({ scrolled: past });
     };
     this._onKey = (e) => {
+      if (this.state.lightbox) {
+        if (e.key === "Escape") this.closeLightbox();
+        else if (e.key === "ArrowRight") { e.preventDefault(); this.stepGallery(1); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); this.stepGallery(-1); }
+        return;
+      }
       if (e.key !== "Escape") return;
-      if (this.state.lightbox) this.closeLightbox();
-      else if (this.state.navOpen) this.setState({ navOpen: false });
+      if (this.state.navOpen) this.setState({ navOpen: false });
       else if (this.state.mapMenu) this.setState({ mapMenu: false });
       else if (this.state.mapPin) this.setState({ mapPin: "" });
     };
@@ -2661,11 +2748,21 @@ class Component extends DCLogic {
   }
 
   openLightbox(src) {
-    this.setState({ lightbox: src });
+    this.setState({ lightbox: src, lightboxIdx: -1 });
     if (typeof document !== "undefined") document.body.style.overflow = "hidden";
   }
+  openGallery(i) {
+    this.setState({ lightbox: GALLERY[i].src, lightboxIdx: i });
+    if (typeof document !== "undefined") document.body.style.overflow = "hidden";
+  }
+  stepGallery(dir) {
+    const n = GALLERY.length;
+    if (!n || this.state.lightboxIdx < 0) return;
+    const i = (this.state.lightboxIdx + dir + n) % n;
+    this.setState({ lightbox: GALLERY[i].src, lightboxIdx: i });
+  }
   closeLightbox() {
-    this.setState({ lightbox: "" });
+    this.setState({ lightbox: "", lightboxIdx: -1 });
     this.syncOverflow();
   }
 
@@ -3002,7 +3099,21 @@ class Component extends DCLogic {
 
       hasLightbox: !!this.state.lightbox,
       lightboxSrc: this.state.lightbox || "",
+      lightboxNav: this.state.lightboxIdx >= 0,
+      lightboxPrev: () => this.stepGallery(-1),
+      lightboxNext: () => this.stepGallery(1),
       closeLightbox: () => this.closeLightbox(),
+      galleryColumns: (() => {
+        const n = this.state.isMobile ? 2 : 4;
+        const cols = Array.from({ length: n }, () => ({ photos: [], h: 0 }));
+        GALLERY.forEach((photo, i) => {
+          let best = 0;
+          for (let c = 1; c < n; c++) if (cols[c].h < cols[best].h) best = c;
+          cols[best].photos.push({ src: photo.src, open: () => this.openGallery(i) });
+          cols[best].h += photo.h / photo.w;
+        });
+        return cols.map(col => ({ photos: col.photos }));
+      })(),
       openHill: () => this.openLightbox("art/home-hill.jpg"),
       openEmbrace: () => this.openLightbox("art/home-embrace.jpg"),
       openHands: () => this.openLightbox("art/home-hands.jpg"),
